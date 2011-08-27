@@ -1,15 +1,21 @@
 var express = require("express");
 
 var app = express.createServer();
-var sjcl = require("../extension/lib/sjcl.js");
+
 app.get('/', function(req, res){
     res.send('Hello World');
 });
 
+var crypto = require("crypto");
+
 app.get('/next-hash', function(req, res) {
-    res.send({hash: "asdasdasd"})
+    var hasher = crypto.createHash("md5");
+    var url = "http://google.com/";
+    hasher.update(url);
+    var hash = hasher.digest('base64');
+    res.send({hash: hash});
 });
-console.dir(sjcl);
-var port = 3000;
+
+var port = 8080;
 console.log("Started server at "+port)
 app.listen(port);
