@@ -19,8 +19,8 @@ function create(req, res){
     var quest = quests.addQuest(master);
     
     req.session.currentQuest = quest;
+    console.log(req.session);
     res.send({questhash:quest.hash});
-    
 }
 
 function add(req, res){
@@ -28,9 +28,9 @@ function add(req, res){
         task  = req.param('url'),
         descr = req.param('descr');
 
-    console.log(task);
+    /* TODO: descr is not used at the moment :( */
     if (!quest){
-        fail(res, "A quest should be started before adding tasks");
+        fail(res, "A quest should be created before adding tasks");
         return;
     }
     if(!task){
