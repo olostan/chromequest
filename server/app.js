@@ -7,7 +7,7 @@ var app = express.createServer();
 app.use(express.methodOverride());
 app.use(express.bodyParser());
 app.use(express.cookieParser());
-app.use(express.session({ secret: (new Date()).getMilliseconds()+"" }));
+app.use(express.session({ secret: "./wEr00l!#111" }));
 app.use(app.router);
 
 master.register(app);
