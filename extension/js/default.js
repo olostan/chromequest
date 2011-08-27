@@ -9,6 +9,8 @@ $(document).ready(function(){
                 var bgp = chrome.extension.getBackgroundPage();
                 bgp.currentQuest = data.questhash;
                 bgp.setState(States.CREATED);
+                //TODO: find out how to avoid duplication of routing logic
+                window.location.href = "created.html";
 
             }
             console.log(data);
