@@ -26,8 +26,6 @@ function add(req, res){
 }
 
 function open(req, res){
-	
-	
 	res.send({ok:true});
 }
 
