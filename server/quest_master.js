@@ -1,9 +1,32 @@
 var http = require('http');
 
-exports.home = function(req, res){
-	res.send('Hello home page!');
+export.register = function(app){
+	app.get('/master/create-quest', create);
+    app.get('/master/add-task', add);
+    app.get('/master/open-quest', open);
+    app.get('/master/start-quest', start);
+    app.get('/master/finish-quest', finish);
 }
 
-exports.action = function(req, res){
-	res.send('Hello World! Doing '+req.params.id+'?');
+function create(req, res){
+	res.send('H3ll0homeHa6');
+}
+
+function add(req, res){
+	res.send({ok:true});
+}
+
+function open(req, res){
+	if (req.params.url)
+		res.send({ok:true});
+	else
+		res.send({ok:true});
+}
+
+function start(req, res){
+	res.send({ok:true});
+}
+
+function finish(req, res){
+	res.send({ok:true});
 }
