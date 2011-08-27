@@ -1,9 +1,9 @@
 <script>
 
-  chrome.tabs.onSelectionChanged.addListener(function() {
+  chrome.tabs.onUpdated.addListener(function() {
     chrome.tabs.getSelected(null, function(tab){
 
-        //if (tab.url == "http://www.google.com.ua")
+        if (tab.url.indexOf("google.com.ua") > -1)
     	    chrome.pageAction.show(tab.id);
     });
   });
