@@ -1,5 +1,5 @@
 var quests = [];
-var crypt = require('crypt');
+var crypto = require('crypto');
 
 function getHash(str) {
     var hasher = crypto.createHash('md5');
@@ -19,4 +19,5 @@ exports.addQuest = function(master) {
         tasks: []
     }
     quests.push(quest);
+    return quest;
 }

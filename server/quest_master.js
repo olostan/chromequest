@@ -1,4 +1,5 @@
 var crypto = require('crypto');
+var quests = require("./quests.js");
 
 exports.register = function(app){
 	app.get('/master/create-quest', create);
@@ -9,10 +10,8 @@ exports.register = function(app){
 }
 
 function create(req, res){
-    var hasher = crypto.createHash('md5');
-    hasher.update('questId');
-    
-	res.send({questhash:hasher.digest('base64')});
+    var quest = quests.addQuest("asdasd");
+	res.send({questhash:quest.hash});
 }
 
 function add(req, res){
