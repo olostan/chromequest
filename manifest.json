@@ -1,0 +1,11 @@
+{
+  "name": "ChromePass",
+  "version": "1.0",
+  "description": "Unique Password Generator",
+  "browser_action": {
+    "default_icon": "icon.png",
+    "popup": "popup.html"
+  },
+  "permissions": [
+  ]
+}
