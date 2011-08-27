@@ -3,10 +3,10 @@ var quests = require("./quests.js");
 exports.register = function (app) {
     app.get('/player/join-quest', function (req,res) {
         var nick = req.query.nick;
-        if (!nick) return fail("No nick");
+        if (!nick) return fail(res,"No nick");
         var qhash = req.query.q;
         var quest = quests.getQuest(qhash);
-        if (!quest) return fail("No quest");
+        if (!quest) return fail(res,"No quest");
 
         console.dir(req.session);
         
