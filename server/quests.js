@@ -17,7 +17,8 @@ exports.addQuest = function(master) {
         master: master,
         hash: generateQuestId(),
         status: "new",
-        tasks: []
+        tasks: [],
+    	players: []
     }
     quests[quest.hash] = quest;
     return quest;
