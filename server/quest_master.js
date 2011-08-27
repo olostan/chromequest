@@ -18,12 +18,12 @@ function create(req, res){
     
     var quest = quests.addQuest(master);
     
-    req.session.currentQuest = quest;
+    req.session.currentQuest = quest.hash;
     res.send({questhash:quest.hash});
 }
 
 function add(req, res){
-    var quest =  req.session.currentQuest,
+    var quest =  quests.getQuest(req.session.currentQuest),
         task  = req.param('url'),
         descr = req.param('descr');
 
@@ -37,22 +37,23 @@ function add(req, res){
         return;
     }
     
-    if (quest.status != "new"){
+    if (!quest.isNew()){
         fail(res,"Too late to add tasks");
         return;
     }
 
     quest.addTask(task, descr);
+    
     ok(res);        
 }
 
 function open(req, res){
-    var quest = req.session.currentQuest;
+    var quest = quests.getQuest(req.session.currentQuest);
     if (!quest){
         fail(res, "No such quest found");
         return;
     }
-    if (quest.status != "new"){
+    if (!quest.isNew()){
         fail(res, "This quest already opened.");
         return;
     }
@@ -67,12 +68,12 @@ function open(req, res){
 }
 
 function start(req, res){
-    var quest = req.session.currentQuest;
+    var quest = quests.getQuest(req.session.currentQuest);
     if (!quest){
         fail(res, "No such quest found");
         return;
     }
-    if (quest != "opened"){
+    if (!quest.isOpened()){
         fail(res, "Quest should be opened before starting it.");
         return;
     }
@@ -87,7 +88,7 @@ function finish(req, res){
         fail(res, "No such quest found");
         return;
     }
-    if (quest != "running"){
+    if (!quest.isRunning()){
         fail(res, "Only a runnning quest can be closed.");
         return;
     }

@@ -23,12 +23,12 @@ exports.addQuest = function(master) {
     	joinPlayer: function(name){
     	    var hashId = generateHash();
     	    var player = {nick:name,id:hashId,completed:[]};
-    	    players.push(player);
+    	    this.players.push(player);
     	    return player;
     	},
     	addTask: function(url, descr){
     	    var task = {"url":url,"descr":descr};
-    	    tasks.push(task);
+    	    this.tasks.push(task);
     	    return task;
     	},
     	getTaskIdx: function(url){
@@ -39,25 +39,25 @@ exports.addQuest = function(master) {
     	    return -1;
     	},
     	isRunning: function(){
-    	    return status == "running";
+    	    return this.status == "running";
     	},
     	isOpened: function(){
-    	    return status == "opened"; 
+    	    return this.status == "opened"; 
     	},
     	isNew: function(){
-    	    return status == "new";
+    	    return this.status == "new";
     	},
     	isFinished: function(){
-    	    return status == "finished";    	    
+    	    return this.status == "finished";    	    
     	},
     	open: function(){
-    	    status = "opened";
+    	    this.status = "opened";
     	},
     	run: function(){
-    	    status = "running";
+    	    this.status = "running";
     	},
     	finish: function(){
-    	    status = "finished";
+    	    this.status = "finished";
     	}
     };
     quests[quest.hash] = quest;
