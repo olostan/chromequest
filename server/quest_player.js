@@ -8,22 +8,29 @@ exports.register = function (app) {
         var quest = quests.getQuest(qhash);
         if (!quest) return fail(res,"No quest");
 
-        console.dir(req.session);
+        req.session.quest = quest;
+        req.session.userId = quests.generateHash();
         
         quest.players.push(nick);
         ok(res);
 
     });
     app.get('/player/quest-status', function (req,res) {
-        res.send({started: false});
+        var quest = req.session.quest;
+        if (!quest) return fail(res,"No quest joined");
+        res.send({status: quest.status, players: quest.players});
     });
     app.get('/player/quest-tasks', function (req,res) {
-        res.send({tasks:["hash1","hash2"]});
+        var quest = req.session.quest;
+        if (!quest) return fail(res,"No quest joined");
+        res.send({tasks:quest.tasks});
     });
     app.get('/player/test-url', function (req,res) {
         res.send({ok: true});
     });
     app.get('/player/quit-quest', function (req,res) {
+        var quest = req.session.quest;
+        if (!quest) return fail(res,"No quest joined");
         res.send({ok: true});
     });
 }

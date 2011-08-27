@@ -6,8 +6,7 @@ function getHash(str) {
     hasher.update(str);
     return hasher.digest('hex');
 }
-
-function generateQuestId() {
+exports.generateHash = function generateHash() {
     var d = new Date();
     return getHash(quests.length+(d.toString())+d.getMilliseconds());
 }
@@ -15,7 +14,7 @@ function generateQuestId() {
 exports.addQuest = function(master) {
     var quest = {
         master: master,
-        hash: generateQuestId(),
+        hash: generateHash(),
         status: "new",
         tasks: [],
     	players: []
