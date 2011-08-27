@@ -3,7 +3,7 @@ var quests = require("./quests.js");
 
 exports.register = function(app){
 	app.get('/master/create-quest', create);
-    app.get('/master/add-task', add);
+    app.post('/master/add-task', add);
     app.get('/master/open-quest', open);
     app.get('/master/start-quest', start);
     app.get('/master/finish-quest', finish);
@@ -15,12 +15,13 @@ function create(req, res){
 }
 
 function add(req, res){
-    console.log(req.param('url'));
-    if (!req.param('url')){
+    var url = req.body.url;
+    var descr = req.body.descr;
+    console.log(url);
+    if (!url && !descr){
         res.send({ok:false});
         return;
     }
-    
 	res.send({ok:true});
 }
 
