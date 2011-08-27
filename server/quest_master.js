@@ -22,6 +22,10 @@ function create(req, res){
 }
 
 function add(req, res){
+    if (!req.body) {
+        return res.send({ok:false});
+        return;
+    }
     var url = req.body.url;
     var descr = req.body.descr;
     console.log(url);
