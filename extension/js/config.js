@@ -1,5 +1,6 @@
 var config = {
-    serverUrl : "http://oni.dyndns.org:8080/"
+    serverUrl : "http://oni.dyndns.org:8080/",
+    nick: "ololo"
 };
 
 var States = {
