@@ -1,6 +1,4 @@
-var http = require('http');
-
-export.register = function(app){
+exports.register = function(app){
 	app.get('/master/create-quest', create);
     app.get('/master/add-task', add);
     app.get('/master/open-quest', open);
