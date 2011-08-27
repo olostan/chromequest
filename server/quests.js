@@ -1,5 +1,14 @@
-var quests = [];
+var quests = {};
 var crypto = require('crypto');
+
+/*
+var quest = {
+    phases : [
+        { url: "http://google.com.ua/" },
+        { url: "https://github.com/" }
+    ]
+}
+ */
 
 function getHash(str) {
     var hasher = crypto.createHash('md5');
@@ -18,10 +27,20 @@ exports.addQuest = function(master) {
         hash: generateQuestId(),
         tasks: []
     }
-    quests.push(quest);
+    quests[quest.hash] = quest;
     return quest;
 }
+
 exports.getQuest = function(hash) {
-    for(var qn in quests) if (quest[qn].hash == hash) return quest[qn];
-    return null;
+    return quests[hash];
+}
+
+exports.addTask = function(hash, task){
+    var quest = getQuest(hash);
+    if (!quest){
+        return false;
+    }
+    
+    quest.tasks.push(task);
+    return true;
 }

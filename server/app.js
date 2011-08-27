@@ -13,13 +13,6 @@ app.get('/', function(req, res){
     res.send('Hello World! Don\'t panic');
 });
 
-var quest = {
-    phases : [
-        { url: "http://google.com.ua/" },
-        { url: "https://github.com/" }
-    ]
-}
-
 var port = 8080;
 console.log("Started server at "+port)
 app.listen(port);
