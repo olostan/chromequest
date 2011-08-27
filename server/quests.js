@@ -4,7 +4,7 @@ var crypto = require('crypto');
 function getHash(str) {
     var hasher = crypto.createHash('md5');
     hasher.update(str);
-    return hasher.digest('base64');
+    return hasher.digest('hex');
 }
 
 function generateQuestId() {
