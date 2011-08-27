@@ -2,15 +2,17 @@ var quests = require("./quests.js");
 
 exports.register = function (app) {
     app.get('/player/join-quest', function (req,res) {
+        var nick = req.query.nick;
+        if (!nick) return fail(res,"No nick");
         var qhash = req.query.q;
         var quest = quests.getQuest(qhash);
-        if (!quest) {
-            res.send({ok: false, message:"No quest!"});
-            return;
-        }
+        if (!quest) return fail(res,"No quest");
+
         console.dir(req.session);
-        var userid = 1111;
-        quest.players.push(userid);
+        
+        quest.players.push(nick);
+        ok(res);
+
     });
     app.get('/player/quest-status', function (req,res) {
         res.send({started: false});
@@ -24,4 +26,13 @@ exports.register = function (app) {
     app.get('/player/quit-quest', function (req,res) {
         res.send({ok: true});
     });
+}
+
+
+function ok(res){
+    res.send({ok:true});
+}
+
+function fail(res, msg){
+    res.send({ok:false,message:msg});
 }
