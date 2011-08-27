@@ -1,4 +1,5 @@
-var express = require("express");
+var express = require("express"),
+    admin   = require("./admin.js");
 
 var app = express.createServer();
 
@@ -13,6 +14,9 @@ app.get('/next-hash', function(req, res) {
     var hash = hasher.digest('base64');
     res.send({hash: hash});
 });
+
+app.get('/admin/:action', admin.action);
+app.get('/admin', admin.home);
 
 var port = 8080;
 console.log("Started server at "+port)
