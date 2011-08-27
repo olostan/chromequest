@@ -1,9 +1,12 @@
-
-create or join
-        <br>
-        
-<script>
-    var data = chrome.extension.getBackgroundPage().data;
-    document.write(data);
-
-</script>
+<html>
+    <head>
+        <script src='../js/config.js'></script>
+        <script src='../js/default.js'></script>
+        <script language="JavaScript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+    </head>
+    <body>
+        <input id="creteQuest" type="button" value="Create Quest"><br>
+        <input type="text" id="hash">
+        <input type="button" value="Join" onclick="joinQuest()">
+    </body>
+</html>
