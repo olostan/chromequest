@@ -21,7 +21,7 @@ exports.addQuest = function(master) {
     	joinPlayer: function(name){
     	    var player = {nick:name,id:generateHash(),completed:[]};
     	    this.players.push(player);
-    	    return player;
+    	    return player.id;
     	}
     }
     quests[quest.hash] = quest;
@@ -29,6 +29,7 @@ exports.addQuest = function(master) {
 }
 
 exports.getQuest = function(hash) {
+    if (!hash) return null;
     return quests[hash];
 }
 
