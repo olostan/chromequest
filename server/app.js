@@ -16,6 +16,10 @@ app.get('/', function(req, res){
     res.send('Hello World! Don\'t panic');
 });
 
+app.get("/test.html", function(req,res) {
+   res.sendfile("test.html");
+});
+
 var port = 8080;
 console.log("Started server at "+port)
 app.listen(port);

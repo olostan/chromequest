@@ -1,11 +1,18 @@
 
-var state = States.NONE;
-
-var data = 42;
+window._state = States.NONE;
+window.currentQuest = null;
 
 chrome.browserAction.onClicked.addListener(function(tab) {
+    refreshPopup();
+});
 
-    switch(state)
+window.setState = function(state){
+    _state = state;
+    refreshPopup();
+}
+
+window.refreshPopup = function(){
+    switch(_state)
     {
         case States.CREATED:
                 chrome.browserAction.setPopup({"popup": "views/created.html"});
@@ -22,4 +29,4 @@ chrome.browserAction.onClicked.addListener(function(tab) {
         default:
                 chrome.browserAction.setPopup({"popup": "views/default.html"});
     }
-});
+}

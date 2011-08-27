@@ -11,88 +11,58 @@ exports.register = function(app){
 
 function create(req, res){
     var master = req.param('master');
-    if (!master){
-        fail(res, "Please, specify the quest master of a quest.");
-        return;
-    }
-    
+    if (!master)return fail(res, "Please, specify the quest master of a quest.");
+
     var quest = quests.addQuest(master);
     
-    req.session.currentQuest = quest.hash;
+    req.session.questHash = quest.hash;
+    req.session.master = true;
     res.send({questhash:quest.hash});
 }
 
 function add(req, res){
-    var quest =  quests.getQuest(req.session.currentQuest),
-        task  = req.param('url'),
+    var quest =  quests.getQuest(req.session.questHash),
+        url  = req.param('url'),
         descr = req.param('descr');
 
-    /* TODO: descr is not used at the moment :( */
-    if (!quest){
-        fail(res, "A quest should be created before adding tasks");
-        return;
-    }
-    if(!task){
-        fail(res, "Please, specify the quest and the task for update");
-        return;
-    }
-    
-    if (!quest.isNew()){
-        fail(res,"Too late to add tasks");
-        return;
-    }
+    if (!quest) return fail(res, "A quest should be created before adding tasks");
+    if(!url || !descr) return fail(res, "Url and Description should not be empty");
 
-    quest.addTask(task, descr);
-    
+    if (!quest.isNew()) return fail(res,"Too late to add tasks");
+
+    quest.addTask(url, descr);
     ok(res);        
 }
 
 function open(req, res){
-    var quest = quests.getQuest(req.session.currentQuest);
-    if (!quest){
-        fail(res, "No such quest found");
-        return;
-    }
-    if (!quest.isNew()){
-        fail(res, "This quest already opened.");
-        return;
-    }
-    
-    if (quest.tasks.length <= 0){
-        fail(res, "This quest has no tasks, add some before opening it.");
-        return;
-    }
-    
+    var quest = quests.getQuest(req.session.questHash);
+    if (!quest) return fail(res, "Create quest first");
+
+    if (!quest.isNew()) return fail(res, "This quest already opened.");
+    if (quest.tasks.length <= 0) return fail(res, "This quest has no tasks, add some before opening it.");
+
     quest.open();
     ok(res);
 }
 
 function start(req, res){
-    var quest = quests.getQuest(req.session.currentQuest);
-    if (!quest){
-        fail(res, "No such quest found");
-        return;
-    }
-    if (!quest.isOpened()){
-        fail(res, "Quest should be opened before starting it.");
-        return;
-    }
-    
+    var quest = quests.getQuest(req.session.questHash);
+
+    if (!quest) return fail(res, "No such quest found");
+
+    if (!quest.isOpened()) return fail(res, "Quest should be opened before starting it.");
+
     quest.run();
 	ok(res);
 }
 
 function finish(req, res){
-    var quest = req.session.currentQuest;
-    if (!quest){
-        fail(res, "No such quest found");
-        return;
-    }
-    if (!quest.isRunning()){
-        fail(res, "Only a runnning quest can be closed.");
-        return;
-    }
-    
+    var quest = quests.getQuest(req.session.questHash);
+
+    if (!quest) return fail(res, "No such quest found");
+
+    if (!quest.isRunning()) return fail(res, "Only a runnning quest can be closed.");
+
     quest.finish();
     ok(res);
 }
