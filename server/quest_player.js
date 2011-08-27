@@ -1,6 +1,8 @@
 exports.register = function (app) {
     app.get('/player/join-quest', function (req,res) {
-        res.send({hash:"somehash"});
+        var qhash = req.query.q;
+
+        res.send({hash:qhash});
     });
     app.get('/player/quest-status', function (req,res) {
         res.send({started: false});

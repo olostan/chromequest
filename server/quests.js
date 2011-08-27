@@ -1,4 +1,4 @@
-var quests = [];
+var quests = {};
 var crypto = require('crypto');
 
 /*
@@ -27,10 +27,20 @@ exports.addQuest = function(master) {
         hash: generateQuestId(),
         tasks: []
     }
-    quests.push(quest);
+    quests[quest.hash] = quest;
     return quest;
 }
 
-exports.addTask = function(quest, task){
+exports.getQuest = function(hash) {
+    return quests[hash];
+}
+
+exports.addTask = function(hash, task){
+    var quest = getQuest(hash);
+    if (!quest){
+        return false;
+    }
     
+    quest.tasks.push(task);
+    return true;
 }

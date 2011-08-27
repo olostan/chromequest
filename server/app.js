@@ -3,7 +3,9 @@ var express =  require("express"),
     player   = require("./quest_player.js");
 
 var app = express.createServer();
-
+app.use(express.methodOverride());
+    app.use(express.bodyParser());
+    app.use(app.router);
 master.register(app);
 player.register(app);
 
