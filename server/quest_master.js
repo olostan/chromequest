@@ -12,7 +12,7 @@ exports.register = function(app){
 function create(req, res){
     var master = req.param('master');
     if (!master){
-        res.send({ok:false});
+        fail(res, "Please, specify the quest master of a quest.");
         return;
     }
     
@@ -22,25 +22,78 @@ function create(req, res){
 }
 
 function add(req, res){
-    var quest = req.get('quest'),
-        task  = req.get('task');
+    var hash = req.param('questhash'),
+        task  = req.param('task');
     if (!quest || !task){
-        res.send({ok:false});
+        fail(res, "Please, specify the quest and the task for update");
+        return;
+    }
+    var quest = quests.getQuest(hash);
+    if (!quest){
+        fail(res, "No such quest found");
+        return;
+    }
+    if (quest.status != "new"){
+        fail(res,"Too late to add tasks");
         return;
     }
     
-    quests.addTask(quest, task);
-	res.send({ok:true});
+    quest.tasks.push(task);
+    ok(res);        
 }
 
 function open(req, res){
-	res.send({ok:true});
+    var hash = res.param('questhash');
+    var quest = quests.getQuest(hash);
+    if (!quest){
+        fail(res, "No such quest found");
+        return;
+    }
+    if (quest.status != "new"){
+        fail(res, "This quest already opened.");
+        return;
+    }
+    
+    quest.status = "opened";
+    ok(res);
 }
 
 function start(req, res){
-	res.send({ok:true});
+    var hash = res.param('questhash');
+    var quest = quests.getQuest(hash);
+    if (!quest){
+        fail(res, "No such quest found");
+        return;
+    }
+    if (quest.status != "opened"){
+        fail(res, "Quest should be opened before starting it.");
+        return;
+    }
+    
+    quest.status = "running";
+	ok(res);
 }
 
 function finish(req, res){
-	res.send({ok:true});
+    var hash = res.param('questhash');
+    var quest = quests.getQuest(hash);
+    if (!quest){
+        fail(res, "No such quest found");
+        return;
+    }
+    if (quest.status != "running"){
+        fail(res, "Only a runnning quest can be closed.");
+        return;
+    }
+    
+    quest.status = "finished";
+    ok(res);
+}
+
+function ok(res){
+    res.send({ok:true});
+}
+
+function fail(res, msg){
+    res.send({ok:false,message:msg});
 }
