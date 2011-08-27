@@ -1,0 +1,11 @@
+<script>
+    function displayIcon(tab) 
+    {
+    	if (tab.url == "www.google.com.ua")
+    	{
+	        chrome.pageAction.show(tab.id);
+	    }
+    }
+
+    chrome.tabs.getSelected(null, displayIcon);
+</script>
