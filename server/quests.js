@@ -6,10 +6,12 @@ function getHash(str) {
     hasher.update(str);
     return hasher.digest('hex');
 }
-exports.generateHash = function generateHash() {
+function generateHash() {
     var d = new Date();
     return getHash(quests.length+(d.toString())+d.getMilliseconds());
 }
+
+exports.generateHash = generateHash;
 
 exports.addQuest = function(master) {
     var quest = {
@@ -19,27 +21,49 @@ exports.addQuest = function(master) {
         tasks: [],
     	players: [],
     	joinPlayer: function(name){
-    	    var player = {nick:name,id:generateHash(),completed:[]};
+    	    var hashId = generateHash();
+    	    var player = {nick:name,id:hashId,completed:[]};
     	    players.push(player);
     	    return player;
+    	},
+    	addTask: function(url, descr){
+    	    var task = {"url":url,"descr":descr};
+    	    tasks.push(task);
+    	    return task;
+    	},
+    	getTaskIdx: function(url){
+    	    for (var i = 0; i < tasks.length; i++){
+    	        if (tasks[i].url == url)
+    	            return i;
+    	    }
+    	    return -1;
+    	},
+    	isRunning: function(){
+    	    return status == "running";
+    	},
+    	isOpened: function(){
+    	    return status == "opened"; 
+    	},
+    	isNew: function(){
+    	    return status == "new";
+    	},
+    	isFinished: function(){
+    	    return status == "finished";    	    
+    	},
+    	open: function(){
+    	    status = "opened";
+    	},
+    	run: function(){
+    	    status = "running";
+    	},
+    	finish: function(){
+    	    status = "finished";
     	}
-    }
+    };
     quests[quest.hash] = quest;
     return quest;
-}
+};
 
 exports.getQuest = function(hash) {
     return quests[hash];
-}
-
-exports.addTask = function(hash, task){
-    var quest = this.getQuest(hash);
-    console.log(quest);
-    if (!quest){
-        return false;
-    }
-    
-    quest.tasks.push(task);
-    console.log(quest);
-    return true;
-}
+};

@@ -24,10 +24,30 @@ exports.register = function (app) {
         res.send({tasks:quest.tasks});
     });
     app.get('/player/test-url', function (req,res) {
+        var url    = req.param('url'),
+            quest  = req.session.quest,
+            player = req.session.player;
+        
+        if (!player || !quest) {
+            fail(res, "Join a quest before trying to complete tasks.")
+            return;
+        }
+        if (quest.status != "running"){
+            fail(res, "This quest is not active. Pick an active quest to join.");
+            return;
+        }
+        
+        var index = quest.getTaskIdx(url);
+        if (index == -1){
+            fail(res, "This task is not part of the quest. Keep trying or skip for the next task. Good luck!");
+            return;
+        }
+        
+        player.completed.push(index);
+        
         // TODO:
         // - test the usl, update user progress
         // - show quest-wide progress
-        
         
         res.send({ok: true});
     });

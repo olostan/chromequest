@@ -19,7 +19,6 @@ function create(req, res){
     var quest = quests.addQuest(master);
     
     req.session.currentQuest = quest;
-    console.log(req.session);
     res.send({questhash:quest.hash});
 }
 
@@ -43,8 +42,7 @@ function add(req, res){
         return;
     }
 
-    
-    quest.tasks.push(task);
+    quest.addTask(task, descr);
     ok(res);        
 }
 
@@ -59,7 +57,12 @@ function open(req, res){
         return;
     }
     
-    quest.status = "opened";
+    if (quest.tasks.length <= 0){
+        fail(res, "This quest has no tasks, add some before opening it.");
+        return;
+    }
+    
+    quest.open();
     ok(res);
 }
 
@@ -69,12 +72,12 @@ function start(req, res){
         fail(res, "No such quest found");
         return;
     }
-    if (quest.status != "opened"){
+    if (quest != "opened"){
         fail(res, "Quest should be opened before starting it.");
         return;
     }
     
-    quest.status = "running";
+    quest.run();
 	ok(res);
 }
 
@@ -84,12 +87,12 @@ function finish(req, res){
         fail(res, "No such quest found");
         return;
     }
-    if (quest.status != "running"){
+    if (quest != "running"){
         fail(res, "Only a runnning quest can be closed.");
         return;
     }
     
-    quest.status = "finished";
+    quest.finish();
     ok(res);
 }
 
