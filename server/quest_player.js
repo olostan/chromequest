@@ -1,7 +1,17 @@
-/**
- * Created by JetBrains WebStorm.
- * User: olostan
- * Date: 27.08.11
- * Time: 15:29
- * To change this template use File | Settings | File Templates.
- */
+exports.register = function (app) {
+    app.get('/player/join-quest', function (req,res) {
+        res,send({hash:"somehash"});
+    });
+    app.get('/player/quest-status', function (req,res) {
+        res,send({started: false});
+    });
+    app.get('/player/quest-tasks', function (req,res) {
+        res,send({tasks:["hash1","hash2"]});
+    });
+    app.get('/player/test-url', function (req,res) {
+        res,send({ok: true});
+    });
+    app.get('/player/quit-quest', function (req,res) {
+        res,send({ok: true});
+    });
+}

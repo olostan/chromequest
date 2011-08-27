@@ -10,6 +10,12 @@ player.register(app);
 app.get('/', function(req, res){
     res.send('Hello World');
 });
+var quest = {
+    phases : [
+        { url: "http://google.com.ua/" },
+        { url: "https://github.com/" }
+    ]
+}
 
 app.get('/next-hash', function(req, res) {
     var hasher = crypto.createHash("md5");
