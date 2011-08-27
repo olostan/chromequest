@@ -8,7 +8,11 @@
     "popup": "popup.html"
   },
   "permissions": [
+<<<<<<< HEAD
       "tabs",
       "contextMenus"
+=======
+	"tabs"
+>>>>>>> 2266444de34b6c2415b3a0caeb507f1684a62cf2
   ]
 }
