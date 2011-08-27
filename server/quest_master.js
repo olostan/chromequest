@@ -10,17 +10,26 @@ exports.register = function(app){
 }
 
 function create(req, res){
-    var quest = quests.addQuest("asdasd");
-	res.send({questhash:quest.hash});
-}
-
-function add(req, res){
-    console.log(req.param('url'));
-    if (!req.param('url')){
+    var master = req.param('master');
+    if (!master){
         res.send({ok:false});
         return;
     }
     
+    var quest = quests.addQuest(master);
+    res.send({questhash:quest.hash});
+    
+}
+
+function add(req, res){
+    var quest = req.get('quest'),
+        task  = req.get('task');
+    if (!quest || !task){
+        res.send({ok:false});
+        return;
+    }
+    
+    quests.addTask(quest, task);
 	res.send({ok:true});
 }
 

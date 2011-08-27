@@ -1,6 +1,15 @@
 var quests = [];
 var crypto = require('crypto');
 
+/*
+var quest = {
+    phases : [
+        { url: "http://google.com.ua/" },
+        { url: "https://github.com/" }
+    ]
+}
+ */
+
 function getHash(str) {
     var hasher = crypto.createHash('md5');
     hasher.update(str);
@@ -20,4 +29,8 @@ exports.addQuest = function(master) {
     }
     quests.push(quest);
     return quest;
+}
+
+exports.addTask = function(quest, task){
+    
 }
