@@ -1,13 +1,14 @@
 var quests = [];
-var crypto = require('crypto');
+var crypt = require('crypt');
 
 function getHash(str) {
     var hasher = crypto.createHash('md5');
-    hasher.update(str);
-    
+    hasher.update('questId');
+    return hasher.digest('base64');
 }
 function generateQuestId() {
-    return "asdasd";
+    var d = new Date();
+    return getHash(quests.length+(d.toString())+d.getMilliseconds());
 }
 
 exports.CreateQuest = function(master) {
