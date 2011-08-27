@@ -6,8 +6,6 @@ app.get('/', function(req, res){
     res.send('Hello World');
 });
 
-var crypto = require("crypto");
-
 app.get('/next-hash', function(req, res) {
     var hasher = crypto.createHash("md5");
     var url = "http://google.com/";
