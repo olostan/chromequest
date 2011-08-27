@@ -5,7 +5,7 @@ $(document).ready(function(){
         var url = config.serverUrl + action;
         $.getJSON(url, function callback(data) {
             var bgp = chrome.extension.getBackgroundPage();
-            gbp.state = States.CREATED;
+            bgp.state = States.CREATED;
             console.log(data);
         });
     });
@@ -15,7 +15,7 @@ $(document).ready(function(){
         var url = config.serverUrl + action + "?q=" + $('#hash').val();
         $.getJSON(url, function callback(data) {
             var bgp = chrome.extension.getBackgroundPage();
-            gbp.state = States.JOINED;
+            bgp.state = States.JOINED;
             console.log(data);
         });
     });
