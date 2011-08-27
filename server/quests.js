@@ -21,3 +21,7 @@ exports.addQuest = function(master) {
     quests.push(quest);
     return quest;
 }
+exports.getQuest = function(hash) {
+    for(var qn in quests) if (quest[qn].hash == hash) return quest[qn];
+    return null;
+}
