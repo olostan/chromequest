@@ -21,17 +21,17 @@ function create(req, res){
 
 function add(req, res){
     var quest =  quests.getQuest(req.session.questHash),
-        task  = req.param('url'),
+        url  = req.param('url'),
         descr = req.param('descr');
 
     /* TODO: descr is not used at the moment :( */
     
     if (!quest) return fail(res, "A quest should be created before adding tasks");
-    if(!task) return fail(res, "Please, specify the quest and the task for update");
+    if(!url || !descr) return fail(res, "Url and Description should not be empty");
 
     if (quest.status != "new") return fail(res,"Too late to add tasks");
 
-    quest.tasks.push(task);
+    quest.addTask(url, descr);
     ok(res);        
 }
 

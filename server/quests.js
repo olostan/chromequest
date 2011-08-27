@@ -22,7 +22,12 @@ exports.addQuest = function(master) {
     	    var player = {nick:name,id:generateHash(),completed:[]};
     	    this.players.push(player);
     	    return player.id;
-    	}
+    	},
+        addTask: function(url, descr) {
+            var task = { url: url, descr: descr, hash: getHash(url) };
+            this.tasks.push(task);
+            return task;
+        }
     }
     quests[quest.hash] = quest;
     return quest;
@@ -31,16 +36,4 @@ exports.addQuest = function(master) {
 exports.getQuest = function(hash) {
     if (!hash) return null;
     return quests[hash];
-}
-
-exports.addTask = function(hash, task){
-    var quest = this.getQuest(hash);
-    console.log(quest);
-    if (!quest){
-        return false;
-    }
-    
-    quest.tasks.push(task);
-    console.log(quest);
-    return true;
 }

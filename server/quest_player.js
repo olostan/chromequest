@@ -23,7 +23,10 @@ exports.register = function (app) {
     app.get('/player/quest-tasks', function (req,res) {
         var quest = quests.getQuest(req.session.questHash);
         if (!quest) return fail(res,"No quest joined");
-        res.send({tasks:quest.tasks});
+
+        var filteredTasks = [];
+        quest.tasks.forEach(function(task) { filteredTasks.push({hash: task.hash, descr: task.descr})} );
+        res.send({tasks:filteredTasks});
     });
     app.get('/player/test-url', function (req,res) {
         // TODO:

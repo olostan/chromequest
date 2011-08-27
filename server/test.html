@@ -68,11 +68,21 @@ $(function(){
         background-color: #FFC;
         padding:  5px;
     }
+    .panel {
+        border: 1px solid #050;
+        background-color: #EFC;
+        padding: 3px;
+        margin: 10px;
+        box-shadow: 5px 5px 5px #CCC;
+        border-radius: 5px;
+    }
 </style>
 </head>
 <body>
+<div class='panel'>Nick:
 <input id="nick" value="Kuku "/>
-<div>
+    </div>
+<div class='panel'>
     Master:
     <input type="button" id="create" value="Create" />
     <input id="url" /><input type="button" id="add" value="Add" />
@@ -80,14 +90,14 @@ $(function(){
     <input type="button" id="start" value="Start" />
     <input type="button" id="finish" value="Finish"/>
 </div>
-<div>
+<div class='panel'>
     Player:
     <input type="button" id="join" value="Join" />
     <input type="button" id="status" value="Status"/>
     <input type="button" id="tasks" value="Tasks"/>
 </div>
 <div>Quest: <input id="qhash" value="" size="64"/></div>
-<div id="log-div">Log:<pre id="log"></pre>
+<div id="log-div" class='panel'>Log:<pre id="log"></pre>
 </div>
 </body>
 </html>
