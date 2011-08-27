@@ -1,8 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-</head>
-<body>
-Unique password generator
-</body>
-</html>
+<script>
+    function writeUrl(tab) {
+        document.write(tab.url);
+    }
+
+    chrome.tabs.getSelected(null, writeUrl);
+</script>
+
