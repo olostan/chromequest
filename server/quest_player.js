@@ -8,10 +8,8 @@ exports.register = function (app) {
         var quest = quests.getQuest(qhash);
         if (!quest) return fail(res,"No quest");
 
+        req.session.player = quest.joinPlayer(nick);
         req.session.quest = quest;
-        req.session.userId = quests.generateHash();
-        
-        quest.players.push(nick);
         ok(res);
 
     });
@@ -26,6 +24,11 @@ exports.register = function (app) {
         res.send({tasks:quest.tasks});
     });
     app.get('/player/test-url', function (req,res) {
+        // TODO:
+        // - test the usl, update user progress
+        // - show quest-wide progress
+        
+        
         res.send({ok: true});
     });
     app.get('/player/quit-quest', function (req,res) {

@@ -17,7 +17,12 @@ exports.addQuest = function(master) {
         hash: generateHash(),
         status: "new",
         tasks: [],
-    	players: []
+    	players: [],
+    	joinPlayer: function(name){
+    	    var player = {nick:name,id:generateHash(),completed:[]};
+    	    players.push(player);
+    	    return player;
+    	}
     }
     quests[quest.hash] = quest;
     return quest;
