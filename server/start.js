@@ -1,7 +1,15 @@
-var http = require('http');
+var express = require("express");
 
-http.createServer(function (req, res) {
-  res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.end('http://www.google.com/');
-}).listen(1337, "127.0.0.1");
-console.log('Server running at http://127.0.0.1:1337/');
+var app = express.createServer();
+var sjcl = require("../extension/lib/sjcl.js");
+app.get('/', function(req, res){
+    res.send('Hello World');
+});
+
+app.get('/next-hash', function(req, res) {
+    res.send({hash: "asdasdasd"})
+});
+console.dir(sjcl);
+var port = 3000;
+console.log("Started server at "+port)
+app.listen(port);
