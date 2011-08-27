@@ -8,9 +8,9 @@ ChromeQuest
 <body>
 <div class="1">
 <form name="Form">
-<input type="button" value="Create Quest" onclick="createGET('http://oni.dyndns.org:8080/master/create-quest' );"><br>
-<input name="hash">
-<input type="button" value="Join" onclick="createGET('http://oni.dyndns.org:8080/player/join-quest?q=' + document.Form.hash.value );">
+<input type="button" value="Create Quest" onclick="createQuest();"><br>
+<input name="hash" id="hash" value="">
+<input type="button" value="Join" onclick="createGET('http://oni.dyndns.org:8080/player/join-quest?q=' + document.Form.hash.value + '&nick=ololo2');">
 </form>
 </div>
 <div class="2" style="display:none">
@@ -23,7 +23,12 @@ Description:<input name="descr"><br>
 </body>
 </html>
 <script>  
-    function createGET(str)
+	function createQuest() {
+		createGET('http://oni.dyndns.org:8080/master/create-quest?master=ololo' , function(data) {
+		  $("#hash").val(data.questhash);
+		  });
+	}
+    function createGET(str, callback)
     {
     	/*var req = new XMLHttpRequest();
 		req.open("GET",
@@ -38,7 +43,7 @@ Description:<input name="descr"><br>
 		  }
 		};
 		req.send(null);*/
-		$.getJSON(str, function callback(data) {console.log(data)});
+		$.getJSON(str, function (data) {console.log(data);if (callback) callback(data)});
     }
     
     function createPOST(str)
@@ -48,8 +53,6 @@ Description:<input name="descr"><br>
  		       $.post(str, {url : tab.url, descr : document.Form2.descr.value}, function callback(data) {console.log(data)});
  		  	}
  		);
-	}
-    
-    
+	}  
 </script>
 
