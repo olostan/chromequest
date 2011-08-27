@@ -3,7 +3,7 @@ var quests = require("./quests.js");
 
 exports.register = function(app){
 	app.get('/master/create-quest', create);
-    app.get('/master/add-task', add);
+    app.post('/master/add-task', add);
     app.get('/master/open-quest', open);
     app.get('/master/start-quest', start);
     app.get('/master/finish-quest', finish);
@@ -17,34 +17,39 @@ function create(req, res){
     }
     
     var quest = quests.addQuest(master);
+    
+    req.session.currentQuest = quest;
     res.send({questhash:quest.hash});
     
 }
 
 function add(req, res){
-    var hash = req.param('questhash'),
-        task  = req.param('task');
-    if (!quest || !task){
+    var quest =  req.session.currentQuest,
+        task  = req.param('url'),
+        descr = req.param('descr');
+
+    console.log(task);
+    if (!quest){
+        fail(res, "A quest should be started before adding tasks");
+        return;
+    }
+    if(!task){
         fail(res, "Please, specify the quest and the task for update");
         return;
     }
-    var quest = quests.getQuest(hash);
-    if (!quest){
-        fail(res, "No such quest found");
-        return;
-    }
+    
     if (quest.status != "new"){
         fail(res,"Too late to add tasks");
         return;
     }
+
     
     quest.tasks.push(task);
     ok(res);        
 }
 
 function open(req, res){
-    var hash = res.param('questhash');
-    var quest = quests.getQuest(hash);
+    var quest = req.session.currentQuest;
     if (!quest){
         fail(res, "No such quest found");
         return;
@@ -59,8 +64,7 @@ function open(req, res){
 }
 
 function start(req, res){
-    var hash = res.param('questhash');
-    var quest = quests.getQuest(hash);
+    var quest = req.session.currentQuest;
     if (!quest){
         fail(res, "No such quest found");
         return;
@@ -75,8 +79,7 @@ function start(req, res){
 }
 
 function finish(req, res){
-    var hash = res.param('questhash');
-    var quest = quests.getQuest(hash);
+    var quest = req.session.currentQuest;
     if (!quest){
         fail(res, "No such quest found");
         return;

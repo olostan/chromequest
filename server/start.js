@@ -3,6 +3,8 @@ var express =  require("express"),
     player   = require("./quest_player.js");
 
 var app = express.createServer();
+app.use(express.cookieParser());
+app.use(express.session({ secret: "./wEr00l!#111" }));
 
 master.register(app);
 player.register(app);

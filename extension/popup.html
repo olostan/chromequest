@@ -4,46 +4,62 @@
 ChromeQuest
 </title>
 <body>
+<div class="1" style="display:none">
 <form name="Form">
-<input type="button" value="Create Quest" onclick="Create( );"><br>
+<input type="button" value="Create Quest" onclick="createGET('http://oni.dyndns.org:8080/master/create-quest' );"><br>
 <input name="hash">
-<input type="button" value="Join" onclick="Join( );">
+<input type="button" value="Join" onclick="createGET('http://oni.dyndns.org:8080/player/join-quest?q=' + document.Form.hash.value );">
 </form>
+</div>
+<div class="2">
+<form name="Form2">
+Description:<input name="descr"><br>
+<input type="button" value="Add page" onclick="createPOST('http://oni.dyndns.org:8080/master/add-task' )"><br>
+<input type="button" value="Open quest" onclick="createGET('http://oni.dyndns.org:8080/master/open-quest' );">
+</form>
+</div>
 </body>
 </html>
-<script>
-    function Create()
+<script>  
+    function createGET(str)
     {
-	    var req = new XMLHttpRequest();
+    	var req = new XMLHttpRequest();
 		req.open("GET",
-			    "http://oni.dyndns.org:8080/master/create-quest",
+			    str,
 			    true);
 		req.onreadystatechange = function (aEvt) {
 		  if (req.readyState == 4) {
 		     if(req.status == 200)
-		       console.log(req.responseText)
+		     	console.log(JSON.parse(req.responseText).questhash);
 		     else
-		       console.log('Error', req.statusText);
+		     	console.log('Error', req.statusText);
 		  }
 		};
 		req.send(null);
     }
     
-    function Join()
+    function createPOST(str)
     {
     	var req = new XMLHttpRequest();
-		req.open("GET",
-			    "http://oni.dyndns.org:8080/player/join-quest?q=" + document.Form.hash.value,
+		req.open("POST",
+			    str,
 			    true);
 		req.onreadystatechange = function (aEvt) {
 		  if (req.readyState == 4) {
 		     if(req.status == 200)
-		     	console.log(JSON.parse(req.responseText).hash);
+		     	console.log(JSON.parse(req.responseText).questhash);
 		     else
-		       console.log('Error', req.statusText);
+		     	console.log('Error', req.statusText);
 		  }
 		};
-		req.send(null);
-    }
+		
+		chrome.tabs.getSelected(null, 
+	    	function send(tab) {
+        		req.send("url=" + tab.url + "&descr=" + document.Form2.descr.value);
+        	}
+        );
+	}
+    
+    
 </script>
 
