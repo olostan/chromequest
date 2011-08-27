@@ -1,3 +1,5 @@
+var crypto = require('crypto');
+
 exports.register = function(app){
 	app.get('/master/create-quest', create);
     app.get('/master/add-task', add);
@@ -7,18 +9,26 @@ exports.register = function(app){
 }
 
 function create(req, res){
-	res.send('H3ll0homeHa6');
+    var hasher = crypto.createHash('md5');
+    hasher.update('questId');
+    
+	res.send({questhash:hasher.digest('base64')});
 }
 
 function add(req, res){
+    console.log(req.param('url'));
+    if (!req.param('url')){
+        res.send({ok:false});
+        return;
+    }
+    
 	res.send({ok:true});
 }
 
 function open(req, res){
-	if (req.params.url)
-		res.send({ok:true});
-	else
-		res.send({ok:true});
+	
+	
+	res.send({ok:true});
 }
 
 function start(req, res){
