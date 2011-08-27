@@ -17,7 +17,7 @@ exports.register = function (app) {
         var quest = quests.getQuest(req.session.questHash);
         var player = quest?quest.getPlayer(req.session.playerHash):null;
 
-        if (!quest || !player) return fail(res,"No quest joined");
+        if (!quest || (!player && !req.session.master)) return fail(res,"No quest joined");
         var filteredPlayers = [];
         quest.players.forEach(function(player) { filteredPlayers.push({name:player.nick, completed:player.completed.length})} )
         res.send({status: quest.status, players: filteredPlayers, tasks: quest.tasks.length});
