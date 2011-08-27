@@ -1,12 +1,27 @@
-<script>
+<html>
+  <script>
 
-  chrome.tabs.onUpdated.addListener(function() {
-    chrome.tabs.getSelected(null, function(tab){
+    var States = { NONE : 0, CREATED : 1, OPENED : 2, STARTED : 3, CLOSED: 0 }
+    var state = States.NONE;
 
-        if (tab.url.indexOf("google.com.ua") > -1)
-    	    chrome.pageAction.show(tab.id);
+    var data = 42;
+
+    chrome.browserAction.onClicked.addListener(function(tab) {
+
+        switch(state)
+        {
+            case States.CREATED:
+                    chrome.browserAction.setPopup({"popup": "views/created.html"});
+            break;
+            case States.OPENED:
+                    chrome.browserAction.setPopup({"popup": "views/opened.html"});
+            break;
+            case States.STARTED:
+                    chrome.browserAction.setPopup({"popup": "views/started.html"});
+            break;
+            default:
+                    chrome.browserAction.setPopup({"popup": "views/default.html"});
+        }
     });
-  });
-
-
-</script>
+  </script>
+</html>
