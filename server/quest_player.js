@@ -27,7 +27,7 @@ exports.register = function (app) {
         var player = quest?quest.getPlayer(req.session.playerHash):null;
         if (!quest || !player) return fail(res,"No quest joined");
 
-        if (quest.status == 'new') return fail(res,"Quest is not srtarted");
+        if (quest.status == 'new' || quest.status == 'opened') return fail(res,"Quest was not started");
 
         var filteredTasks = [];
         quest.tasks.forEach(function(task) { filteredTasks.push({hash: task.hash, descr: task.descr})} );
@@ -39,6 +39,8 @@ exports.register = function (app) {
         var quest = quests.getQuest(req.session.questHash);
         var player = quest?quest.getPlayer(req.session.playerHash):null;
         if (!quest || !player) return fail(res,"No quest joined");
+
+        if (quest.status != 'running') return fail(res,"Quest is not running");
 
         var completed;
         for(var taskNo in quest.tasks) {
