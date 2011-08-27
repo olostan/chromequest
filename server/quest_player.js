@@ -15,31 +15,48 @@ exports.register = function (app) {
     });
     app.get('/player/quest-status', function (req,res) {
         var quest = quests.getQuest(req.session.questHash);
-        if (!quest) return fail(res,"No quest joined");
+        var player = quest?quest.getPlayer(req.session.playerHash):null;
+
+        if (!quest || !player) return fail(res,"No quest joined");
         var filteredPlayers = [];
         quest.players.forEach(function(player) { filteredPlayers.push({name:player.nick, completed:player.completed.length})} )
         res.send({status: quest.status, players: filteredPlayers, tasks: quest.tasks.length});
     });
     app.get('/player/quest-tasks', function (req,res) {
         var quest = quests.getQuest(req.session.questHash);
-        if (!quest) return fail(res,"No quest joined");
+        var player = quest?quest.getPlayer(req.session.playerHash):null;
+        if (!quest || !player) return fail(res,"No quest joined");
+
+        if (quest.status == 'new') return fail(res,"Quest is not srtarted");
 
         var filteredTasks = [];
         quest.tasks.forEach(function(task) { filteredTasks.push({hash: task.hash, descr: task.descr})} );
         res.send({tasks:filteredTasks});
     });
     app.get('/player/test-url', function (req,res) {
-        // TODO:
-        // - test the usl, update user progress
-        // - show quest-wide progress
-        
-        
-        res.send({ok: true});
+        var url = req.query.url;
+        if (!url) return fail(res,"No url to test");
+        var quest = quests.getQuest(req.session.questHash);
+        var player = quest?quest.getPlayer(req.session.playerHash):null;
+        if (!quest || !player) return fail(res,"No quest joined");
+
+        var completed;
+        for(var taskNo in quest.tasks) {
+            if (quest.tasks[taskNo].url == url) completed = taskNo;
+        }
+        if (completed) {
+            if (player.completed.indexOf(completed)==-1)
+                player.completed.push(completed);
+            res.send({ok: true});
+        } else {
+            fail(res,"Trying to hack?!");
+        }
     });
     app.get('/player/quit-quest', function (req,res) {
         var quest = quests.getQuest(req.session.questHash);
         var player = quest?quest.getPlayer(req.session.playerHash):null;
         if (!quest || !player) return fail(res,"No quest joined");
+        
         var playerIdx = quest.players.indexOf(player);
         if (playerIdx==-1) return fail(res,"Something bad happen");
         delete quest.players[playerIdx];

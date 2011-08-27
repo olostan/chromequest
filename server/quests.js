@@ -27,6 +27,11 @@ exports.addQuest = function(master) {
             var task = { url: url, descr: descr, hash: getHash(url) };
             this.tasks.push(task);
             return task;
+        },
+        getPlayer: function(id) {
+            for (var pN in this.players)
+                if (this.players[pN].id == id) return this.players[pN];
+            return null;
         }
     }
     quests[quest.hash] = quest;

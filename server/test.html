@@ -54,6 +54,12 @@ $(function(){
             log(data);
         }, error);
     });
+    $("#test").click(function() {
+        $.getJSON("/player/test-url?url="+$("#purl").val(),function(data){
+            log(data);
+        }, error);
+    });
+
 
 });
     </script>
@@ -95,6 +101,7 @@ $(function(){
     <input type="button" id="join" value="Join" />
     <input type="button" id="status" value="Status"/>
     <input type="button" id="tasks" value="Tasks"/>
+    <input id="purl" /><input type="button" id="test" value="Test"/>
 </div>
 <div>Quest: <input id="qhash" value="" size="64"/></div>
 <div id="log-div" class='panel'>Log:<pre id="log"></pre>
