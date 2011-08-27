@@ -6,7 +6,7 @@ function getHash(str) {
     hasher.update(str);
     return hasher.digest('hex');
 }
-exports.generateHash = function generateHash() {
+exports.generateHash = generateHash = function() {
     var d = new Date();
     return getHash(quests.length+(d.toString())+d.getMilliseconds());
 }
@@ -20,7 +20,7 @@ exports.addQuest = function(master) {
     	players: [],
     	joinPlayer: function(name){
     	    var player = {nick:name,id:generateHash(),completed:[]};
-    	    players.push(player);
+    	    this.players.push(player);
     	    return player;
     	}
     }

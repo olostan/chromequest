@@ -16,7 +16,9 @@ exports.register = function (app) {
     app.get('/player/quest-status', function (req,res) {
         var quest = req.session.quest;
         if (!quest) return fail(res,"No quest joined");
-        res.send({status: quest.status, players: quest.players});
+        var filteredPlayers = [];
+        quest.players.forEach(function(player) { filteredPlayers.push({name:player.name,completed:player.completed.length})} )
+        res.send({status: quest.status, players: filteredPlayers, tasks: quest.tasks.length});
     });
     app.get('/player/quest-tasks', function (req,res) {
         var quest = req.session.quest;
@@ -33,7 +35,12 @@ exports.register = function (app) {
     });
     app.get('/player/quit-quest', function (req,res) {
         var quest = req.session.quest;
-        if (!quest) return fail(res,"No quest joined");
+        var player = req.session.player;
+        if (!quest || !player) return fail(res,"No quest joined");
+        var playerIdx = quest.players.indexOf(player);
+        if (playerIdx==-1) return fail(res,"Something bad happen");
+        delete quest.players[playerIdx];
+        req.session.destroy();
         res.send({ok: true});
     });
 }
