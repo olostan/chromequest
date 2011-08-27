@@ -8,6 +8,7 @@ exports.register = function (app) {
             res.send({ok: false, message:"No quest!"});
             return;
         }
+        console.dir(req.session);
         var userid = 1111;
         quest.players.push(userid);
     });

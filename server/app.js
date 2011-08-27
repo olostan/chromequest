@@ -4,8 +4,11 @@ var express =  require("express"),
 
 var app = express.createServer();
 app.use(express.methodOverride());
-    app.use(express.bodyParser());
-    app.use(app.router);
+app.use(express.bodyParser());
+app.use(app.router);
+app.use(express.cookieParser());
+app.use(express.session({ secret: "./wEr00l!#111" }));
+
 master.register(app);
 player.register(app);
 
