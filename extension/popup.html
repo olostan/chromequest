@@ -1,8 +1,49 @@
+<html>
+<head>
+<title>
+ChromeQuest
+</title>
+<body>
+<form name="Form">
+<input type="button" value="Create Quest" onclick="Create( );"><br>
+<input name="hash">
+<input type="button" value="Join" onclick="Join( );">
+</form>
+</body>
+</html>
 <script>
-    function writeUrl(tab) {
-        document.write(tab.url);
+    function Create()
+    {
+	    var req = new XMLHttpRequest();
+		req.open("GET",
+			    "http://oni.dyndns.org:8080/master/create-quest",
+			    true);
+		req.onreadystatechange = function (aEvt) {
+		  if (req.readyState == 4) {
+		     if(req.status == 200)
+		       console.log(req.responseText)
+		     else
+		       console.log('Error', req.statusText);
+		  }
+		};
+		req.send(null);
     }
-
-    chrome.tabs.getSelected(null, writeUrl);
+    
+    function Join()
+    {
+    	var req = new XMLHttpRequest();
+		req.open("GET",
+			    "http://oni.dyndns.org:8080/player/join-quest?q=" + document.Form.hash.value,
+			    true);
+		req.onreadystatechange = function (aEvt) {
+		  if (req.readyState == 4) {
+		     if(req.status == 200)
+		     	console.log(JSON.parse(req.responseText).hash);
+		     else
+		       console.log('Error', req.statusText);
+		  }
+		};
+		req.send(null);
+    }
 </script>
 
