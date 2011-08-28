@@ -80,3 +80,6 @@ exports.getQuests = function() {
     }
     return list;
 }
+exports.purgeQuests = function() {
+    quests = [];
+}

@@ -8,6 +8,7 @@ exports.register = function(app){
     app.get('/master/start-quest', start);
     app.get('/master/finish-quest', finish);
     app.get("/master/quest-list", quest_list)
+    app.get("/master/purge", purge)
 }
 
 function create(req, res){
@@ -75,6 +76,10 @@ function quest_list(req, res) {
         list.push(quest)
     })
     res.send(list);
+}
+function purge(req, res) {
+    quests.purgeQuests();
+    res.send({ok: true});
 }
 
 function ok(res){
