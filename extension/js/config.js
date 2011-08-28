@@ -13,7 +13,8 @@ var States = {
 };
 
 function saveConfig() {
-                localStorage['nick'] = config.nick;
+    localStorage['nick'] = config.nick;
+    localStorage["service"] = config.serverUrl;
 }
 
 function loadConfig() {
@@ -23,4 +24,6 @@ function loadConfig() {
                 config.nick = nick;
                 saveConfig();
     }
+    var serviceUrl = localStorage["service"];
+    if (serviceUrl) config.serverUrl = serviceUrl;
 }

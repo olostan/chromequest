@@ -53,10 +53,11 @@ $(document).ready(function(){
                 bgp.setState(States.CREATED);
                 
                 bgp.newQuestHash = data.questhash;
-                
-                
+
+                chrome.browserAction.setIcon({"path": "icons/created.png"});
                 //TODO: find out how to avoid duplication of routing logic
                 window.location.href = "created.html";
+
             }
             console.log(data);
         });
@@ -72,7 +73,8 @@ $(document).ready(function(){
             var bgp = chrome.extension.getBackgroundPage();
             bgp.setState(States.JOINED);
             bgp.currentQuestHash = $('#hash').val();
-            
+
+            chrome.browserAction.setIcon({"path": "icons/joined.png"});
             window.location.href = "joined.html";
         });
     });
@@ -83,6 +85,7 @@ $(document).ready(function(){
     		{
     			UpdateQuest();
     			chrome.extension.getBackgroundPage().newQuestStatus = "opened";
+                chrome.browserAction.setIcon({"path": "icons/opened.png"});
     	        displayMasterButtons("opened");
     		}
     	});
@@ -94,6 +97,7 @@ $(document).ready(function(){
     		{
     			UpdateQuest();
     			chrome.extension.getBackgroundPage().newQuestStatus = "running";
+                chrome.browserAction.setIcon({"path": "icons/started.png"});
     	        displayMasterButtons("running");
     		}
     	});
@@ -118,6 +122,7 @@ $(document).ready(function(){
     			chrome.extension.getBackgroundPage().newQuestStatus = "new";
     			chrome.extension.getBackgroundPage().newQuestHash = null;
     			chrome.browserAction.setPopup({"popup": "views/default.html"});
+                chrome.browserAction.setIcon({"path": "icons/default.png"});
     			window.location.href = "default.html";
     		}
     	});
