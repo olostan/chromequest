@@ -32,19 +32,18 @@ exports.register = function (app) {
             return fail(res,"Quest was not started");
 
         var filteredTasks = [];
-        if (req.session.master)
-            quest.tasks.forEach(function(task) { filteredTasks.push({url: task.url, descr: task.descr})} );
-        else {
-            var completedByPlayer = player.getCompletedTasks();
-            console.dir(completedByPlayer);
-            quest.tasks.forEach(function(task) {
-                filteredTasks.push({
-                    hash: task.hash, 
-                    descr: task.descr, 
-                    taskStatus:completedByPlayer[task.hash]?"completed":"active"
-                });
+        
+        console.log("player/quest-tasks role: "+req.session.master);
+        
+        var completedByPlayer = player.getCompletedTasks();
+        console.dir(completedByPlayer);
+        quest.tasks.forEach(function(task) {
+            filteredTasks.push({
+                hash: task.hash, 
+                descr: task.descr, 
+                taskStatus:completedByPlayer[task.hash]?"completed":"active"
             });
-        }
+        });
         res.send({tasks:filteredTasks});
     });
     app.get('/player/test-url', function (req,res) {

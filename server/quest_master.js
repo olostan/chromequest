@@ -5,6 +5,7 @@ exports.register = function(app){
 	app.get('/master/create-quest', create);
     app.post('/master/add-task', add);
     app.get('/master/open-quest', open);
+    app.get('/master/quest-tasks', list);
     app.get('/master/start-quest', start);
     app.get('/master/finish-quest', finish);
     app.get('/master/delete-quest', deletequest);
@@ -101,6 +102,24 @@ function quest_list(req, res) {
 function purge(req, res) {
     quests.purgeQuests();
     res.send({ok: true});
+}
+
+function list(req, res){
+    var quest = quests.getQuest(req.session.questHash);
+    var player = quest?quest.getPlayer(req.session.playerHash):undefined;
+    if (!quest || (!player && !req.session.master)) return fail(res,"No quest joined");
+
+    if ((quest.status == 'new' || quest.status == 'opened')&& !req.session.master)
+        return fail(res,"Quest was not started");
+
+    var filteredTasks = [];
+    
+    console.log("master/quest-tasks role: "+req.session.master);
+    
+    if (req.session.master)
+        quest.tasks.forEach(function(task) { filteredTasks.push({url: task.url, descr: task.descr})} );
+    
+    res.send({tasks:filteredTasks});
 }
 
 function ok(res){
