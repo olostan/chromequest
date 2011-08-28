@@ -36,7 +36,7 @@ exports.register = function (app) {
             return fail(res,"Quest was not started");
 
         var filteredTasks = [];
-        var completedByPlayer = player.getCompletedTasks();
+        var completedByPlayer = player.getCompletedTasks(quest.tasks);
         quest.tasks.forEach(function(task) {
             filteredTasks.push({
                 hash: task.hash, 

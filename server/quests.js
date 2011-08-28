@@ -26,12 +26,12 @@ exports.addQuest = function(master) {
     	            nick:name,
     	            id:generateHash(),
     	            completed:[],
-    	            getCompletedTasks: function(){
-    	                var completed = {};
-    	                for(var idx in completed){
-    	                    completed[tasks[completed[idx]].hash] = true;
+    	            getCompletedTasks: function(tasks){
+    	                var retVal = {};
+    	                for(var idx in this.completed){
+    	                    retVal[tasks[this.completed[idx]].hash] = true;
     	                }
-    	                return completed;
+    	                return retVal;
     	            }
     	    };
     	    this.players.push(player);
