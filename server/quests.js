@@ -76,7 +76,7 @@ exports.getQuest = function(hash) {
 exports.getQuests = function() {
     var list = [];
     for(var h in quests) {
-        list.push(quests[h]);
+        list.push({hash: h, quest: quests[h]});
     }
     return list;
 }
