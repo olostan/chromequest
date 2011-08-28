@@ -12,3 +12,7 @@
 #tasks {
     font-size: 11pt;
 }
+
+.show {
+    display: inline;
+}
