@@ -8,6 +8,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 });
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+    console.log(tab.url, tab.status, tasks);
     if (tab.status != "complete" ||
         tab.url == "chrome://newtab/" ||
         !tasks) {
@@ -25,7 +26,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 
     if (match){
         $.getJSON(service("/player/test-url")+"?url=" + tab.url, function(data){
-            if (data.OK) alert("You've got it!");
+            if (data.ok) alert("You've got it!");
             else alert("Don't even think about hacking me!");
         });
     }

@@ -61,8 +61,9 @@ $(document).ready(function(){
 
     $('#joinQuest').click(function (){
         var url = service("player/join-quest") + "?q=" + $('#hash').val()+"&nick="+config.nick;
-        $.getJSON(url, function callback(data) {
-            if (!data || !data.ok) {
+        $.getJSON(url, function (data) {
+            console.log(data);
+            if (!data || !data.tasks) {
                 alert("Can't join: "+JSON.stringify(data));
                 return;
             }
