@@ -11,6 +11,7 @@ window.setState = function(state){
 }
 
 window.newQuestHash = null;
+window.newQuestStatus = "new";
 
 window.refreshPopup = function(){
     switch(_state)
