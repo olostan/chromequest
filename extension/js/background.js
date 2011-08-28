@@ -25,7 +25,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     }
 
     if (match){
-        $.getJSON(service("/player/test-url")+"?url=" + tab.url, function(data){
+        $.getJSON(service("player/test-url")+"?url=" + tab.url, function(data){
             if (data.ok) alert("You've got it!");
             else alert("Don't even think about hacking me!");
         });
