@@ -26,7 +26,7 @@ exports.addQuest = function(master) {
     	            nick:name,
     	            id:generateHash(),
     	            completed:[],
-    	            completedByPlayer: function(){
+    	            getCompletedTasks: function(){
     	                var completed = {};
     	                for(var idx in completed){
     	                    completed[tasks[completed[idx]].hash] = true;

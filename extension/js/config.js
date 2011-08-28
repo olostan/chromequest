@@ -1,5 +1,5 @@
 var config = {
-    serverUrl : "http://oni.dyndns.org:8080/",
+    serverUrl : "http://localhost:8080/",
     nick: "ololo"
 };
 
