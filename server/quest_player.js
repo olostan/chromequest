@@ -31,7 +31,10 @@ exports.register = function (app) {
             return fail(res,"Quest was not started");
 
         var filteredTasks = [];
-        quest.tasks.forEach(function(task) { filteredTasks.push({hash: task.hash, descr: task.descr})} );
+        if (req.session.master)
+            quest.tasks.forEach(function(task) { filteredTasks.push({hash: task.url, descr: task.descr})} );
+        else
+            quest.tasks.forEach(function(task) { filteredTasks.push({hash: task.hash, descr: task.descr})} );
         res.send({tasks:filteredTasks});
     });
     app.get('/player/test-url', function (req,res) {

@@ -38,8 +38,9 @@ $(document).ready(function(){
         	            if (!data || !data.ok) {
         	                alert("Failed adding page:"+JSON.stringify(data));
         	            }
+                         UpdateTasks();
         	        });
-                    UpdateTasks();
+
         		}); 
     });
     function UpdateQuest() {
@@ -53,10 +54,17 @@ $(document).ready(function(){
             console.log(data);
             var table = $("#tasks");
             var template = $("#task-template").html();
-            if (data.tasks)
+            if (data.tasks) {
+                table.empty();
+                 table.append("test task ");
                 data.tasks.forEach(function(task) {
                    var html = template.replace("{descr}",task.descr);
+                    if (task.url)
+                        html = template.replace("{url}",task.url);
+                    table.append(html);
                 });
+
+            }
        });
     }
 });
