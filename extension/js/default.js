@@ -150,7 +150,7 @@ $(document).ready(function(){
                 data.players.forEach(function(player) {
 	                var html = template;
 	                html = html.replace("{name}", player.name);
-	                html = html.replace("{complated}", player.completed);
+	                html = html.replace("{completed}", player.completed);
 	                table.append(html);
                 });
             }
