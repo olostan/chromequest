@@ -24,7 +24,7 @@ function create(req, res){
 }
 
 function add(req, res){
-    if (!req.seesion.master) return fail(res,"You're not master");
+    if (!req.session.master) return fail(res,"You're not master");
 
     var quest =  quests.getQuest(req.session.questHash),
         url  = req.param('url'),
@@ -40,7 +40,7 @@ function add(req, res){
 }
 
 function open(req, res){
-    if (!req.seesion.master) return fail(res,"You're not master");
+    if (!req.session.master) return fail(res,"You're not master");
     var quest = quests.getQuest(req.session.questHash);
     if (!quest) return fail(res, "Create quest first");
 
@@ -52,7 +52,7 @@ function open(req, res){
 }
 
 function start(req, res){
-    if (!req.seesion.master) return fail(res,"You're not master");
+    if (!req.session.master) return fail(res,"You're not master");
 
     var quest = quests.getQuest(req.session.questHash);
 
@@ -65,7 +65,7 @@ function start(req, res){
 }
 
 function finish(req, res){
-    if (!req.seesion.master) return fail(res,"You're not master");
+    if (!req.session.master) return fail(res,"You're not master");
     var quest = quests.getQuest(req.session.questHash);
     if (!quest) return fail(res, "No such quest found");
 
@@ -76,7 +76,7 @@ function finish(req, res){
 }
 
 function deletequest(req, res){
-    if (!req.seesion.master) return fail(res,"You're not master");
+    if (!req.session.master) return fail(res,"You're not master");
     var quest = quests.getQuest(req.session.questHash);
     if (!quest) return fail(res, "No such quest found");
 
