@@ -137,7 +137,24 @@ $(document).ready(function(){
         		}); 
     });
     function UpdateQuest() {
-        $.getJSON(config.serverUrl + "player/quest-status", function callback(data) {$("#qstatus").html(data.status);});       
+        $.getJSON(config.serverUrl + "player/quest-status", function callback(data) 
+        {
+        	$("#qstatus").html(data.status);
+        	
+        	var table = $("#players");
+            var template = $("#players-template").html();
+            if (data.players) 
+            {
+                table.empty();
+                table.append("List of players:<br>");
+                data.players.forEach(function(player) {
+	                var html = template;
+	                html = html.replace("{name}", player.name);
+	                html = html.replace("{complated}", player.completed);
+	                table.append(html);
+                });
+            }
+        });       
     }
     function UpdateTasks() {
        $.getJSON(service("player/quest-tasks"), function callback(data) {
