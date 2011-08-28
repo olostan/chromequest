@@ -43,7 +43,9 @@ $(document).ready(function(){
         	            if (!data || !data.ok) {
         	                alert("Failed adding page:"+JSON.stringify(data));
         	            }
+                         UpdateTasks();
         	        });
+
         		}); 
     });
     function UpdateQuest() {
@@ -51,6 +53,23 @@ $(document).ready(function(){
         var service = config.serverUrl + action;
     }
     function UpdateTasks() {
-        /// ...
+       var action="player/quest-tasks";
+       var service = config.serverUrl + action;
+       $.getJSON(service, function callback(data) {
+            console.log(data);
+            var table = $("#tasks");
+            var template = $("#task-template").html();
+            if (data.tasks) {
+                table.empty();
+                 table.append("test task ");
+                data.tasks.forEach(function(task) {
+                   var html = template.replace("{descr}",task.descr);
+                    if (task.url)
+                        html = template.replace("{url}",task.url);
+                    table.append(html);
+                });
+
+            }
+       });
     }
 });

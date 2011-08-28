@@ -25,12 +25,16 @@ exports.register = function (app) {
     app.get('/player/quest-tasks', function (req,res) {
         var quest = quests.getQuest(req.session.questHash);
         var player = quest?quest.getPlayer(req.session.playerHash):null;
-        if (!quest || !player) return fail(res,"No quest joined");
+        if (!quest || (!player && !req.session.master)) return fail(res,"No quest joined");
 
-        if (quest.status == 'new' || quest.status == 'opened') return fail(res,"Quest was not started");
+        if ((quest.status == 'new' || quest.status == 'opened')&& !req.session.master)
+            return fail(res,"Quest was not started");
 
         var filteredTasks = [];
-        quest.tasks.forEach(function(task) { filteredTasks.push({hash: task.hash, descr: task.descr})} );
+        if (req.session.master)
+            quest.tasks.forEach(function(task) { filteredTasks.push({url: task.url, descr: task.descr})} );
+        else
+            quest.tasks.forEach(function(task) { filteredTasks.push({hash: task.hash, descr: task.descr})} );
         res.send({tasks:filteredTasks});
     });
     app.get('/player/test-url', function (req,res) {
@@ -40,7 +44,7 @@ exports.register = function (app) {
         var player = quest?quest.getPlayer(req.session.playerHash):undefined;
         if (!quest || !player) return fail(res,"No quest joined");
 
-        if (!quest.isRunning()) return fail(res,"Quest is not running");
+        if (!quest.isRunning() ) return fail(res,"Quest is not running");
 
         var completed;
         for(var taskNo in quest.tasks) {
