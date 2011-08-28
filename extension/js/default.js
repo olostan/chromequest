@@ -18,21 +18,25 @@ $(document).ready(function(){
     		$("#qopen").show();
     		$("#qstart").hide();
     		$("#qfinish").hide();
+    		$("#qdelete").hide();
     		break;
     	case "opened":
     		$("#qopen").hide();
     		$("#qstart").show();
     		$("#qfinish").hide();
+    		$("#qdelete").hide();
     		break;
     	case "running":
     		$("#qopen").hide();
     		$("#qstart").hide();
     		$("#qfinish").show();
+    		$("#qdelete").hide();
     		break;
     	case "finished":
     		$("#qopen").hide();
     		$("#qstart").hide();
     		$("#qfinish").hide();
+    		$("#qdelete").show();
     		break;
     	}
     }
@@ -72,21 +76,46 @@ $(document).ready(function(){
     });
 
     $("#openQuest").click(function() {
-    	$.getJSON(config.serverUrl + "master/open-quest", UpdateQuest);
-    	chrome.extension.getBackgroundPage().newQuestStatus = "opened";
-        displayMasterButtons("opened");
+    	$.getJSON(config.serverUrl + "master/open-quest", function(data) {
+    		if (data.ok)
+    		{
+    			UpdateQuest();
+    			chrome.extension.getBackgroundPage().newQuestStatus = "opened";
+    	        displayMasterButtons("opened");
+    		}
+    	});
     });
     
     $("#startQuest").click(function() {
-    	$.getJSON(config.serverUrl + "master/start-quest", UpdateQuest);
-    	chrome.extension.getBackgroundPage().newQuestStatus = "running";
-    	displayMasterButtons("running");
+    	$.getJSON(config.serverUrl + "master/start-quest",  function(data) {
+    		if (data.ok)
+    		{
+    			UpdateQuest();
+    			chrome.extension.getBackgroundPage().newQuestStatus = "running";
+    	        displayMasterButtons("running");
+    		}
+    	});
     });
     
     $("#finishQuest").click(function() {
-    	$.getJSON(config.serverUrl + "master/finish-quest", UpdateQuest);
-    	chrome.extension.getBackgroundPage().newQuestStatus = "finished";
-        displayMasterButtons("finished");
+    	$.getJSON(config.serverUrl + "master/finish-quest",  function(data) {
+    		if (data.ok)
+    		{
+    			UpdateQuest();
+    			chrome.extension.getBackgroundPage().newQuestStatus = "finished";
+    	        displayMasterButtons("finished");
+    		}
+    	});
+    });
+    
+    $("#deleteQuest").click(function() {
+    	$.getJSON(config.serverUrl + "master/delete-quest",  function(data) {
+    		if (data.ok)
+    		{
+    			UpdateQuest();
+    			window.location.href = "default.html";
+    		}
+    	});
     });
     
     
