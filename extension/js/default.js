@@ -59,11 +59,15 @@ $(document).ready(function(){
     });
 
     $('#joinQuest').click(function (){
-        var url = service("player/join-quest") + "?q=" + $('#hash').val();
+        var url = service("player/join-quest") + "?q=" + $('#hash').val()+"&nick="+config.nick;
         $.getJSON(url, function callback(data) {
+            if (!data || !data.ok) {
+                alert("Can't join: "+JSON.stringify(data));
+                return;
+            }
             var bgp = chrome.extension.getBackgroundPage();
             bgp.setState(States.JOINED);
-            console.log(data);
+            window.location.href = "joined.html";
         });
     });
 
