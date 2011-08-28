@@ -15,7 +15,7 @@ exports.register = function (app) {
     });
     app.get('/player/quest-status', function (req,res) {
         var quest = quests.getQuest(req.session.questHash);
-        var player = quest?quest.getPlayer(req.session.playerHash):null;
+        var player = quest?quest.getPlayer(req.session.playerHash):undefined;
 
         if (!quest || (!player && !req.session.master)) return fail(res,"No quest joined");
         var filteredPlayers = [];
@@ -24,7 +24,7 @@ exports.register = function (app) {
     });
     app.get('/player/quest-tasks', function (req,res) {
         var quest = quests.getQuest(req.session.questHash);
-        var player = quest?quest.getPlayer(req.session.playerHash):null;
+        var player = quest?quest.getPlayer(req.session.playerHash):undefined;
         if (!quest || (!player && !req.session.master)) return fail(res,"No quest joined");
 
         if ((quest.status == 'new' || quest.status == 'opened')&& !req.session.master)
@@ -60,7 +60,7 @@ exports.register = function (app) {
     });
     app.get('/player/quit-quest', function (req,res) {
         var quest = quests.getQuest(req.session.questHash);
-        var player = quest?quest.getPlayer(req.session.playerHash):null;
+        var player = quest?quest.getPlayer(req.session.playerHash):undefined;
         if (!quest || !player) return fail(res,"No quest joined");
         
         var playerIdx = quest.players.indexOf(player);

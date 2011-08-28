@@ -1,1 +1,29 @@
-joined
+<html>
+    <head>
+        <script language="JavaScript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+        <script src='../js/config.js'></script>
+        <script src='../js/default.js'></script>
+
+    </head>
+    <body onload="return UpdateTasks();">
+        <div id="qopen">
+            Description:<input id="descr"><br>
+            <input id="addPage" type="button" value="Add page"><br>
+            <input id="openQuest" type="button" value="Open quest">
+        </div>
+        <div id="qstart"><input id="startQuest" type="button" value="Start quest"></div>
+        <div id="qfinish"><input id="finishQuest" type="button" value="Finish quest"></div>
+        <script id="task-template" type="text/html">
+            <tr>
+                <td>Url: {url}</td>
+                <td>Descr: {descr}</td>
+            </tr>
+        </script>
+        <div>Quest status: <span id="qstatus"></span></div>
+        <div>Quest hash: <input id="qhash" size="40"></div>
+        <table id="tasks">
+            
+        </table>
+
+    </body>
+</html>

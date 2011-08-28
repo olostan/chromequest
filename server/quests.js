@@ -81,5 +81,8 @@ exports.getQuests = function() {
     return list;
 }
 exports.purgeQuests = function() {
-    quests = [];
+    quests = {};
+}
+exports.removeQuest = function(quest) {
+    return delete quests[quest.hash];
 }

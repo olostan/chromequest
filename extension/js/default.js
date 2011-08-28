@@ -71,6 +71,7 @@ $(document).ready(function(){
             }
             var bgp = chrome.extension.getBackgroundPage();
             bgp.setState(States.JOINED);
+            
             window.location.href = "joined.html";
         });
     });
@@ -118,8 +119,6 @@ $(document).ready(function(){
     	});
     });
     
-    
-    
     $("#addPage").click(function() {
         var url;
         chrome.tabs.getSelected(null, function (tab)
@@ -129,7 +128,7 @@ $(document).ready(function(){
         	            if (!data || !data.ok) {
         	                alert("Failed adding page:"+JSON.stringify(data));
         	            }
-                         UpdateTasks();
+                        UpdateTasks();
         	        });
 
         		}); 
