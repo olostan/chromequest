@@ -25,7 +25,7 @@ exports.register = function (app) {
     app.get('/player/quest-tasks', function (req,res) {
         var quest = quests.getQuest(req.session.questHash);
         var player = quest?quest.getPlayer(req.session.playerHash):null;
-        if (!quest || !player) return fail(res,"No quest joined");
+        if (!quest || (!player && !req.session.master)) return fail(res,"No quest joined");
 
         if (quest.status == 'new' || quest.status == 'opened') return fail(res,"Quest was not started");
 
