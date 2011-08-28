@@ -20,4 +20,22 @@ $(document).ready(function(){
    function service(action) {
        return config.serverUrl + action;
    }
+   
+   $('#tellfriends').click(function(e){
+       bg = chrome.extension.getBackgroundPage();
+
+       clipboardholder= bg.document.getElementById("clipboardholder");
+
+       clipboardholder.style.display = "block";
+
+       clipboardholder.value = bg.currentQuestHash;
+
+       clipboardholder.select();
+
+       bg.document.execCommand("Copy");
+
+       clipboardholder.style.display = "none";
+
+       alert("Content copied to clipboard!");
+   });
 });

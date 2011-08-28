@@ -11,7 +11,9 @@ exports.register = function (app) {
 
         req.session.playerHash = quest.joinPlayer(nick);
         req.session.questHash = qhash;
-        ok(res);
+        var retVal = {ok:true};
+        retVal['tasks'] = getPlayerTasks(quest.getPlayer(req.session.playerHash), quest);
+        res.send(retVal);
 
     });
     app.get('/player/quest-status', function (req,res) {
@@ -35,12 +37,14 @@ exports.register = function (app) {
         if (!quest.isRunning())
             return fail(res,"Quest was not started");
 
+        getPlayerTasks(player, quest);
+                
+        res.send({tasks:filteredTasks});
+    });
+    
+    function getPlayerTasks(player, quest){
         var filteredTasks = [];
-        
-        console.log("player/quest-tasks master-role: "+req.session.master);
-        
         var completedByPlayer = player.getCompletedTasks();
-        console.dir(completedByPlayer);
         quest.tasks.forEach(function(task) {
             filteredTasks.push({
                 hash: task.hash, 
@@ -48,8 +52,9 @@ exports.register = function (app) {
                 taskStatus:completedByPlayer[task.hash]?"completed":"active"
             });
         });
-        res.send({tasks:filteredTasks});
-    });
+        
+        return filteredTasks;
+    }
     app.get('/player/test-url', function (req,res) {
         var url = req.query.url;
         if (!url) return fail(res,"No url to test");
