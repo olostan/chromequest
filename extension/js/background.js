@@ -29,7 +29,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
             if (data.ok) {
                 //alert("You've got it!");
                 var notification = webkitNotifications.createNotification(
-                    '48.png',  // icon url - can be relative
+                    'icons/checkmark.png',  // icon url - can be relative
                 "You've got it!",  // notification title
                 "You've correctly guessted web site! Go on!"  // notification body text
                 );
