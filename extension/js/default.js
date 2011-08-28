@@ -1,5 +1,5 @@
 $(document).ready(function(){
-
+    loadConfig();
 	displayMasterButtons(chrome.extension.getBackgroundPage().newQuestStatus);
 	
 	$("#qhash").val(chrome.extension.getBackgroundPage().newQuestHash);
@@ -72,6 +72,7 @@ $(document).ready(function(){
             }
             var bgp = chrome.extension.getBackgroundPage();
             bgp.setState(States.JOINED);
+            bgp.currentQuestHash = $('#hash').val();
             
             window.location.href = "joined.html";
             chrome.browserAction.setIcon({"path": "icons/joined.png"});
@@ -119,6 +120,9 @@ $(document).ready(function(){
     		if (data.ok)
     		{
     			UpdateQuest();
+    			chrome.extension.getBackgroundPage().newQuestStatus = "new";
+    			chrome.extension.getBackgroundPage().newQuestHash = null;
+    			chrome.browserAction.setPopup({"popup": "views/default.html"});
     			window.location.href = "default.html";
                 chrome.browserAction.setIcon({"path": "icons/default.png"});
     		}
@@ -140,8 +144,25 @@ $(document).ready(function(){
         		}); 
     });
     function UpdateQuest() {
-        $.getJSON(config.serverUrl + "player/quest-status", function callback(data) {$("#qstatus").html(data.status);});       
+        $.getJSON(config.serverUrl + "player/quest-status", function callback(data) 
+        {
+        	$("#qstatus").html(data.status);
+        	
+        	var table = $("#players");
+            var template = $("#players-template").html();
+            if (data.players) 
+            {
+                table.empty();
+                data.players.forEach(function(player) {
+	                var html = template;
+	                html = html.replace("{name}", player.name);
+	                html = html.replace("{completed}", player.completed);
+	                table.append(html);
+                });
+            }
+        });       
     }
+    
     function UpdateTasks() {
        $.getJSON(service("player/quest-tasks"), function callback(data) {
             console.log(data);
@@ -149,8 +170,6 @@ $(document).ready(function(){
             var template = $("#task-template").html();
             if (data.tasks) {
                 table.empty();
-
-                 table.append("test task ");
                 data.tasks.forEach(function(task) {
                    var html = template;
                    html = html.replace("{descr}",task.descr);

@@ -7,6 +7,7 @@ exports.register = function (app) {
         var qhash = req.query.q;
         var quest = quests.getQuest(qhash);
         if (!quest) return fail(res,"No quest");
+//        if (!quest.isOpen) return fail(res, "Quest not open yet.");
 
         req.session.playerHash = quest.joinPlayer(nick);
         req.session.questHash = qhash;
@@ -33,8 +34,17 @@ exports.register = function (app) {
         var filteredTasks = [];
         if (req.session.master)
             quest.tasks.forEach(function(task) { filteredTasks.push({url: task.url, descr: task.descr})} );
-        else
-            quest.tasks.forEach(function(task) { filteredTasks.push({hash: task.hash, descr: task.descr})} );
+        else {
+            var completedByPlayer = player.getCompletedTasks();
+            console.dir(completedByPlayer);
+            quest.tasks.forEach(function(task) {
+                filteredTasks.push({
+                    hash: task.hash, 
+                    descr: task.descr, 
+                    taskStatus:completedByPlayer[task.hash]?"completed":"active"
+                });
+            });
+        }
         res.send({tasks:filteredTasks});
     });
     app.get('/player/test-url', function (req,res) {

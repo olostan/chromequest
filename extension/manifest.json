@@ -10,5 +10,6 @@
   "permissions" : [
     "tabs",
     "http://*/"
-  ]
+  ],
+  "options_page": "options.html"
 }

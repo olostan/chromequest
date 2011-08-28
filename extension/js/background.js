@@ -12,6 +12,7 @@ window.setState = function(state){
 
 window.newQuestHash = null;
 window.newQuestStatus = "new";
+window.currentQuestHash = undefined;
 
 window.refreshPopup = function(){
     var view = null;
