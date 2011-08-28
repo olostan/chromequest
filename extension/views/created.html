@@ -1,11 +1,13 @@
 <html>
     <head>
-        <script src='js/config.js'></script>
         <script language="JavaScript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+        <script src='../js/config.js'></script>
+        <script src='../js/default.js'></script>
+
     </head>
     <body>
-        Description:<input name="descr"><br>
-        <input type="button" value="Add page" onclick="addPage('http://oni.dyndns.org:8080/master/add-task' )"><br>
+        Description:<input id="descr"><br>
+        <input id="addPage" type="button" value="Add page"><br>
         <input type="button" value="Open quest" onclick="openQuest('http://oni.dyndns.org:8080/master/open-quest' );">
     </body>
 </html>
