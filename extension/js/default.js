@@ -29,13 +29,17 @@ $(document).ready(function(){
 
     $("#addPage").click(function() {
         var action="master/add-task";
-        var service = config.serverUrl + action + "?q=" + $('#hash').val();
-        var url = "http://google.com/";
-        $.post(service,{url:url, descr:$("#descr").val()}, function(data) {
-            if (!data || !data.ok) {
-                alert("Failed adding page:"+JSON.stringify(data));
-            }
-        });
+        var service = config.serverUrl + action;
+        var url;
+        chrome.tabs.getSelected(null, function (tab)
+        		{
+        			url = tab.url;
+        			$.post(service,{url:url, descr:$("#descr").val()}, function(data) {
+        	            if (!data || !data.ok) {
+        	                alert("Failed adding page:"+JSON.stringify(data));
+        	            }
+        	        });
+        		}); 
     });
     function UpdateQuest() {
         var action="player/quest-status";
