@@ -1,8 +1,7 @@
-function listTasks() {
+$(document).ready(function(){
    loadConfig();
    
-   $("#qhash").append("AA {"+chrome.extension.getBackgroundPage().currentQuestHash+"}");
-   
+   $("#qhash").append(chrome.extension.getBackgroundPage().currentQuestHash);
    $.getJSON(service("player/quest-tasks"), function callback(data) {
         var table = $("#tasks");
         var template = $("#task-template").html();
@@ -17,4 +16,4 @@ function listTasks() {
 
         }
    });
-}
+});

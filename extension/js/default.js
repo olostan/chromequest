@@ -166,7 +166,7 @@ $(document).ready(function(){
        $.getJSON(service("master/quest-tasks"), function callback(data) {
             console.log(data);
             var table = $("#tasks");
-            var template = $("#task-template").html();
+            var template = $("#task-list-template").html();
             if (data.tasks) {
                 table.empty();
                 data.tasks.forEach(function(task) {

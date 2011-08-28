@@ -24,16 +24,20 @@ exports.register = function (app) {
         res.send({status: quest.status, players: filteredPlayers, tasks: quest.tasks.length});
     });
     app.get('/player/quest-tasks', function (req,res) {
+        console.log('/player/quest-tasks');
         var quest = quests.getQuest(req.session.questHash);
         var player = quest?quest.getPlayer(req.session.playerHash):undefined;
+        
+        console.log("Player testing");
         if (!quest || (!player && !req.session.master)) return fail(res,"No quest joined");
 
-        if ((quest.status == 'new' || quest.status == 'opened')&& !req.session.master)
+        console.log("quest status testing");
+        if (!quest.isRunning())
             return fail(res,"Quest was not started");
 
         var filteredTasks = [];
         
-        console.log("player/quest-tasks role: "+req.session.master);
+        console.log("player/quest-tasks master-role: "+req.session.master);
         
         var completedByPlayer = player.getCompletedTasks();
         console.dir(completedByPlayer);
