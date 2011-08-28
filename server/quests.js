@@ -83,3 +83,9 @@ exports.getQuests = function() {
 exports.purgeQuests = function() {
     quests = [];
 }
+exports.removeQuest = function(quest) {
+    var idx = quests.indexOf(quest);
+    if (idx<0) return false;
+    delete quests[idx];
+    return true;
+}

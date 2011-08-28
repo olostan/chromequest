@@ -7,6 +7,7 @@ exports.register = function(app){
     app.get('/master/open-quest', open);
     app.get('/master/start-quest', start);
     app.get('/master/finish-quest', finish);
+    app.get('/master/delete-quest', deletequest);
     app.get("/master/quest-list", quest_list)
     app.get("/master/purge", purge)
 }
@@ -23,6 +24,8 @@ function create(req, res){
 }
 
 function add(req, res){
+    if (!req.seesion.master) return fail(res,"You're not master");
+
     var quest =  quests.getQuest(req.session.questHash),
         url  = req.param('url'),
         descr = req.param('descr');
@@ -37,6 +40,7 @@ function add(req, res){
 }
 
 function open(req, res){
+    if (!req.seesion.master) return fail(res,"You're not master");
     var quest = quests.getQuest(req.session.questHash);
     if (!quest) return fail(res, "Create quest first");
 
@@ -48,6 +52,8 @@ function open(req, res){
 }
 
 function start(req, res){
+    if (!req.seesion.master) return fail(res,"You're not master");
+
     var quest = quests.getQuest(req.session.questHash);
 
     if (!quest) return fail(res, "No such quest found");
@@ -59,8 +65,8 @@ function start(req, res){
 }
 
 function finish(req, res){
+    if (!req.seesion.master) return fail(res,"You're not master");
     var quest = quests.getQuest(req.session.questHash);
-
     if (!quest) return fail(res, "No such quest found");
 
     if (!quest.isRunning()) return fail(res, "Only a runnning quest can be closed.");
@@ -68,6 +74,21 @@ function finish(req, res){
     quest.finish();
     ok(res);
 }
+
+function deletequest(req, res){
+    if (!req.seesion.master) return fail(res,"You're not master");
+    var quest = quests.getQuest(req.session.questHash);
+    if (!quest) return fail(res, "No such quest found");
+
+    if (!quest.isFinished()) return fail(res, "Only a finished quest can be deleted.");
+
+    if (quests.RemoveQuest(quest)) {
+        request.session.destroy();
+        ok(res);
+    } else return fail(res,"Can't remove quest")
+}
+
+
 function quest_list(req, res) {
     var list = [];
     quests.getQuests().forEach(function(quest) {
