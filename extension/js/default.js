@@ -26,6 +26,7 @@ $(document).ready(function(){
             console.log(data);
         });
     });
+
     $("#addPage").click(function() {
         var action="master/add-task";
         var service = config.serverUrl + action + "?q=" + $('#hash').val();
@@ -36,4 +37,11 @@ $(document).ready(function(){
             }
         });
     });
+    function UpdateQuest() {
+        var action="player/quest-status";
+        var service = config.serverUrl + action;
+    }
+    function UpdateTasks() {
+        /// ...
+    }
 });
