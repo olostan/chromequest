@@ -32,7 +32,7 @@ exports.register = function (app) {
 
         var filteredTasks = [];
         if (req.session.master)
-            quest.tasks.forEach(function(task) { filteredTasks.push({hash: task.url, descr: task.descr})} );
+            quest.tasks.forEach(function(task) { filteredTasks.push({url: task.url, descr: task.descr})} );
         else
             quest.tasks.forEach(function(task) { filteredTasks.push({hash: task.hash, descr: task.descr})} );
         res.send({tasks:filteredTasks});
