@@ -74,11 +74,11 @@ exports.getQuest = function(hash) {
     return quests[hash];
 };
 exports.getQuests = function() {
-    /*var list = [];
+    var list = [];
     for(var h in quests) {
-        list.push(quests[h]);
-    }*/
-    return quests;
+        list.push({hash: h, quest: quests[h]});
+    }
+    return list;
 }
 exports.purgeQuests = function() {
     quests = {};
