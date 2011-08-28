@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-	displayMasterButtons("new");
+	displayMasterButtons(chrome.extension.getBackgroundPage().newQuestStatus);
 	
 	$("#qhash").val(chrome.extension.getBackgroundPage().newQuestHash);
 	UpdateTasks();
@@ -73,16 +73,19 @@ $(document).ready(function(){
 
     $("#openQuest").click(function() {
     	$.getJSON(config.serverUrl + "master/open-quest", UpdateQuest);
+    	chrome.extension.getBackgroundPage().newQuestStatus = "opened";
         displayMasterButtons("opened");
     });
     
     $("#startQuest").click(function() {
     	$.getJSON(config.serverUrl + "master/start-quest", UpdateQuest);
-        displayMasterButtons("running");
+    	chrome.extension.getBackgroundPage().newQuestStatus = "running";
+    	displayMasterButtons("running");
     });
     
     $("#finishQuest").click(function() {
     	$.getJSON(config.serverUrl + "master/finish-quest", UpdateQuest);
+    	chrome.extension.getBackgroundPage().newQuestStatus = "finished";
         displayMasterButtons("finished");
     });
     
