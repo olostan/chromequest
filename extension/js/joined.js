@@ -4,7 +4,7 @@ $(document).ready(function(){
    $("#qhash").append(chrome.extension.getBackgroundPage().currentQuestHash);
    $.getJSON(service("player/quest-tasks"), function callback(data) {
         var table = $("#tasks");
-        var template = $("#task-template").html();
+        var template = $("#task-list-template").html();
         if (data.tasks) {
             table.empty();
             data.tasks.forEach(function(task) {
@@ -16,4 +16,8 @@ $(document).ready(function(){
 
         }
    });
+   
+   function service(action) {
+       return config.serverUrl + action;
+   }
 });
