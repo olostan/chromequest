@@ -81,8 +81,8 @@ $(document).ready(function(){
     		{
     			UpdateQuest();
     			chrome.extension.getBackgroundPage().newQuestStatus = "opened";
-                chrome.browserAction.setIcon({"path": "icons/opened.png"});
-    	        displayMasterButtons("opened");
+    			chrome.extension.getBackgroundPage().setIconForManage("icons/opened.png");
+                displayMasterButtons("opened");
     		}
     	});
     });
@@ -93,7 +93,7 @@ $(document).ready(function(){
     		{
     			UpdateQuest();
     			chrome.extension.getBackgroundPage().newQuestStatus = "running";
-                chrome.browserAction.setIcon({"path": "icons/started.png"});
+                chrome.extension.getBackgroundPage().setIconForManage("icons/started.png");
     	        displayMasterButtons("running");
     		}
     	});
@@ -105,7 +105,9 @@ $(document).ready(function(){
     		{
     			UpdateQuest();
     			chrome.extension.getBackgroundPage().newQuestStatus = "finished";
-    	        displayMasterButtons("finished");
+    			chrome.extension.getBackgroundPage().setIconForManage("icons/finished.png");
+                
+    			displayMasterButtons("finished");
     		}
     	});
     });
@@ -118,8 +120,8 @@ $(document).ready(function(){
     			chrome.extension.getBackgroundPage().newQuestStatus = "new";
     			chrome.extension.getBackgroundPage().newQuestHash = null;
     			chrome.browserAction.setPopup({"popup": "views/default.html"});
-                chrome.browserAction.setIcon({"path": "icons/default.png"});
-    			window.location.href = "default.html";
+    			chrome.extension.getBackgroundPage().setIconForManage("icons/default.png");
+                window.location.href = "default.html";
     		}
     	});
     });
