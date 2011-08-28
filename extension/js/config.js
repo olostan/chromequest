@@ -11,3 +11,16 @@ var States = {
     JOINED : 4,
     CLOSED: 0
 };
+
+function saveConfig() {
+                localStorage['nick'] = config.nick;
+}
+
+function loadConfig() {
+    config.nick = localStorage["nick"];
+    if (!config.nick) {
+                var nick = "Nick"+((Math.random()*1000)|0);
+                config.nick = nick;
+                saveConfig();
+    }
+}
