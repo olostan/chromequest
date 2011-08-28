@@ -1,11 +1,43 @@
 $(document).ready(function(){
+
+	displayMasterButtons("new");
 	
 	$("#qhash").val(chrome.extension.getBackgroundPage().newQuestHash);
 	UpdateTasks();
     UpdateQuest();
+
     function service(action) {
         return config.serverUrl + action;
     }
+    
+    function displayMasterButtons(status)
+    {
+    	switch(status)
+    	{
+    	case "new":
+    		$("#qopen").show();
+    		$("#qstart").hide();
+    		$("#qfinish").hide();
+    		break;
+    	case "opened":
+    		$("#qopen").hide();
+    		$("#qstart").show();
+    		$("#qfinish").hide();
+    		break;
+    	case "running":
+    		$("#qopen").hide();
+    		$("#qstart").hide();
+    		$("#qfinish").show();
+    		break;
+    	case "finished":
+    		$("#qopen").hide();
+    		$("#qstart").hide();
+    		$("#qfinish").hide();
+    		break;
+    	}
+    }
+    
+    
     $('#createQuest').click(function (){
         
         var url = service("master/create-quest") + "?master=" + config.nick;
@@ -35,6 +67,23 @@ $(document).ready(function(){
         });
     });
 
+    $("#openQuest").click(function() {
+    	$.getJSON(config.serverUrl + "master/open-quest", UpdateQuest);
+        displayMasterButtons("opened");
+    });
+    
+    $("#startQuest").click(function() {
+    	$.getJSON(config.serverUrl + "master/start-quest", UpdateQuest);
+        displayMasterButtons("running");
+    });
+    
+    $("#finishQuest").click(function() {
+    	$.getJSON(config.serverUrl + "master/finish-quest", UpdateQuest);
+        displayMasterButtons("finished");
+    });
+    
+    
+    
     $("#addPage").click(function() {
         var url;
         chrome.tabs.getSelected(null, function (tab)
