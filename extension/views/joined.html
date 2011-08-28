@@ -6,13 +6,13 @@
         <link rel="stylesheet" type="text/css" href="../css/core.css" />
 
     </head>
-    <body onload="return listTasks();">
-        <script id="task-template" type="text/html">
+    <body>
+        <script id="task-list-template" type="text/html">
             <tr>
-                <td class="{taskStatus}">{descr}</td>
+                <td class="{taskStatus}">{descr}</td><td>ololo</td>
             </tr>
         </script>
-        <div>Quest status: <span id="qstatus"></span></div>
+        <!-- div>Quest status: <span id="qstatus"></span></div -->
         <div>Quest hash: <span id="qhash"></span></div>
         <table id="tasks">
             
