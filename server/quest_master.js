@@ -7,6 +7,8 @@ exports.register = function(app){
     app.get('/master/open-quest', open);
     app.get('/master/start-quest', start);
     app.get('/master/finish-quest', finish);
+    app.get("/master/quest-list", quest_list)
+    app.get("/master/purge", purge)
 }
 
 function create(req, res){
@@ -65,6 +67,19 @@ function finish(req, res){
 
     quest.finish();
     ok(res);
+}
+function quest_list(req, res) {
+    var list = [];
+    quests.getQuests().forEach(function(quest) {
+        // cheet: for debug aonly
+        // TODO: push only needed properties
+        list.push(quest)
+    })
+    res.send(list);
+}
+function purge(req, res) {
+    quests.purgeQuests();
+    res.send({ok: true});
 }
 
 function ok(res){

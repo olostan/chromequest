@@ -60,7 +60,16 @@ $(function(){
         }, error);
     });
 
-
+    $("#qlist").click(function() {
+            $.getJSON("/master/quest-list",function(data){
+            log(data);
+        }, error);
+    });
+    $("#purge").click(function() {
+            $.getJSON("/master/purge",function(data){
+            log(data);
+        }, error);
+    });
 });
     </script>
 <style>
@@ -95,6 +104,8 @@ $(function(){
     <input type="button" id="open" value="Open" />
     <input type="button" id="start" value="Start" />
     <input type="button" id="finish" value="Finish"/>
+    <input type="button" id="qlist" value="List"/>
+    <input type="button" id="purge" value="Purge"/>
 </div>
 <div class='panel'>
     Player:

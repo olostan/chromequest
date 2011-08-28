@@ -1,51 +1,131 @@
 $(document).ready(function(){
 
+	displayMasterButtons(chrome.extension.getBackgroundPage().newQuestStatus);
+	
+	$("#qhash").val(chrome.extension.getBackgroundPage().newQuestHash);
+	UpdateTasks();
+    UpdateQuest();
+
+    function service(action) {
+        return config.serverUrl + action;
+    }
+    
+    function displayMasterButtons(status)
+    {
+    	switch(status)
+    	{
+    	case "new":
+    		$("#qopen").show();
+    		$("#qstart").hide();
+    		$("#qfinish").hide();
+    		break;
+    	case "opened":
+    		$("#qopen").hide();
+    		$("#qstart").show();
+    		$("#qfinish").hide();
+    		break;
+    	case "running":
+    		$("#qopen").hide();
+    		$("#qstart").hide();
+    		$("#qfinish").show();
+    		break;
+    	case "finished":
+    		$("#qopen").hide();
+    		$("#qstart").hide();
+    		$("#qfinish").hide();
+    		break;
+    	}
+    }
+    
+    
     $('#createQuest').click(function (){
-        var action="master/create-quest";
-        var url = config.serverUrl + action + "?master=" + config.nick;
+        
+        var url = service("master/create-quest") + "?master=" + config.nick;
         $.getJSON(url, function callback(data) {
           //  debugger;
             if (data.questhash){
                 var bgp = chrome.extension.getBackgroundPage();
                 bgp.currentQuest = data.questhash;
                 bgp.setState(States.CREATED);
+                
+                bgp.newQuestHash = data.questhash;
+                
+                
                 //TODO: find out how to avoid duplication of routing logic
                 window.location.href = "created.html";
-
             }
             console.log(data);
         });
     });
 
     $('#joinQuest').click(function (){
-        var action="player/join-quest";
-        var url = config.serverUrl + action + "?q=" + $('#hash').val();
+        var url = service("player/join-quest") + "?q=" + $('#hash').val()+"&nick="+config.nick;
         $.getJSON(url, function callback(data) {
+            if (!data || !data.ok) {
+                alert("Can't join: "+JSON.stringify(data));
+                return;
+            }
             var bgp = chrome.extension.getBackgroundPage();
             bgp.setState(States.JOINED);
-            console.log(data);
+            window.location.href = "joined.html";
         });
     });
 
+    $("#openQuest").click(function() {
+    	$.getJSON(config.serverUrl + "master/open-quest", UpdateQuest);
+    	chrome.extension.getBackgroundPage().newQuestStatus = "opened";
+        displayMasterButtons("opened");
+    });
+    
+    $("#startQuest").click(function() {
+    	$.getJSON(config.serverUrl + "master/start-quest", UpdateQuest);
+    	chrome.extension.getBackgroundPage().newQuestStatus = "running";
+    	displayMasterButtons("running");
+    });
+    
+    $("#finishQuest").click(function() {
+    	$.getJSON(config.serverUrl + "master/finish-quest", UpdateQuest);
+    	chrome.extension.getBackgroundPage().newQuestStatus = "finished";
+        displayMasterButtons("finished");
+    });
+    
+    
+    
     $("#addPage").click(function() {
-        var action="master/add-task";
-        var service = config.serverUrl + action;
         var url;
         chrome.tabs.getSelected(null, function (tab)
         		{
         			url = tab.url;
-        			$.post(service,{url:url, descr:$("#descr").val()}, function(data) {
+        			$.post(service("master/add-task"),{url:url, descr:$("#descr").val()}, function(data) {
         	            if (!data || !data.ok) {
         	                alert("Failed adding page:"+JSON.stringify(data));
         	            }
+                         UpdateTasks();
         	        });
+
         		}); 
     });
     function UpdateQuest() {
-        var action="player/quest-status";
-        var service = config.serverUrl + action;
+        $.getJSON(config.serverUrl + "player/quest-status", function callback(data) {$("#qstatus").html(data.status);});       
     }
     function UpdateTasks() {
-        /// ...
+       $.getJSON(service("player/quest-tasks"), function callback(data) {
+            console.log(data);
+            var table = $("#tasks");
+            var template = $("#task-template").html();
+            if (data.tasks) {
+                table.empty();
+
+                 table.append("test task ");
+                data.tasks.forEach(function(task) {
+                   var html = template;
+                   html = html.replace("{descr}",task.descr);
+                   if (task.url)
+                        html = html.replace("{url}",task.url);
+                   table.append(html);
+                });
+
+            }
+       });
     }
 });
