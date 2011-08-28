@@ -1,8 +1,34 @@
 window._state = States.NONE;
 window.currentQuest = null;
 
+loadConfig();
+
 chrome.browserAction.onClicked.addListener(function(tab) {
     refreshPopup();
+});
+
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+    if (tab.status != "complete" ||
+        tab.url == "chrome://newtab/" ||
+        !tasks) {
+        return;
+    }
+
+    var hash = hex_md5(tab.url);
+    var match;
+    for (var i = 0; i < tasks.length; ++i){
+        if (tasks[i].hash == hash){
+            match = tasks[i];
+            break;
+        }
+    }
+
+    if (match){
+        $.getJSON(service("/player/test-url")+"?url=" + tab.url, function(data){
+            if (data.OK) alert("You've got it!");
+            else alert("Don't even think about hacking me!");
+        });
+    }
 });
 
 window.setState = function(state){
@@ -13,6 +39,8 @@ window.setState = function(state){
 window.newQuestHash = null;
 window.newQuestStatus = "new";
 window.currentQuestHash = undefined;
+
+window.tasks = null;
 
 window.refreshPopup = function(){
     var view = null;

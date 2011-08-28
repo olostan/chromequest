@@ -172,6 +172,7 @@ $(document).ready(function(){
             var template = $("#task-list-template").html();
             if (data.tasks) {
                 table.empty();
+                chrome.extension.getBackgroundPage().tasks = data.tasks;
                 data.tasks.forEach(function(task) {
                    var html = template;
                    html = html.replace("{descr}",task.descr);
