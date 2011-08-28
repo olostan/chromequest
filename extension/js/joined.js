@@ -1,4 +1,6 @@
 function listTasks() {
+   loadConfig();
+   
    $("#qhash").append("AA {"+chrome.extension.getBackgroundPage().currentQuestHash+"}");
    
    $.getJSON(service("player/quest-tasks"), function callback(data) {

@@ -158,7 +158,7 @@ $(document).ready(function(){
     }
     
     function UpdateTasks() {
-       $.getJSON(service("player/quest-tasks"), function callback(data) {
+       $.getJSON(service("master/quest-tasks"), function callback(data) {
             console.log(data);
             var table = $("#tasks");
             var template = $("#task-template").html();

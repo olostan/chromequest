@@ -10,11 +10,11 @@
                 config.nick = $("#nick").val();
                 saveConfig();
                 $("#status").html("Settings saved").show();
-                setTimeout(function() { $("#status").hide(); }, 1000);
+                /*setTimeout(function() { $("#status").hide(); }, 1000);*/
             }
             loadConfig();
             $("#nick").val(config.nick);
-             $("#save").click(save);
+            $("#save").click(save);
         })
 
     </script>
