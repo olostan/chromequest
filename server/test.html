@@ -20,7 +20,7 @@ $(function(){
         }, error);
     });
     $("#join").click(function() {
-        $.getJSON("/player/join-quest?nick="+nick()+"&q="+qhash,function(data){
+        $.getJSON("/player/join-quest?nick="+nick()+"&q="+$("#qhash").val(),function(data){
             log(data);
         }, error);
     });
