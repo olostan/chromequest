@@ -2,6 +2,7 @@ $(document).ready(function(){
 	
 	$("#qhash").val(chrome.extension.getBackgroundPage().newQuestHash);
 	UpdateTasks();
+    UpdateQuest();
     function service(action) {
         return config.serverUrl + action;
     }
@@ -49,8 +50,7 @@ $(document).ready(function(){
         		}); 
     });
     function UpdateQuest() {
-        var action="player/quest-status";
-        var service = config.serverUrl + action;
+        $.getJSON(config.serverUrl + "player/quest-status", function callback(data) {$("#qstatus").html(data.status);});       
     }
     function UpdateTasks() {
        $.getJSON(service("player/quest-tasks"), function callback(data) {
