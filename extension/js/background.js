@@ -14,21 +14,31 @@ window.newQuestHash = null;
 window.newQuestStatus = "new";
 
 window.refreshPopup = function(){
+    var view = null;
+    var icon = null;
     switch(_state)
     {
         case States.CREATED:
-                chrome.browserAction.setPopup({"popup": "views/created.html"});
+                view = "views/created.html";
+                icon = "icons/created.png";
         break;
         case States.OPENED:
-                chrome.browserAction.setPopup({"popup": "views/opened.html"});
+                view = "views/opened.html";
+                icon = "icons/opened.png";
         break;
         case States.STARTED:
-                chrome.browserAction.setPopup({"popup": "views/started.html"});
+                view = "views/started.html";
+                icon = "icons/started.png";
         break;
         case States.JOINED:
-                chrome.browserAction.setPopup({"popup": "views/joined.html"});
+                view = "views/joined.html";
+                icon = "icons/joined.png";
         break;
         default:
-                chrome.browserAction.setPopup({"popup": "views/default.html"});
+                view = "views/default.html";
+                icon = "icons/default.png";
+
     }
+    chrome.browserAction.setPopup({"popup": view});
+    chrome.browserAction.setIcon({"path": icon});
 }
