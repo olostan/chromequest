@@ -56,12 +56,14 @@ $(document).ready(function(){
             var template = $("#task-template").html();
             if (data.tasks) {
                 table.empty();
+
                  table.append("test task ");
                 data.tasks.forEach(function(task) {
-                   var html = template.replace("{descr}",task.descr);
-                    if (task.url)
-                        html = template.replace("{url}",task.url);
-                    table.append(html);
+                   var html = template;
+                   html = html.replace("{descr}",task.descr);
+                   if (task.url)
+                        html = html.replace("{url}",task.url);
+                   table.append(html);
                 });
 
             }
