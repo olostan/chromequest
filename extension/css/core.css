@@ -1,16 +1,35 @@
 .completed {
-    background-image: -webkit-linear-gradient(left, white, green);
+    color: rgba(0, 0, 0, 0.5);
 }
 .active {
-    background-image: -webkit-linear-gradient(left, white, yellow);
+    
+}
+
+.task {
+    font-size: 13pt;
+    text-shadow: gray 0.1em 0.1em 0.2em;
+    color: black; 
 }
 
 #tellfriends {
     font-size: 10pt;
+    color: black;
+    text-decoration: none;
+}
+
+#tellfriends:active {
+    font-size: 10pt;
+    text-decoration: none;
+}
+
+#tellfriends:hover {
+    font-size: 10pt;
+    text-decoration: underline;
 }
 
 #tasks {
     font-size: 11pt;
+    width: 160px;
 }
 
 .show {
