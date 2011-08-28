@@ -35,7 +35,7 @@ $(document).ready(function(){
        bg.document.execCommand("Copy");
 
        clipboardholder.style.display = "none";
-
-       alert("Content copied to clipboard!");
+       
+       $("#message").toggleClass("show");
    });
 });
