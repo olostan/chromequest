@@ -5,10 +5,6 @@ $(document).ready(function(){
 	$("#qhash").val(chrome.extension.getBackgroundPage().newQuestHash);
 	UpdateTasks();
     UpdateQuest();
-
-    function service(action) {
-        return config.serverUrl + action;
-    }
     
     function displayMasterButtons(status)
     {
@@ -141,6 +137,9 @@ $(document).ready(function(){
         	        });
 
         		}); 
+    });
+    $("#bulkAdd").click(function() {
+        window.open("../bulk.html");
     });
     function UpdateQuest() {
         $.getJSON(config.serverUrl + "player/quest-status", function callback(data) 
