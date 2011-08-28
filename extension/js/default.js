@@ -147,7 +147,6 @@ $(document).ready(function(){
             if (data.players) 
             {
                 table.empty();
-                table.append("List of players:<br>");
                 data.players.forEach(function(player) {
 	                var html = template;
 	                html = html.replace("{name}", player.name);
@@ -165,8 +164,6 @@ $(document).ready(function(){
             var template = $("#task-template").html();
             if (data.tasks) {
                 table.empty();
-
-                 table.append("test task ");
                 data.tasks.forEach(function(task) {
                    var html = template;
                    html = html.replace("{descr}",task.descr);
