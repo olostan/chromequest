@@ -1,4 +1,3 @@
-
 window._state = States.NONE;
 window.currentQuest = null;
 
@@ -10,6 +9,8 @@ window.setState = function(state){
     _state = state;
     refreshPopup();
 }
+
+window.newQuestHash = null;
 
 window.refreshPopup = function(){
     switch(_state)

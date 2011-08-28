@@ -1,5 +1,7 @@
 $(document).ready(function(){
-
+	
+	$("#qhash").val(chrome.extension.getBackgroundPage().newQuestHash);
+	
     $('#createQuest').click(function (){
         var action="master/create-quest";
         var url = config.serverUrl + action + "?master=" + config.nick;
@@ -9,9 +11,12 @@ $(document).ready(function(){
                 var bgp = chrome.extension.getBackgroundPage();
                 bgp.currentQuest = data.questhash;
                 bgp.setState(States.CREATED);
+                
+                bgp.newQuestHash = data.questhash;
+                
+                
                 //TODO: find out how to avoid duplication of routing logic
                 window.location.href = "created.html";
-
             }
             console.log(data);
         });
