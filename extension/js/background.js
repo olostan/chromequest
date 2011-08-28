@@ -43,3 +43,8 @@ window.refreshPopup = function(){
     chrome.browserAction.setPopup({"popup": view});
     chrome.browserAction.setIcon({"path": icon});
 }
+
+function setIconForManage(str)
+{
+	chrome.browserAction.setIcon({"path": str});
+}
