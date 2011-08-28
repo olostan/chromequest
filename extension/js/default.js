@@ -114,6 +114,9 @@ $(document).ready(function(){
     		if (data.ok)
     		{
     			UpdateQuest();
+    			chrome.extension.getBackgroundPage().newQuestStatus = "new";
+    			chrome.extension.getBackgroundPage().newQuestHash = null;
+    			chrome.browserAction.setPopup({"popup": "views/default.html"});
     			window.location.href = "default.html";
     		}
     	});
