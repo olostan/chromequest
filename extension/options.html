@@ -8,12 +8,14 @@
         $(function() {
             function save() {
                 config.nick = $("#nick").val();
+                config.serverUrl = $("#service").val();
                 saveConfig();
                 $("#status").html("Settings saved").show();
                 setTimeout(function() { $("#status").hide(); }, 1000);
             }
             loadConfig();
             $("#nick").val(config.nick);
+            $("#service").val(config.serverUrl);
              $("#save").click(save);
         })
 
@@ -37,6 +39,10 @@
     <tr>
         <td>Nick</td>
         <td><input id="nick" /></td>
+    </tr>
+     <tr>
+        <td>Service</td>
+        <td><input id="service" /></td>
     </tr>
 </table>
     </div>
