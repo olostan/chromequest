@@ -30,18 +30,13 @@ exports.register = function (app) {
         var quest = quests.getQuest(req.session.questHash);
         var player = quest?quest.getPlayer(req.session.playerHash):undefined;
         
-        console.log("A");
         if (!quest || (!player && !req.session.master)) return fail(res,"No quest joined");
 
-        console.log("B");
         if (!quest.isRunning())
             return fail(res,"Quest was not started");
 
-        console.log("C");
         var filteredTasks = [];
         var completedByPlayer = player.getCompletedTasks();
-        console.log("D");
-        console.dir(completedByPlayer);
         quest.tasks.forEach(function(task) {
             filteredTasks.push({
                 hash: task.hash, 
@@ -50,7 +45,6 @@ exports.register = function (app) {
             });
         });
         
-        console.dir(filteredTasks);
         
         res.send({tasks:filteredTasks});
     });
