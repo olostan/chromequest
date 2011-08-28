@@ -1,6 +1,14 @@
 .completed {
-    background-color: green;
+    background-image: -webkit-linear-gradient(left, white, green);
 }
 .active {
-    background-color: yellow;
+    background-image: -webkit-linear-gradient(left, white, yellow);
+}
+
+#tellfriends {
+    font-size: 10pt;
+}
+
+#tasks {
+    font-size: 11pt;
 }
