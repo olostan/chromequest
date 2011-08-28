@@ -71,6 +71,7 @@ $(document).ready(function(){
             }
             var bgp = chrome.extension.getBackgroundPage();
             bgp.setState(States.JOINED);
+            bgp.currentQuestHash = $('#hash').val();
             
             window.location.href = "joined.html";
         });
@@ -156,6 +157,7 @@ $(document).ready(function(){
             }
         });       
     }
+    
     function UpdateTasks() {
        $.getJSON(service("player/quest-tasks"), function callback(data) {
             console.log(data);

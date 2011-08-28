@@ -22,12 +22,23 @@ exports.addQuest = function(master) {
         tasks: [],
     	players: [],
     	joinPlayer: function(name){
-    	    var player = {nick:name,id:generateHash(),completed:[]};
+    	    var player = {
+    	            nick:name,
+    	            id:generateHash(),
+    	            completed:[],
+    	            completedByPlayer: function(){
+    	                var completed = {};
+    	                for(var idx in completed){
+    	                    completed[tasks[completed[idx]].hash] = true;
+    	                }
+    	                return completed;
+    	            }
+    	    };
     	    this.players.push(player);
     	    return player.id;
     	},
     	addTask: function(url, descr){
-    	    var task = {"url":url,"descr":descr};
+    	    var task = {"url":url,"descr":descr,"hash":getHash(url)};
     	    this.tasks.push(task);
     	    return task;
     	},
@@ -70,13 +81,12 @@ exports.addQuest = function(master) {
 };
 
 exports.getQuest = function(hash) {
-    if (!hash) return null;
     return quests[hash];
 };
 exports.getQuests = function() {
     var list = [];
     for(var h in quests) {
-        list.push({hash: h, quest: quests[h]});
+        list.push(quests[h]);
     }
     return list;
 }
