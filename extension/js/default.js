@@ -1,6 +1,7 @@
 $(document).ready(function(){
 	
 	$("#qhash").val(chrome.extension.getBackgroundPage().newQuestHash);
+	$.getJSON(config.serverUrl + "player/quest-status", function callback(data) {$("#qstatus").html(data.status);});
 	
     $('#createQuest').click(function (){
         var action="master/create-quest";
