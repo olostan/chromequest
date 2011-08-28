@@ -83,7 +83,7 @@ function deletequest(req, res){
     if (!quest.isFinished()) return fail(res, "Only a finished quest can be deleted.");
 
     if (quests.removeQuest(quest)) {
-        request.session.destroy();
+        req.session.destroy();
         ok(res);
     } else return fail(res,"Can't remove quest")
 }
