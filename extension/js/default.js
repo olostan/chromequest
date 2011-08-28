@@ -5,10 +5,6 @@ $(document).ready(function(){
 	$("#qhash").val(chrome.extension.getBackgroundPage().newQuestHash);
 	UpdateTasks();
     UpdateQuest();
-
-    function service(action) {
-        return config.serverUrl + action;
-    }
     
     function displayMasterButtons(status)
     {
@@ -144,22 +140,27 @@ $(document).ready(function(){
 
         		}); 
     });
+    $("#bulkAdd").click(function() {
+        window.open("../bulk.html");
+    });
     function UpdateQuest() {
         $.getJSON(config.serverUrl + "player/quest-status", function callback(data) 
         {
         	$("#qstatus").html(data.status);
         	
         	var table = $("#players");
-            var template = $("#players-template").html();
-            if (data.players) 
-            {
-                table.empty();
-                data.players.forEach(function(player) {
-	                var html = template;
-	                html = html.replace("{name}", player.name);
-	                html = html.replace("{completed}", player.completed);
-	                table.append(html);
-                });
+            if (!table) {
+                var template = $("#players-template").html();
+                if (data.players)
+                {
+                    table.empty();
+                    data.players.forEach(function(player) {
+	                    var html = template;
+	                    html = html.replace("{name}", player.name);
+	                    html = html.replace("{completed}", player.completed);
+	                    table.append(html);
+                    });
+                }
             }
         });       
     }

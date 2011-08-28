@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <script language="JavaScript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+       <script src='./js/config.js'></script>
+    <title>ChromeQuest: Bulk adding</title>
+    <script>
+$(function() {
+    var logger = $("#log");
+    loadConfig();
+    function log(msg) {
+        logger.append(msg+"<br />");
+        console.log(msg);
+    }
+    $("#add").click(function() {
+
+        var text = $("#inp").val();
+        var lines = text.split("\n");
+        lines.forEach(function(line) {
+            if (line.indexOf(" ")<0) return;
+            var url = line.substr(0,line.indexOf(" "));
+            var descr = line.substr(line.indexOf(" ")+1);
+            console.log("url='"+url+"' d='"+descr+"'");
+            $.post(service("master/add-task"),{url:url, descr:descr}, function(data) {
+        	            if (!data || !data.ok) {
+        	                log("failed to add "+url+": "+JSON.stringify(data));
+        	            } else log("Added "+url);
+
+        	        });
+        });
+        //console.log(text);
+    });
+})        
+    </script>
+</head>
+<body>
+<div>
+</div>
+<textarea id="inp" rows="20" cols="60">
+http://google.com/ Empire
+http://ya.ru/ naturlich!
+http://github.org/ Google+ for Developers
+</textarea>
+<br />
+<input type="button" id="add" value="Add" />
+<div id="log" />
+</body>
+</html>

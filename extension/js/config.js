@@ -27,3 +27,7 @@ function loadConfig() {
     var serviceUrl = localStorage["service"];
     if (serviceUrl) config.serverUrl = serviceUrl;
 }
+
+function service(action) {
+        return config.serverUrl + action;
+}

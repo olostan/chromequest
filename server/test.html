@@ -8,7 +8,7 @@
 $(function(){
     var qhash;
     var nick = function() { return $("#nick").val()};
-    var log = function(data) { $("#log").append(JSON.stringify(data)+"\n"); }
+    var log = function(data) { $("#log").append(JSON.stringify(data)+"\n"); console.log(data); }
 
     var error = function(err) { $("#log").append("error:"+JSON.stringify(err)+"\n"); }
 
@@ -63,6 +63,7 @@ $(function(){
     $("#qlist").click(function() {
             $.getJSON("/master/quest-list",function(data){
             log(data);
+
         }, error);
     });
     $("#purge").click(function() {
