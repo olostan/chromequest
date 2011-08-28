@@ -1,5 +1,6 @@
 .completed {
     color: rgba(0, 0, 0, 0.5);
+    text-decoration: line-through;
 }
 .active {
     
@@ -8,7 +9,8 @@
 .task {
     font-size: 13pt;
     text-shadow: gray 0.1em 0.1em 0.2em;
-    color: black; 
+    color: black;
+    border-bottom: 1px solid #AAAAAA;
 }
 
 #tellfriends {
