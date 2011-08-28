@@ -1,10 +1,13 @@
 $(document).ready(function(){
 	
 	$("#qhash").val(chrome.extension.getBackgroundPage().newQuestHash);
-	
+	UpdateTasks();
+    function service(action) {
+        return config.serverUrl + action;
+    }
     $('#createQuest').click(function (){
-        var action="master/create-quest";
-        var url = config.serverUrl + action + "?master=" + config.nick;
+        
+        var url = service("master/create-quest") + "?master=" + config.nick;
         $.getJSON(url, function callback(data) {
           //  debugger;
             if (data.questhash){
@@ -23,8 +26,7 @@ $(document).ready(function(){
     });
 
     $('#joinQuest').click(function (){
-        var action="player/join-quest";
-        var url = config.serverUrl + action + "?q=" + $('#hash').val();
+        var url = service("player/join-quest") + "?q=" + $('#hash').val();
         $.getJSON(url, function callback(data) {
             var bgp = chrome.extension.getBackgroundPage();
             bgp.setState(States.JOINED);
@@ -33,13 +35,11 @@ $(document).ready(function(){
     });
 
     $("#addPage").click(function() {
-        var action="master/add-task";
-        var service = config.serverUrl + action;
         var url;
         chrome.tabs.getSelected(null, function (tab)
         		{
         			url = tab.url;
-        			$.post(service,{url:url, descr:$("#descr").val()}, function(data) {
+        			$.post(service("master/add-task"),{url:url, descr:$("#descr").val()}, function(data) {
         	            if (!data || !data.ok) {
         	                alert("Failed adding page:"+JSON.stringify(data));
         	            }
@@ -53,9 +53,7 @@ $(document).ready(function(){
         var service = config.serverUrl + action;
     }
     function UpdateTasks() {
-       var action="player/quest-tasks";
-       var service = config.serverUrl + action;
-       $.getJSON(service, function callback(data) {
+       $.getJSON(service("player/quest-tasks"), function callback(data) {
             console.log(data);
             var table = $("#tasks");
             var template = $("#task-template").html();
