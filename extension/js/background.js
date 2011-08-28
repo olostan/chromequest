@@ -26,7 +26,15 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 
     if (match){
         $.getJSON(service("player/test-url")+"?url=" + tab.url, function(data){
-            if (data.ok) alert("You've got it!");
+            if (data.ok) {
+                //alert("You've got it!");
+                var notification = webkitNotifications.createNotification(
+                    '48.png',  // icon url - can be relative
+                "You've got it!",  // notification title
+                "You've correctly guessted web site! Go on!"  // notification body text
+                );
+                notification.show();
+            }
             else alert("Don't even think about hacking me!");
         });
     }

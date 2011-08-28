@@ -9,7 +9,8 @@
   },
   "permissions" : [
     "tabs",
-    "http://*/"
+    "http://*/",
+          "notifications"
   ],
   "options_page": "options.html"
 }
