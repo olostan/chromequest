@@ -149,16 +149,18 @@ $(document).ready(function(){
         	$("#qstatus").html(data.status);
         	
         	var table = $("#players");
-            var template = $("#players-template").html();
-            if (data.players) 
-            {
-                table.empty();
-                data.players.forEach(function(player) {
-	                var html = template;
-	                html = html.replace("{name}", player.name);
-	                html = html.replace("{completed}", player.completed);
-	                table.append(html);
-                });
+            if (!table) {
+                var template = $("#players-template").html();
+                if (data.players)
+                {
+                    table.empty();
+                    data.players.forEach(function(player) {
+	                    var html = template;
+	                    html = html.replace("{name}", player.name);
+	                    html = html.replace("{completed}", player.completed);
+	                    table.append(html);
+                    });
+                }
             }
         });       
     }
