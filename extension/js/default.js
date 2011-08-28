@@ -61,12 +61,14 @@ $(document).ready(function(){
 
     $('#joinQuest').click(function (){
         var url = service("player/join-quest") + "?q=" + $('#hash').val()+"&nick="+config.nick;
-        $.getJSON(url, function callback(data) {
-            if (!data || !data.ok) {
+        $.getJSON(url, function (data) {
+            console.log(data);
+            if (!data || !data.tasks) {
                 alert("Can't join: "+JSON.stringify(data));
                 return;
             }
             var bgp = chrome.extension.getBackgroundPage();
+            bgp.tasks = data.tasks;
             bgp.setState(States.JOINED);
             bgp.currentQuestHash = $('#hash').val();
 
@@ -172,6 +174,7 @@ $(document).ready(function(){
             var template = $("#task-list-template").html();
             if (data.tasks) {
                 table.empty();
+                chrome.extension.getBackgroundPage().tasks = data.tasks;
                 data.tasks.forEach(function(task) {
                    var html = template;
                    html = html.replace("{descr}",task.descr);
