@@ -67,6 +67,7 @@ $(document).ready(function(){
                 return;
             }
             var bgp = chrome.extension.getBackgroundPage();
+            bgp.tasks = data.tasks;
             bgp.setState(States.JOINED);
             bgp.currentQuestHash = $('#hash').val();
 
