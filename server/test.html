@@ -60,7 +60,11 @@ $(function(){
         }, error);
     });
 
-
+    $("#qlist").click(function() {
+            $.getJSON("/master/quest-list",function(data){
+            log(data);
+        }, error);
+    });
 });
     </script>
 <style>
@@ -95,6 +99,7 @@ $(function(){
     <input type="button" id="open" value="Open" />
     <input type="button" id="start" value="Start" />
     <input type="button" id="finish" value="Finish"/>
+    <input type="button" id="qlist" value="List"/>
 </div>
 <div class='panel'>
     Player:
