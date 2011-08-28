@@ -81,7 +81,6 @@ exports.addQuest = function(master) {
 };
 
 exports.getQuest = function(hash) {
-    if (!hash) return null;
     return quests[hash];
 };
 exports.getQuests = function() {

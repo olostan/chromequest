@@ -1,7 +1,48 @@
 <!DOCTYPE html>
 <html>
-<head>ChromePass options page</head>
+<head>
+    <title>Chrome Quest options page</title>
+    <script language="JavaScript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+    <script language="JavaScript" src="js/config.js"></script>
+    <script>
+        $(function() {
+            function save() {
+                config.nick = $("#nick").val();
+                saveConfig();
+                $("#status").html("Settings saved").show();
+                setTimeout(function() { $("#status").hide(); }, 1000);
+            }
+            loadConfig();
+            $("#nick").val(config.nick);
+             $("#save").click(save);
+        })
+
+    </script>
+    <style>
+        .panel {
+            border:  1px solid #5A5;
+            background-color: #EFE;
+            box-shadow: 5px 5px 5px #CCC;
+            padding: 5px;
+            margin:  10px;
+        }
+        #status {
+            color: #080;
+        }
+    </style>
+</head>
 <body>
-Here will be configuration
+<div class='panel'>
+<table>
+    <tr>
+        <td>Nick</td>
+        <td><input id="nick" /></td>
+    </tr>
+</table>
+    </div>
+<input type='button' id="save" value="Save" />
+    <div id="status" style="display:none">Settings saved.</div>
+</table>
+
 </body>
 </html>

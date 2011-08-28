@@ -13,6 +13,7 @@
         </div>
         <div id="qstart"><input id="startQuest" type="button" value="Start quest"></div>
         <div id="qfinish"><input id="finishQuest" type="button" value="Finish quest"></div>
+        <div id="qdelete"><input id="deleteQuest" type="button" value="Delete quest"></div>
         <script id="task-template" type="text/html">
             <tr>
                 <td>Url: {url}</td>
@@ -23,6 +24,14 @@
         <div>Quest hash: <input id="qhash" size="40"></div>
         <table id="tasks">
             
+        </table>
+        <script id="players-template" type="text/html">
+            <tr>
+				<td>Name: {name}</td>
+				<td>Completed: {completed}</td>
+			</tr>
+        </script>
+        <table id="players">
         </table>
 
     </body>
