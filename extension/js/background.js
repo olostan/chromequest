@@ -2,10 +2,10 @@ window._state = States.NONE;
 window.currentQuest = null;
 
 loadConfig();
-
+/*
 chrome.browserAction.onClicked.addListener(function(tab) {
     refreshPopup();
-});
+});*/
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     console.log(tab.url, tab.status, tasks);
@@ -52,6 +52,7 @@ window.currentQuestHash = undefined;
 window.tasks = null;
 
 window.refreshPopup = function(){
+
     var view = null;
     var icon = null;
     switch(_state)
@@ -85,3 +86,4 @@ function setIconForManage(str)
 {
 	chrome.browserAction.setIcon({"path": str});
 }
+window.refreshPopup();
