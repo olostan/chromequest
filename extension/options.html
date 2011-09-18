@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Chrome Quest options page</title>
+    <title>__MSG__optionsTitle__</title>
+    <link rel="stylesheet" type="text/css" href="css/core.css" />
     <script language="JavaScript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
     <script language="JavaScript" src="js/config.js"></script>
     <script>
@@ -10,24 +11,23 @@
                 config.nick = $("#nick").val();
                 config.serverUrl = $("#service").val();
                 saveConfig();
-                $("#status").html("Settings saved").show();
+                $("#status").html(chrome.i18n.getMessage("optionsSaved")).show();
                 setTimeout(function() { $("#status").hide(); }, 1000);
             }
             loadConfig();
             $("#nick").val(config.nick);
             $("#service").val(config.serverUrl);
             $("#save").click(save);
+
+            $(document).attr("title",chrome.i18n.getMessage("extName")+" : "+chrome.i18n.getMessage("optionsTitle"));
+            $("#nick").parent().prev().html(chrome.i18n.getMessage("optionsNick"));
+            $("#service").parent().prev().html(chrome.i18n.getMessage("optionsService"));
+            $("#save").val(chrome.i18n.getMessage("optionsSave"));
+
         })
 
     </script>
     <style>
-        .panel {
-            border:  1px solid #5A5;
-            background-color: #EFE;
-            box-shadow: 5px 5px 5px #CCC;
-            padding: 5px;
-            margin:  10px;
-        }
         #status {
             color: #080;
         }
@@ -42,12 +42,14 @@
     </tr>
      <tr>
         <td>Service</td>
-        <td><input id="service" /></td>
+        <td><input id="service" size="35" /></td>
     </tr>
 </table>
     </div>
-<input type='button' id="save" value="Save" />
-    <div id="status" style="display:none">Settings saved.</div>
+<div style="padding-left: 10px">
+    <input type='button' id="save" value="Save" />
+    <span id="status" style="display:none">Settings saved.</span>
+</div>
 </table>
 
 </body>

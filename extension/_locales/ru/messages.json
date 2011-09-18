@@ -1,0 +1,7 @@
+{
+    "optionsTitle" : { "message" : "Настройки" },
+    "optionsNick" : { "message": "Ник" },
+    "optionsService" : { "message": "Адрес сервера" },
+    "optionsSave" : { "message": "Сохранить" },
+    "optionsSaved" : { "message": "Настройки сохраненны" }
+}

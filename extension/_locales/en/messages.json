@@ -1,0 +1,12 @@
+{
+    "extName": {
+        "message": "Chrome Quest",
+        "description" : "Extensions name"
+    },
+    "optionsTitle" : { "message" : "Options" },
+    "optionsNick" : { "message": "Nick" },
+    "optionsService" : { "message": "Service URL" },
+    "optionsSave" : { "message": "Save" },
+    "optionsSaved" : { "message": "Options saved" }
+
+}

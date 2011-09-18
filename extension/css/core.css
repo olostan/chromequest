@@ -37,3 +37,16 @@
 .show {
     display: inline;
 }
+
+body {
+    background-color: #F3F3F3;
+}
+.panel {
+    background-color: white;
+    border:  1px solid #555;
+    background-color: white;
+    box-shadow: 5px 5px 5px #CCC;
+    border-radius: 5px;
+    padding: 5px;
+    margin:  10px;
+}

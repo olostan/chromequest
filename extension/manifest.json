@@ -1,7 +1,7 @@
 {
   "name": "ChromeQuest",
   "version": "1.0",
-  "description": "Web quest game",
+  "description": "Chrome quest",
   "background_page": "background.html",
   "browser_action" :
   {
@@ -12,5 +12,6 @@
     "http://*/",
           "notifications"
   ],
-  "options_page": "options.html"
+  "options_page": "options.html",
+  "default_locale": "en"
 }
