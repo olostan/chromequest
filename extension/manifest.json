@@ -5,12 +5,13 @@
   "background_page": "background.html",
   "browser_action" :
   {
-    "default_icon" : "icons/default.png"
+    "default_icon" : "icons/default.png",
+    "default_popup": "popup.html"
   },
   "permissions" : [
     "tabs",
     "http://*/",
-          "notifications"
+    "notifications"
   ],
   "options_page": "options.html",
   "default_locale": "en"
