@@ -1,6 +1,6 @@
 $(document).ready(function(){
-    loadConfig();
-	displayMasterButtons(chrome.extension.getBackgroundPage().newQuestStatus);
+    //loadConfig();
+	//displayMasterButtons(chrome.extension.getBackgroundPage().newQuestStatus);
 	
 	$("#qhash").val(chrome.extension.getBackgroundPage().newQuestHash);
 	UpdateTasks();

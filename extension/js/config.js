@@ -1,15 +1,15 @@
 var config = {
     serverUrl : "http://oni.dyndns.org:8080/",
-    nick: "ololo"
+    nick: "NeverSeeThis"
 };
 
 var States = {
-    NONE : 0,
-    CREATED : 1,
-    OPENED : 2,
-    STARTED : 3,
-    JOINED : 4,
-    CLOSED: 0
+    NONE : "NONE",
+    CREATED : "CREATED",
+    OPENED : "OPENED",
+    STARTED : "STARTED",
+    JOINED : "JOINED",
+    CLOSED: "CLOSED"
 };
 
 function saveConfig() {

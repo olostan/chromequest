@@ -1,13 +1,39 @@
 <html>
     <head>
         <script language="JavaScript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+        <script language="JavaScript" src="../lib/jquery.dataTables.min.js"></script>
         <script src='../js/config.js'></script>
-        <script src='../js/default.js'></script>
-        <link rel="stylesheet" type="text/css" href="../css/core.css" />
+        <link rel="stylesheet" type="text/css" href="../styles/sunny/jquery-ui-1.8.16.custom.css" />
+        <script src='../lib/jquery-ui-1.8.16.custom.min.js'></script>
+        <!--<link rel="stylesheet" type="text/css" href="../css/core.css" />-->
+
     </head>
+    <script>
+        var rowFormatter = function( nRow, aData, iDisplayIndex) {
+            var button = $("<span>Join</span>").button();
+            //$('td:eq(1)', nRow).html( '<button onclick="doJoin" data-hash="'+aData[1]+'">Join</button> ' );
+            $('td:eq(1)', nRow).html('').append(button);
+            return nRow;
+        }
+        $(document).ready(function() {
+                loadConfig();
+                $('#quests').dataTable( {
+                    "bProcessing": true,
+                    "bJQueryUI" : true,
+                    "bLengthChange" : false,
+                    "sAjaxSource": service("get-quests"),
+                    "iDisplayLength": 5,
+                     "fnRowCallback": rowFormatter
+                } );
+
+        } );
+    </script>
     <body>
     	<p style="font-size:15pt; text-align:center;">Chrome WebQuest</p>
-        <input type="text" id="hash" size="40">
-        <button id="joinQuest">Join quest</button>  <a id="createQuest" href="#" style="font-size:10pt;">Create quest</a>
+        <table id="quests" style="width: 600px">
+            <thead><tr><th>Quest Name</th><th></th></tr></thead>
+            <tbody></tbody>
+        </table>
+        <a id="createQuest" href="#" style="font-size:10pt;">Create quest</a>
     </body>
 </html>
