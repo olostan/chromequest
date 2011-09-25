@@ -4,6 +4,7 @@
         <script language="JavaScript" src="../lib/jquery.dataTables.min.js"></script>
         <script src='../js/config.js'></script>
         <link rel="stylesheet" type="text/css" href="../styles/sunny/jquery-ui-1.8.16.custom.css" />
+        <link rel="stylesheet" type="text/css" href="../styles/style.css" />
         <script src='../lib/jquery-ui-1.8.16.custom.min.js'></script>
         <!--<link rel="stylesheet" type="text/css" href="../css/core.css" />-->
 
@@ -16,24 +17,41 @@
             return nRow;
         }
         $(document).ready(function() {
-                loadConfig();
-                $('#quests').dataTable( {
-                    "bProcessing": true,
+            loadConfig();
+            var questsRequest = $.getJSON(service("get-quests"));
+
+            questsRequest.success(function(data) {
+                console.log(data);
+                $("#loading").hide();
+                $("#quests_panel").show();
+                $('#quests').dataTable({
+                    "bProcessing": false,
                     "bJQueryUI" : true,
                     "bLengthChange" : false,
-                    "sAjaxSource": service("get-quests"),
-                    "iDisplayLength": 5,
-                     "fnRowCallback": rowFormatter
-                } );
+                    "aaData" : data.aaData,
+                    "iDisplayLength": 7,
+                    "fnRowCallback": rowFormatter
+                });
+            });
+            questsRequest.error(function(err) {
+                $("#loading").hide();
+                $("#no_service").show();
+            });
 
-        } );
+        });
     </script>
-    <body>
+    <body style="width:600px; height:300px;">
     	<p style="font-size:15pt; text-align:center;">Chrome WebQuest</p>
-        <table id="quests" style="width: 600px">
-            <thead><tr><th>Quest Name</th><th></th></tr></thead>
-            <tbody></tbody>
-        </table>
-        <a id="createQuest" href="#" style="font-size:10pt;">Create quest</a>
+        <div id="loading">Loading quests data...</div>
+        <div id="quests_panel" style="display: none">
+            <table id="quests" style="width: 600px">
+                <thead><tr><th>Quest Name</th><th></th></tr></thead>
+                <tbody></tbody>
+            </table>
+            <a id="createQuest" href="#" style="font-size:10pt;">Create quest</a>
+        </div>
+        <div id="no_service" style="width:500px;color: red; display: none">
+            Oops! Service have gone away... please try again in a moment!
+        </div>
     </body>
 </html>
