@@ -16,8 +16,24 @@ $(function() {
       bg.updateState(States.NONE);
       window.location = bg.getView();
     });
-    //$("button").button();
+    $("#start").click(function(event) {
+        event.preventDefault();
+        $('#start').attr('disabled', 'disabled');
+        $("#msg").html("Starting...")
+        $.get(service("/master/create-quest"))
+          .success(function(data) {
+            var bg = chrome.extension.getBackgroundPage();
+//            bg.startMasterQuest
+            bg.updateState(States.CREATED);
+            window.location = bg.getView();
+          })
+          .error(function(err) {
+            $("#msg").html("oops! Something wrong... try again!").show();
+            $('#start').removeAttr('disabled');
+          });
+    })
     $(document).uiforms();
+    $("button").button();
 });
 </script>
     </head>
@@ -32,8 +48,11 @@ $(function() {
         <form>
             <fieldset style="text-align:right;">
                 <legend>Creating new quest</legend>
+
                 Quest name <input type="text" /><br />
-                <button id="start" >Start quest</button>
+                Description <input type="text" /><br />
+
+                <span id="msg" style="display: none;">...</span><button id="start" >Start quest</button>
 
             </fieldset>
         </form>

@@ -16,6 +16,8 @@ exports.register = function(app){
 function create(req, res){
     var master = req.param('master');
     if (!master)return fail(res, "Please, specify the quest master of a quest.");
+    var name = req.param('name');
+    if (!name)return fail(res, "Please, specify name of the quest to start.");
 
     var quest = quests.addQuest(master);
     
