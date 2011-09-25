@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <script language="JavaScript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+        <script src='../js/config.js'></script>
+        <script src='../lib/jquery-ui-1.8.16.custom.min.js'></script>
+        <script src='../lib/jquery-ui.uiforms.js'></script>
+
+        <link rel="stylesheet" type="text/css" href="../styles/sunny/jquery-ui-1.8.16.custom.css" />
+        <link rel="stylesheet" type="text/css" href="../styles/style.css" />
+
+
+<script language="JavaScript">
+$(function() {
+    $("#cancelcreation").click(function() {
+      var bg = chrome.extension.getBackgroundPage();
+      bg.updateState(States.NONE);
+      window.location = bg.getView();
+    });
+    //$("button").button();
+    $(document).uiforms();
+});
+</script>
+    </head>
+    <body style="width: 400px; height: 200px">
+    <span style="float: left">
+        <button id= "cancelcreation">Cancel Quest</button>
+    </span>
+    <h1>
+           ChromeQuest: Quest Master
+    </h1>
+    <div style="clear:both">
+        <form>
+            <fieldset style="text-align:right;">
+                <legend>Creating new quest</legend>
+                Quest name <input type="text" /><br />
+                <button id="start" >Start quest</button>
+
+            </fieldset>
+        </form>
+    </div>
+</body>
+</html>

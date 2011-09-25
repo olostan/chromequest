@@ -2,7 +2,8 @@ loadConfig();
 var state = States.NONE;
 
 var viewMap = {
-    NONE: "views/default.html"
+    NONE: "views/default.html",
+    CREATING: "views/master.html"
 }
 var iconMap = {
     NONE: "default.png"
@@ -14,5 +15,5 @@ function updateState(newState) {
 }
 
 function getView() {
-    return viewMap[state];
+    return chrome.extension.getURL(viewMap[state]);
 }

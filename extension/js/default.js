@@ -52,7 +52,7 @@ $(document).ready(function(){
 
                 chrome.browserAction.setIcon({"path": "icons/created.png"});
                 //TODO: find out how to avoid duplication of routing logic
-                window.location.href = "created.html";
+                window.location.href = "master.html";
 
             }
             console.log(data);

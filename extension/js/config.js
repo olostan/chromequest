@@ -5,6 +5,7 @@ var config = {
 
 var States = {
     NONE : "NONE",
+    CREATING: "CREATING",
     CREATED : "CREATED",
     OPENED : "OPENED",
     STARTED : "STARTED",
