@@ -11,6 +11,7 @@
 
 <script language="JavaScript">
 $(function() {
+    loadConfig();
     $("#cancelcreation").click(function() {
       var bg = chrome.extension.getBackgroundPage();
       bg.updateState(States.NONE);
@@ -19,16 +20,16 @@ $(function() {
     $("#start").click(function(event) {
         event.preventDefault();
         $('#start').attr('disabled', 'disabled');
-        $("#msg").html("Starting...")
-        $.get(service("/master/create-quest"))
+        $("#msg").html("Starting...");
+        $.get(service("master/create-quest"))
           .success(function(data) {
             var bg = chrome.extension.getBackgroundPage();
-//            bg.startMasterQuest
+            bg.startMasterQuest(data);
             bg.updateState(States.CREATED);
             window.location = bg.getView();
           })
           .error(function(err) {
-            $("#msg").html("oops! Something wrong... try again!").show();
+            $("#msg").html("Server says 'NO!', "+JSON.stringify(err)).show();
             $('#start').removeAttr('disabled');
           });
     })

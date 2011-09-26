@@ -1,3 +1,3 @@
 function MasterQuest(hash) {
-    this.hash = hast;
+    this.hash = hash;
 }
