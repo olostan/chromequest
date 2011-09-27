@@ -19,7 +19,9 @@ function getView() {
     return chrome.extension.getURL(viewMap[state]);
 }
 
+var masterQuest;
+
 function startMasterQuest(hash) {
     var quest = new MasterQuest(hash);
-    this,masterQuest = quest;
+    masterQuest = quest;
 }

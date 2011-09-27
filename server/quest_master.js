@@ -5,12 +5,14 @@ exports.register = function(app){
 	app.get('/master/create-quest', create);
     app.post('/master/add-task', add);
     app.get('/master/open-quest', open);
-    app.get('/master/quest-tasks', list);
+
+    app.get('/master/quest-status', status);
+
     app.get('/master/start-quest', start);
     app.get('/master/finish-quest', finish);
     app.get('/master/delete-quest', deletequest);
-    app.get("/master/quest-list", quest_list)
-    app.get("/master/purge", purge)
+    app.get("/master/quest-list", quest_list);
+    app.get("/master/purge", purge);
 }
 
 function create(req, res){
@@ -19,21 +21,21 @@ function create(req, res){
     var name = req.param('name');
     if (!name)return fail(res, "Please, specify name of the quest to start.");
 
-    var quest = quests.addQuest(master);
+    var quest = quests.addQuest(master,name);
     
     req.session.questHash = quest.hash;
     req.session.master = true;
-    res.send({questhash:quest.hash});
+    res.send({ok: true, questhash:quest.hash});
 }
 
 function add(req, res){
-    if (!req.session.master) return fail(res,"You're not master");
+    var quest = getMasterQuest(req,res);
+    if (!quest) return;
 
-    var quest =  quests.getQuest(req.session.questHash),
-        url  = req.param('url'),
+
+    var url  = req.param('url'),
         descr = req.param('descr');
 
-    if (!quest) return fail(res, "A quest should be created before adding tasks");
     if(!url || !descr) return fail(res, "Url and Description should not be empty");
 
     if (!quest.isNew()) return fail(res,"Too late to add tasks");
@@ -106,22 +108,23 @@ function purge(req, res) {
     res.send({ok: true});
 }
 
-function list(req, res){
-    var quest = quests.getQuest(req.session.questHash);
-    var player = quest?quest.getPlayer(req.session.playerHash):undefined;
-    if (!quest || (!player && !req.session.master)) return fail(res,"No quest joined");
-
-    if ((quest.status == 'new' || quest.status == 'opened')&& !req.session.master)
-        return fail(res,"Quest was not started");
-
+function status(req, res){
+    var quest = getMasterQuest(req,res);
+    if (!quest) return;
+    
     var filteredTasks = [];
     
-    console.log("master/quest-tasks role: "+req.session.master);
+    quest.tasks.forEach(function(task) { filteredTasks.push({url: task.url, descr: task.descr})} );
     
-    if (req.session.master)
-        quest.tasks.forEach(function(task) { filteredTasks.push({url: task.url, descr: task.descr})} );
-    
-    res.send({tasks:filteredTasks});
+    res.send({ok: true, quest: {status: quest.status, tasks:filteredTasks }});
+}
+
+function getMasterQuest(req,res) {
+    if (!req.session.questHash) return fail(res,"No quest started");
+    var quest = quests.getQuest(req.session.questHash);
+    if (!quest) return fail(res, "Quest was not found");
+    if (!req.session.master) return fail(res,"You're not master");
+    return quest;
 }
 
 function ok(res){
@@ -130,4 +133,5 @@ function ok(res){
 
 function fail(res, msg){
     res.send({ok:false,message:msg});
+    return false;
 }

@@ -1,10 +1,129 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-        "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <title></title>
-</head>
-<body>
+        <script language="JavaScript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+        <script src='../js/config.js'></script>
+        <script src='../lib/jquery-ui-1.8.16.custom.min.js'></script>
+        <script src='../lib/jquery-ui.uiforms.js'></script>
+        <script src='../lib/parseuri.js'></script>
+        <script language="JavaScript" src="../lib/jquery.dataTables.min.js"></script>
 
+        <link rel="stylesheet" type="text/css" href="../styles/sunny/jquery-ui-1.8.16.custom.css" />
+        <link rel="stylesheet" type="text/css" href="../styles/style.css" />
+<script language="JavaScript">
+$(function() {
+    var tasksTbl, pageUrl;
+
+    loadConfig();
+    var bg = chrome.extension.getBackgroundPage();
+    $("#cancelcreation").click(function() {
+
+      bg.updateState(States.NONE);
+      window.location = bg.getView();
+    });
+    $("#hash").html("h="+bg.masterQuest.hash);
+
+    function error(msg) {
+        $("#msg").show().html(msg);
+        $("#cont").hide();
+    }
+
+    function updateStatus() {
+        $.get(service("master/quest-status"))
+        .success(function(data) {
+            console.log(data);
+            if (!data.ok) return error(data.message);
+            var quest = data.quest;
+            $("#qstatus").html(quest.status);
+
+            tasksTbl.fnClearTable();
+            tasksTbl.fnAddData(quest.tasks);
+
+            $("#msg").hide();
+            $("#cont").show();
+        })
+        .error(function(err) {
+            error(err);
+        });
+    }
+    tasksTbl = $('#tasks').dataTable({
+        "bProcessing": false,
+        "bJQueryUI" : true,
+        "bLengthChange" : false,
+        //"aaData" : data.aaData,
+        "iDisplayLength": 7
+//        "fnRowCallback": rowFormatter
+    });
+
+    updateStatus();
+
+    function stripUrl() {
+        var val = $(":radio[name=ttype]").filter(":checked").val();
+        var r = pageUrl;
+        var parts = parseUri(r);
+        switch(val) {
+            case "domain": r = parts['host'];break;
+            case "nopar": r = parts['protocol']+"://"+parts['host']+parts['port']+parts['path'];
+        }
+        $("#turl").val(r);
+    }
+    $("input[type=radio]").click(stripUrl);
+
+    /* get URL of a current page */
+    chrome.tabs.getSelected(null, function (tab) {
+        pageUrl = tab.url;
+        $("#turl").val(pageUrl);
+    });
+
+    $("#tadd").click(function() {
+       $("#taddMsg").html("Adding...");
+       $.post(service("master/add-task"),
+               { url: $("#turl").val(), descr: $("#tdescr").val(), type: $(":radio[name=ttype]").filter(":checked").val() }
+       ).success(function(data) {
+            if (!data.ok) return $("#taddMsg").html(data.message||"Something bad happed");
+            $("#taddMsg").html("Page added");
+            updateStatus();
+        })
+       .fail(function(err) { $("#taddMsg").html("Error:"+err); });
+    });
+
+
+
+    $(document).uiforms();
+    $("button").button();
+});
+</script>
+</head>
+<body style="width: 600px; height: 200px">
+    <span style="float: left">
+        <button id= "cancelcreation">Cancel Quest</button>
+    </span>
+    <h1>
+           ChromeQuest: Quest Master
+    </h1>
+    <div id="msg" >loading...</div>
+    <div id="cont" style="display: none">
+        Status: <span id="qstatus">?</span>
+        <fieldset  style="text-align:right;">
+            <legend>Add new task</legend>
+            Url <input type="text" id="turl" size="80"/> <br />
+            <input type="radio" value="full" name="ttype" checked> Full Url
+            <input type="radio" value="nopar" name="ttype"> No params
+            <input type="radio" value="domain" name="ttype"> Domain only
+
+            <br />
+            Description <input type="text" id="tdescr" size="60"/> <br />
+            <span id='taddMsg'></span><button id="tadd">Add task</button>
+
+        </fieldset>
+        <br />
+        <fieldset>
+        <legend>Existent tasks</legend>
+        <table id="tasks" style="width: 400px">
+                <thead><tr><th>Task</th><th></th></tr></thead>
+                <tbody></tbody>
+        </table>
+        </fieldset>
+    </div>
+<div id="hash">hash</div>
 </body>
 </html>

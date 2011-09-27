@@ -21,12 +21,17 @@ $(function() {
         event.preventDefault();
         $('#start').attr('disabled', 'disabled');
         $("#msg").html("Starting...");
-        $.get(service("master/create-quest"))
+        $.get(service("master/create-quest"),{ master:config.nick, name: $("#name").val(), descr: $("#descr").val() })
           .success(function(data) {
-            var bg = chrome.extension.getBackgroundPage();
-            bg.startMasterQuest(data);
-            bg.updateState(States.CREATED);
-            window.location = bg.getView();
+            if (data.ok) {
+                var bg = chrome.extension.getBackgroundPage();
+                bg.startMasterQuest(data.questhash);
+                bg.updateState(States.CREATED);
+                window.location = bg.getView();
+            } else {
+                $("#msg").html(data.message||"Unknown error").show();
+                $('#start').removeAttr('disabled');
+            }
           })
           .error(function(err) {
             $("#msg").html("Server says 'NO!', "+JSON.stringify(err)).show();
@@ -50,8 +55,8 @@ $(function() {
             <fieldset style="text-align:right;">
                 <legend>Creating new quest</legend>
 
-                Quest name <input type="text" /><br />
-                Description <input type="text" /><br />
+                Quest name <input type="text" id="name" /><br />
+                Description <input type="text" id="descr" /><br />
 
                 <span id="msg" style="display: none;">...</span><button id="start" >Start quest</button>
 
