@@ -14,3 +14,7 @@ h1 {
     float: right;
     clear: right;
 }
+
+.datagrid tr:hover {
+    background-color: #fece2f;
+}

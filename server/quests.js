@@ -39,8 +39,8 @@ exports.addQuest = function(master,name, descr) {
     	    this.players.push(player);
     	    return player.id;
     	},
-    	addTask: function(url, descr){
-    	    var task = {"url":url,"descr":descr,"hash":getHash(url)};
+    	addTask: function(url, descr, type){
+    	    var task = {"url":url,"descr":descr,"hash":getHash(url), type: type};
     	    this.tasks.push(task);
     	    return task;
     	},

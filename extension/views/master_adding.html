@@ -27,6 +27,20 @@ $(function() {
         $("#cont").hide();
     }
 
+     var rowFormatter = function( nRow, aData, iDisplayIndex) {
+            var button = $("<span>&otimes; Delete</span>").button().click(function(){ return function() {
+                $.get(service("master/del-task"), { url: aData['url']})
+                .success(function(data) {
+                    if (data.ok) return updateStatus();
+                    alert(data.message||"Something bad happen");
+                }).error(function(err) {
+                    alert(err);
+                });
+            } }());
+            $('td:eq(2)', nRow).html('').append(button);
+            return nRow;
+     }
+
     function updateStatus() {
         $.get(service("master/quest-status"))
         .success(function(data) {
@@ -36,8 +50,9 @@ $(function() {
             $("#qstatus").html(quest.status);
 
             tasksTbl.fnClearTable();
+            console.log(quest.tasks);
             tasksTbl.fnAddData(quest.tasks);
-
+            tasksTbl.fnAdjustColumnSizing();
             $("#msg").hide();
             $("#cont").show();
         })
@@ -50,8 +65,13 @@ $(function() {
         "bJQueryUI" : true,
         "bLengthChange" : false,
         //"aaData" : data.aaData,
-        "iDisplayLength": 7
-//        "fnRowCallback": rowFormatter
+        "iDisplayLength": 5,
+        "aoColumns": [
+            { "mDataProp": "url" },
+            { "mDataProp": "type" },
+            { "mDataProp": null }
+        ],
+        "fnRowCallback": rowFormatter
     });
 
     updateStatus();
@@ -95,10 +115,11 @@ $(function() {
 </head>
 <body style="width: 600px; height: 200px">
     <span style="float: left">
-        <button id= "cancelcreation">Cancel Quest</button>
+        <button id= "cancelcreation">&larr; Cancel Quest</button>
+        <button id= "next">Next  &rarr;</button>
     </span>
     <h1>
-           ChromeQuest: Quest Master
+           ChromeQuest: Add tasks
     </h1>
     <div id="msg" >loading...</div>
     <div id="cont" style="display: none">
@@ -112,14 +133,14 @@ $(function() {
 
             <br />
             Description <input type="text" id="tdescr" size="60"/> <br />
-            <span id='taddMsg'></span><button id="tadd">Add task</button>
+            <span id='taddMsg'></span><button id="tadd">Add task &darr;</button>
 
         </fieldset>
         <br />
         <fieldset>
         <legend>Existent tasks</legend>
-        <table id="tasks" style="width: 400px">
-                <thead><tr><th>Task</th><th></th></tr></thead>
+        <table id="tasks" style="width: 400px" class="datagrid">
+                <thead><tr><th>Task</th><th>Descr</th><th></th></tr></thead>
                 <tbody></tbody>
         </table>
         </fieldset>

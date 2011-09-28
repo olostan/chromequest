@@ -3,7 +3,10 @@ var quests = require("./quests.js");
 
 exports.register = function(app){
 	app.get('/master/create-quest', create);
+
     app.post('/master/add-task', add);
+    app.get('/master/del-task', delTask);
+
     app.get('/master/open-quest', open);
 
     app.get('/master/quest-status', status);
@@ -34,15 +37,43 @@ function add(req, res){
 
 
     var url  = req.param('url'),
-        descr = req.param('descr');
+        descr = req.param('descr'),
+        type = req.param('descr');
+
 
     if(!url || !descr) return fail(res, "Url and Description should not be empty");
 
     if (!quest.isNew()) return fail(res,"Too late to add tasks");
 
-    quest.addTask(url, descr);
+    var dublicate = false;
+    quest.tasks.forEach(function(task) { dublicate|= task.url==url });
+    if (dublicate) return fail(res,"Url already exists");
+
+    quest.addTask(url, descr,type);
     ok(res);        
 }
+
+
+function delTask(req, res){
+    var quest = getMasterQuest(req,res);
+    if (!quest) return;
+
+    var url  = req.param('url');
+
+    if(!url ) return fail(res, "Url should not be empty");
+    if (!quest.isNew()) return fail(res,"Too late to add tasks");
+
+    var taskN = -1;
+    for(var n in quest.tasks) {
+        if (quest.tasks[n].url == url) taskN = n;
+    }
+    if (taskN == -1) return fail(res,"There is no task with this URL");
+
+    quest.tasks.splice(taskN,1);
+    ok(res);
+}
+
+
 
 function open(req, res){
     if (!req.session.master) return fail(res,"You're not master");
@@ -114,7 +145,7 @@ function status(req, res){
     
     var filteredTasks = [];
     
-    quest.tasks.forEach(function(task) { filteredTasks.push({url: task.url, descr: task.descr})} );
+    quest.tasks.forEach(function(task) { filteredTasks.push({url: task.url, descr: task.descr, type: task.type})} );
     
     res.send({ok: true, quest: {status: quest.status, tasks:filteredTasks }});
 }
