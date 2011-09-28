@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>__MSG__optionsTitle__</title>
+    <title>Chrome: WebQuest (loading)</title>
+    <link rel="stylesheet" type="text/css" href="styles/sunny/jquery-ui-1.8.16.custom.css" />
+    <link rel="stylesheet" type="text/css" href="styles/style.css" />
+
     <link rel="stylesheet" type="text/css" href="css/core.css" />
     <script language="JavaScript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+    <script src='lib/jquery-ui.uiforms.js'></script>
+
     <script language="JavaScript" src="js/config.js"></script>
     <script>
         $(function() {
@@ -18,11 +23,14 @@
             $("#nick").val(config.nick);
             $("#service").val(config.serverUrl);
             $("#save").click(save);
-
-            $(document).attr("title",chrome.i18n.getMessage("extName")+" : "+chrome.i18n.getMessage("optionsTitle"));
+            var title = chrome.i18n.getMessage("extName")+" : "+chrome.i18n.getMessage("optionsTitle");
+	    $("h1").html(title);
+            $(document).attr("title",title);
             $("#nick").parent().prev().html(chrome.i18n.getMessage("optionsNick"));
             $("#service").parent().prev().html(chrome.i18n.getMessage("optionsService"));
             $("#save").val(chrome.i18n.getMessage("optionsSave"));
+		
+	    $(document).uiforms();
 
         })
 
@@ -34,7 +42,10 @@
     </style>
 </head>
 <body>
-<div class='panel'>
+<form>
+<h1>[title]</h1>
+<fieldset>
+<legend>Configuration</legend>
 <table>
     <tr>
         <td>Nick</td>
@@ -45,7 +56,8 @@
         <td><input id="service" size="35" /></td>
     </tr>
 </table>
-    </div>
+</fieldset>
+</form>
 <div style="padding-left: 10px">
     <input type='button' id="save" value="Save" />
     <span id="status" style="display:none">Settings saved.</span>
