@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <script language="JavaScript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+        <script src='../js/config.js'></script>
+        <script src='../lib/jquery-ui-1.8.16.custom.min.js'></script>
+        <script src='../lib/jquery-ui.uiforms.js'></script>
+        <script language="JavaScript" src="../lib/jquery.dataTables.min.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="../styles/sunny/jquery-ui-1.8.16.custom.css" />
+        <link rel="stylesheet" type="text/css" href="../styles/style.css" />
+<script language="JavaScript">
+$(function() {
+    var playersTbl;
+
+    function updatePlayers() {
+
+    }
+
+    playerTbl = $('#players').dataTable({
+        "bProcessing": false,
+        "bJQueryUI" : true,
+        "bLengthChange" : false,
+        "iDisplayLength": 5,
+        "aoColumns": [
+            { "mDataProp": "nick" },
+            { "mDataProp": null }
+        ],
+        "fnRowCallback": rowFormatter
+    });
+
+
+    $("button").button();
+});
+</script>
+</head>
+<body>
+    <span style="float: left">
+        <button id= "cancelcreation">&larr; Cancel</button>
+        <button id= "next">Start &rarr;</button>
+    </span>
+    <h1>
+           ChromeQuest: Invite
+    </h1>
+    <button id="refresh">Refresh</button>
+    <table id="players">
+        <thead><tr><th>Player's nick</th><th></th></tr></thead>
+    </table>
+</body>
+</html>
