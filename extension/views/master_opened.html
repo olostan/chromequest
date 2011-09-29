@@ -13,6 +13,20 @@
 $(function() {
     var playersTbl;
 
+    var rowFormatter = function( nRow, aData, iDisplayIndex) {
+            var button = $("<span>&otimes; Kick</span>").button().click(function(){ return function() {
+                $.get(service("master/kick-player"), { nick: aData['nick']})
+                .success(function(data) {
+                    if (data.ok) return updatePlayers();
+                    alert(data.message||"Something bad happen");
+                }).error(function(err) {
+                    alert(err);
+                });
+            }}());
+            $('td:eq(2)', nRow).html('').append(button);
+            return nRow;
+     }
+
     function updatePlayers() {
 
     }
@@ -29,12 +43,24 @@ $(function() {
         "fnRowCallback": rowFormatter
     });
 
+    $("#cancelcreation").click(function() {
+        $.get(service("master/delete-quest"))
+        .done(function(data) {
+          if (data.ok) {
+             bg.updateState(States.NONE);
+             window.location = bg.getView();
+          } else
+             alert(data.message||"Some error happen");
+        }).fail(function(err) {
+          alert(err);
+        });
+    });
 
     $("button").button();
 });
 </script>
 </head>
-<body>
+<body style="width: 600px;">
     <span style="float: left">
         <button id= "cancelcreation">&larr; Cancel</button>
         <button id= "next">Start &rarr;</button>

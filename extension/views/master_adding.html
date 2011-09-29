@@ -16,11 +16,7 @@ $(function() {
 
     loadConfig();
     var bg = chrome.extension.getBackgroundPage();
-    $("#cancelcreation").click(function() {
-
-      bg.updateState(States.NONE);
-      window.location = bg.getView();
-    });
+    
     $("#hash").html("h="+bg.masterQuest.hash);
 
     function error(msg) {
@@ -107,6 +103,31 @@ $(function() {
        .fail(function(err) { $("#taddMsg").html("Error:"+err); });
     });
 
+    $("#next").click(function() {
+       $.get(service("master/open-quest"))
+       .done(function(data) {
+         if (data.ok) {
+            bg.updateState(States.OPENED);
+            window.location = bg.getView();
+         } else
+            alert(data.message||"Some error happen");
+       }).fail(function(err) {
+         alert(err);
+       });
+    });
+
+    $("#cancelcreation").click(function() {
+        $.get(service("master/delete-quest"))
+        .done(function(data) {
+          if (data.ok) {
+             bg.updateState(States.NONE);
+             window.location = bg.getView();
+          } else
+             alert(data.message||"Some error happen");
+        }).fail(function(err) {
+          alert(err);
+        });
+    });
 
 
     $(document).uiforms();

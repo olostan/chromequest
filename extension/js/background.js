@@ -4,7 +4,8 @@ var state = States.NONE;
 var viewMap = {
     NONE: "views/default.html",
     CREATING: "views/master.html",
-    CREATED: "views/master_adding.html"
+    CREATED: "views/master_adding.html",
+    OPENED: "views/master_opened.html"
 }
 var iconMap = {
     NONE: "default.png"

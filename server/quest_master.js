@@ -76,9 +76,8 @@ function delTask(req, res){
 
 
 function open(req, res){
-    if (!req.session.master) return fail(res,"You're not master");
-    var quest = quests.getQuest(req.session.questHash);
-    if (!quest) return fail(res, "Create quest first");
+    var quest = getMasterQuest(req,res);
+    if (!quest) return;
 
     if (!quest.isNew()) return fail(res, "This quest already opened.");
     if (quest.tasks.length <= 0) return fail(res, "This quest has no tasks, add some before opening it.");
