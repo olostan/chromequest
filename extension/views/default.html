@@ -10,6 +10,8 @@
     </head>
     <script>
         var bg = chrome.extension.getBackgroundPage();
+        var msg = chrome.i18n.getMessage;
+
         function error(msg) {
             $("#loading").hide();
             $("#quests_panel").hide();
@@ -21,14 +23,14 @@
                 if (data.ok) {
                     bg.updateState(States.JOINED);
                     window.location = bg.getView();
-                } else error(data.message||"Something bad happen");
+                } else error(data.message||msg("smth"));
             })
             .fail(function(err) {
                 error(msg) ;
             });
         }
         var rowFormatter = function( nRow, aData, iDisplayIndex) {
-            var button = $("<span>Join</span>").button().click(function(){ return function() {
+            var button = $("<span>"+msg("join")+"</span>").button().click(function(){ return function() {
                 joinQuest(aData['hash']);
             } }());
             $('td:eq(1)', nRow).html('').append(button);
@@ -52,26 +54,34 @@
                     "aoColumns": [
                         { "mDataProp": "name" },
                         { "mDataProp": null }
-                    ]
+                    ],
+                    "oLanguage": { "sUrl": bg.dataGridLocale() }
                 });
             });
             questsRequest.error(function(err) {
-                error("Oops! Service have gone away... please try again in a moment!");
+                error(msg("noSrv"));
             });
 
             $("#createQuest").click(function() {
                 bg.updateState(States.CREATING);
                 window.location = bg.getView();
             })
+
+
+            $("h1").html(msg("extName"));
+            $("#loading").html(msg("loading"));
+            $("#qn").html(msg("questname"));
+            $("#createQuest").html(msg("createQuest")+" &rarr;");
+
             $("button").button();
         });
     </script>
     <body style="width:600px; height:300px;">
-    	<h1>Chrome WebQuest</h1>
+    	<h1>[Chrome WebQuest]</h1>
         <div id="loading">Loading quests data...</div>
         <div id="quests_panel" style="display: none">
             <table id="quests" style="width: 600px" class="datagrid">
-                <thead><tr><th>Quest Name</th><th></th></tr></thead>
+                <thead><tr><th id="qn">Quest Name</th><th></th></tr></thead>
                 <tbody></tbody>
             </table>
             <button id="createQuest">Create quest &rarr;</button>

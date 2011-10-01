@@ -1,0 +1,16 @@
+{     
+	"sProcessing": "Подождите...",
+	"sZeroRecords": "Пока пусто",
+	"sInfo": "Всего _TOTAL_ (с _START_ по _END_)",
+	"sInfoEmpty": "Ничего нет",
+	"sInfoFiltered": " фильтр из _MAX_",
+	"sInfoPostFix": "",
+	"sSearch": "Поиск",
+	"sUrl": "",
+	"oPaginate": {
+		"sFirst":    "First",
+		"sPrevious": "Prev",
+		"sNext":     "Next",
+		"sLast":     "Last"
+	}
+}

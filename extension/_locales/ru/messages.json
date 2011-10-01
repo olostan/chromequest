@@ -1,4 +1,42 @@
 {
+    "extName": {
+        "message": "ХромоКвест",
+        "description" : "Extensions name"
+    },
+
+
+    "loading" : { "message" : "Загрузка..." },
+    "questname" : { "message" : "Название квеста" },
+    "createQuest" : { "message" : "Создать квест" },
+    "noSrv" : { "message" : "Упс! Сервер пропал... Попробуйте чуть позже!" },
+
+    "smth" : { "message" : "Что-то случилось" },
+    "join" : { "message" : "Войти" },
+
+
+    "starting" : { "message" : "Начинаю..." },
+    "nameQuestTitle" : { "message" : "Назови Квест" },
+    "cancelQuest" : { "message" : "Отменить Квест" },
+    "creatingquest" : { "message" : "Создаем новый квест" },
+    "questdescr" : { "message" : "Описание" },
+    "startq" : { "message" : "Начать квест" },
+    
+    "locPath" : { "message" : "ru" },
+
+    "addTasksTitle" : { "message" : "Добавить задачи" },
+    "cancelQuest" : { "message" : "Отмена" },
+    "open" : { "message" : "Открыть" },
+    "startover" : { "message" : "Начать заново" },
+    "addnewtask" : { "message" : "Добавить задачу" },
+
+    "existTasks" : { "message" : "Уже добавленные задачи" },
+    "task" : { "message" : "Задача" },
+    "descr" : { "message" : "Описание" },
+
+    "typeNoPar" : { "message" : "Без параметров запроса" },
+    "typeFull" : { "message" : "Полный адрес" },
+    "typeDomain" : { "message" : "Домен" },
+
     "optionsTitle" : { "message" : "Настройки" },
     "optionsNick" : { "message": "Ник" },
     "optionsService" : { "message": "Адрес сервера" },

@@ -15,9 +15,26 @@ $(function() {
     var tasksTbl, pageUrl;
 
     loadConfig();
+    var msg = chrome.i18n.getMessage;
+
     var bg = chrome.extension.getBackgroundPage();
     
-    $("#hash").html("h="+bg.masterQuest.hash);
+//    $("#hash").html("h="+bg.masterQuest.hash);
+
+    $("h1").html(msg("extName")+" : "+msg("addTasksTitle"));
+    $("#cancelcreation").html("&larr; "+msg("cancelQuest"));
+    $("#next").html(msg("open")+" &rarr;");
+    $("#msg_txt").html(msg("loading"));
+    $("#startover").html(msg("startover"));
+    $("#legAdd").html(msg("addnewtask"));
+    $("#tadd").html(msg("addnewtask")+" &darr;");
+
+    $("#legEx").html(msg("existTasks"));
+
+    $("#hTask").html(msg("task"));
+    $("#hDescr").html(msg("descr"));
+    $("#descr").html(msg("descr"));
+
 
     function error(msg) {
         $("#msg_txt").html(msg);
@@ -69,6 +86,7 @@ $(function() {
             { "mDataProp": "descr" },
             { "mDataProp": null }
         ],
+        "oLanguage": { "sUrl": bg.dataGridLocale() },
         "fnRowCallback": rowFormatter
     });
 
@@ -130,14 +148,18 @@ $(function() {
         });
     });
 
-
-    $(document).uiforms();
-    $("button").button();
-
     $("#startover").click(function() {
         bg.updateState(States.NONE);
         window.location = bg.getView();
     });
+
+
+    $("#txtFull").html(msg("typeFull"));
+    $("#txtNoPar").html(msg("typeNoPar"));
+    $("#txtDomain").html(msg("typeDomain"));
+
+    $(document).uiforms();
+    $("button").button();
 });
 </script>
 </head>
@@ -154,24 +176,23 @@ $(function() {
         <button id="startover">Start over</button>
     </div>
     <div id="cont" style="display: none">
-        Status: <span id="qstatus">?</span>
         <fieldset  style="text-align:right;">
-            <legend>Add new task</legend>
+            <legend id="legAdd">Add new task</legend>
             Url <input type="text" id="turl" size="80"/> <br />
-            <input type="radio" value="full" name="ttype" checked> Full Url
-            <input type="radio" value="nopar" name="ttype"> No params
-            <input type="radio" value="domain" name="ttype"> Domain only
+            <input type="radio" value="full" name="ttype" checked> <span id="txtFull">Full Url</span>
+            <input type="radio" value="nopar" name="ttype"> <span id="txtNopar">No params</span>
+            <input type="radio" value="domain" name="ttype"> <span id="txtDomain">Domain only</span>
 
             <br />
-            Description <input type="text" id="tdescr" size="60"/> <br />
+            <span id="descr"></span> <input type="text" id="tdescr" size="60"/> <br />
             <span id='taddMsg'></span><button id="tadd">Add task &darr;</button>
 
         </fieldset>
         <br />
         <fieldset>
-        <legend>Existent tasks</legend>
+        <legend id="legEx">Existent tasks</legend>
         <table id="tasks" style="width: 400px" class="datagrid">
-                <thead><tr><th>Task</th><th>Descr</th><th></th></tr></thead>
+                <thead><tr><th id="hTask">Task</th><th id="hDescr">Descr</th><th></th></tr></thead>
                 <tbody></tbody>
         </table>
         </fieldset>

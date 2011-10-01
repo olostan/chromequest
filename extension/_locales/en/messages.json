@@ -3,6 +3,40 @@
         "message": "Chrome Quest",
         "description" : "Extensions name"
     },
+
+    "loading" : { "message" : "Loading..." },
+    "questname" : { "message" : "Quest Name" },
+    "createQuest" : { "message" : "Create Quest" },
+    "noSrv" : { "message" : "Oops! Service have gone away... please try again in a moment!" },
+    "smth" : { "message" : "Something bad happen" },
+    "join" : { "message" : "Join" },
+
+
+    "starting" : { "message" : "Starting..." },
+    "nameQuestTitle" : { "message" : "Name your quest" },
+    "cancelQuest" : { "message" : "Cancel Quest" },
+    "creatingquest" : { "message" : "Creating new quest" },
+    "questdescr" : { "message" : "Description" },
+    "startq" : { "message" : "Start quest" },
+
+    "locPath" : { "message" : "en" },
+
+
+    "addTasksTitle" : { "message" : "Add tasks" },
+    "cancelQuest" : { "message" : "Cancel" },
+    "open" : { "message" : "Open" },
+    "startover" : { "message" : "Start Over" },
+    "addnewtask" : { "message" : "Add new task" },
+    "existTasks" : { "message" : "Existent tasks" },
+    "task" : { "message" : "Task" },
+    "descr" : { "message" : "Description" },
+
+    "typeNoPar" : { "message" : "No query parameters" },
+    "typeFull" : { "message" : "Full Url" },
+    "typeDomain" : { "message" : "Domain" },
+
+    
+
     "optionsTitle" : { "message" : "Options" },
     "optionsNick" : { "message": "Nick" },
     "optionsService" : { "message": "Service URL" },

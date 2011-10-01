@@ -1,0 +1,16 @@
+{     
+	"sProcessing": "Please wait...",
+	"sZeroRecords": "No records to display.",
+	"sInfo": "total of _TOTAL_ entries to show (_START_ to _END_)",
+	"sInfoEmpty": "No entries to show",
+	"sInfoFiltered": " filtering from _MAX_ records",
+	"sInfoPostFix": "",
+	"sSearch": "Search",
+	"sUrl": "",
+	"oPaginate": {
+		"sFirst":    "First",
+		"sPrevious": "Prev",
+		"sNext":     "Next",
+		"sLast":     "Last"
+	}
+}

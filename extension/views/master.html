@@ -12,6 +12,11 @@
 <script language="JavaScript">
 $(function() {
     loadConfig();
+
+    var msg = chrome.i18n.getMessage;
+    var bg = chrome.extension.getBackgroundPage();
+
+
     $("#cancelcreation").click(function() {
       var bg = chrome.extension.getBackgroundPage();
       bg.updateState(States.NONE);
@@ -20,11 +25,10 @@ $(function() {
     $("#start").click(function(event) {
         event.preventDefault();
         $('#start').attr('disabled', 'disabled');
-        $("#msg").html("Starting...");
+        $("#msg").html(msg("starting"));
         $.get(service("master/create-quest"),{ master:config.nick, name: $("#name").val(), descr: $("#descr").val() })
           .success(function(data) {
             if (data.ok) {
-                var bg = chrome.extension.getBackgroundPage();
                 bg.startMasterQuest(data.questhash);
                 bg.updateState(States.CREATED);
                 window.location = bg.getView();
@@ -38,8 +42,18 @@ $(function() {
             $('#start').removeAttr('disabled');
           });
     })
+
+
+    $("h1").html(msg("extName")+" : "+msg("nameQuestTitle"));
+    $("#cancelcreation").html("&larr; "+msg("cancelQuest"));
+    $("legend").html(msg("creatingquest"));
+    $("#qn").html(msg("questname"));
+    $("#qd").html(msg("questdescr"));
+    $("#start").html(msg("startq")+" &rarr;");
+
     $(document).uiforms();
     $("button").button();
+
 });
 </script>
     </head>
@@ -55,10 +69,10 @@ $(function() {
             <fieldset style="text-align:right;">
                 <legend>Creating new quest</legend>
 
-                Quest name <input type="text" id="name" /><br />
-                Description <input type="text" id="descr" /><br />
+                <span id="qn">Quest name</span> <input type="text" id="name" /><br />
+                <span id="qd">Description</span> <input type="text" id="descr" /><br />
 
-                <span id="msg" style="display: none;">...</span><button id="start" >Start quest &rarr;</button>
+                <span id="msg" style="display: none;">...</span><button id="start" >Start quest</button>
 
             </fieldset>
         </form>

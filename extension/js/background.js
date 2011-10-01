@@ -47,3 +47,7 @@ function stopQuest() {
     if (quest) quest.onStopped();
     quest = undefined;
 }
+
+function dataGridLocale() {
+    return chrome.extension.getURL("_locales/"+chrome.i18n.getMessage("locPath")+"/datagrid.json")
+}
