@@ -11,25 +11,54 @@
         <link rel="stylesheet" type="text/css" href="../styles/style.css" />
 <script language="JavaScript">
 $(function() {
+    loadConfig();
     var playersTbl;
+    var bg = chrome.extension.getBackgroundPage();
+
+    function error(msg) {
+        $("#msg_txt").html(msg);
+        $("#msg").show();
+        $("#cont").hide();
+    }
+    var quest;
 
     var rowFormatter = function( nRow, aData, iDisplayIndex) {
+            if (bg.state==States.OPENED) {
             var button = $("<span>&otimes; Kick</span>").button().click(function(){ return function() {
                 $.get(service("master/kick-player"), { nick: aData['nick']})
                 .success(function(data) {
                     if (data.ok) return updatePlayers();
-                    alert(data.message||"Something bad happen");
+                    error(data.message||"Something bad happen");
                 }).error(function(err) {
-                    alert(err);
+                    error(err);
                 });
             }}());
-            $('td:eq(2)', nRow).html('').append(button);
+            $('td:eq(1)', nRow).html('').append(button);
+            } else {
+                $('td:eq(1)', nRow).html(aData['completed']+ '/'+quest.tasks.length);
+            }
             return nRow;
      }
 
     function updatePlayers() {
-
+        $.get(service("master/quest-status"))
+        .success(function(data) {
+            //console.log(data);
+            if (!data.ok) return error(data.message);
+            quest = data.quest;
+            playerTbl.fnClearTable();
+            playerTbl.fnAddData(data.quest.players);
+            playerTbl.fnAdjustColumnSizing();
+            $("#msg").hide();
+            $("#cont").show();
+            $("#qinfo").html("Total tasks:"+quest.tasks.length);
+        })
+        .error(function(err) {
+            error("error: "+JSON.stringify(err));
+        });
     }
+    updatePlayers();
+    setInterval(updatePlayers,1000);
 
     playerTbl = $('#players').dataTable({
         "bProcessing": false,
@@ -37,7 +66,7 @@ $(function() {
         "bLengthChange" : false,
         "iDisplayLength": 5,
         "aoColumns": [
-            { "mDataProp": "nick" },
+            { "mDataProp": "nick",sWidth: '400px' },
             { "mDataProp": null }
         ],
         "fnRowCallback": rowFormatter
@@ -56,21 +85,68 @@ $(function() {
         });
     });
 
+    $("#startover").click(function() {
+        bg.updateState(States.NONE);
+        window.location = bg.getView();
+    });
+
+    $("#start").click(function() {
+        $.get(service("master/start-quest"))
+        .done(function(data) {
+          if (data.ok) {
+             bg.state = States.STARTED;
+//             window.location = bg.getView();
+             $("#start").hide();
+             $("#finish").show();
+          } else
+             alert(data.message||"Some error happen");
+        }).fail(function(err) {
+          alert(err);
+        });
+
+    });
+
+    $("#finish").click(function() {
+        $.get(service("master/finish-quest"))
+        .done(function(data) {
+          if (data.ok) {
+             bg.updateState(States.RESULT);
+             window.location = bg.getView();
+          } else
+             alert(data.message||"Some error happen");
+        }).fail(function(err) {
+          alert(JSON.stringify(err));
+        });
+    });
+
+    if (bg.state == States.STARTED) {
+        $("#start").hide();
+        $("#finish").show();
+    }
+
     $("button").button();
 });
 </script>
 </head>
 <body style="width: 600px;">
     <span style="float: left">
-        <button id= "cancelcreation">&larr; Cancel</button>
-        <button id= "next">Start &rarr;</button>
+        <button id="cancelcreation">&larr; Cancel</button>
+        <button id="start">Start &rarr;</button>
+        <button id="finish" style="display: none" >Finish !</button>
     </span>
     <h1>
-           ChromeQuest: Invite
+           ChromeQuest: Invite players
     </h1>
-    <button id="refresh">Refresh</button>
-    <table id="players">
+    <div id="cont">
+    <!--<button id="refresh">Refresh</button>-->
+    <table id="players" class="datagrid">
         <thead><tr><th>Player's nick</th><th></th></tr></thead>
     </table>
+        <div id="qinfo">xxx</div>
+    </div>
+    <div id="msg" style="display: none">
+        <div id="msg_txt"></div>
+        <button id="startover">Start over</button>
+    </div>
 </body>
 </html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <script language="JavaScript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+        <script src='../js/config.js'></script>
+        <script src='../lib/jquery-ui-1.8.16.custom.min.js'></script>
+        <script src='../lib/jquery-ui.uiforms.js'></script>
+        <script language="JavaScript" src="../lib/jquery.dataTables.min.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="../styles/sunny/jquery-ui-1.8.16.custom.css" />
+        <link rel="stylesheet" type="text/css" href="../styles/style.css" />
+<script language="JavaScript">
+$(function() {
+    loadConfig();
+    var playersTbl;
+    var bg = chrome.extension.getBackgroundPage();
+
+    function error(msg) {
+        $("#msg_txt").html(msg);
+        $("#msg").show();
+        $("#cont").hide();
+    }
+    var quest;
+
+    var rowFormatter = function( nRow, aData, iDisplayIndex) {
+      $('td:eq(1)', nRow).html(aData['completed']+ '/'+quest.totaltasks);
+      return nRow;
+     }
+
+    function updatePlayers() {
+        $.get(service("quest-result"))
+        .success(function(data) {
+            console.log(data);
+            if (!data.ok) return error(data.message);
+            quest = data.quest;
+            playerTbl.fnClearTable();
+            playerTbl.fnAddData(data.quest.players);
+            playerTbl.fnAdjustColumnSizing();
+            $("#msg").hide();
+            $("#cont").show();
+            $("#qinfo").html("Total tasks:"+quest.totaltasks);
+        })
+        .error(function(err) {
+            error("error: "+JSON.stringify(err));
+        });
+    }
+    updatePlayers();
+
+    playerTbl = $('#players').dataTable({
+        "bProcessing": false,
+        "bJQueryUI" : true,
+        "bLengthChange" : false,
+        "iDisplayLength": 5,
+        "aoColumns": [
+            { "mDataProp": "nick",sWidth: '400px' },
+            { "mDataProp": null }
+        ],
+        "fnRowCallback": rowFormatter
+    });
+
+    $("#startover").click(function() {
+        bg.updateState(States.NONE);
+        window.location = bg.getView();
+    });
+
+    $("button").button();
+});
+</script>
+</head>
+<body style="width: 600px;">
+    <h1>
+           ChromeQuest: Quest results
+    </h1>
+    <div id="cont">
+    <table id="players" class="datagrid">
+        <thead><tr><th>Player's nick</th><th>Result</th></tr></thead>
+    </table>
+        <div id="qinfo"></div>
+    </div>
+    <div id="msg" style="display: none">
+        <div id="msg_txt"></div>
+    </div>
+    <button id="startover">Start over</button>
+</body>
+</html>

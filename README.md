@@ -7,3 +7,8 @@ all of them using only hints given by master.
 Everyone who install ChromeQuest can create quest for friends or publish 
 (tweet/post on facebook, google+) special key and everybody can join
 this quest and try to win. 
+
+
+(4developers)
+codes:
+460: No Quest

@@ -9,9 +9,27 @@
 
     </head>
     <script>
+        var bg = chrome.extension.getBackgroundPage();
+        function error(msg) {
+            $("#loading").hide();
+            $("#quests_panel").hide();
+            $("#err").html(msg).show();
+        }
+        function joinQuest(hash) {
+            $.get(service("player/join-quest"),{nick: config.nick, q: hash})
+            .done(function(data) {
+                if (data.ok) {
+                    bg.updateState(States.JOINED);
+                    window.location = bg.getView();
+                } else error(data.message||"Something bad happen");
+            })
+            .fail(function(err) {
+                error(msg) ;
+            });
+        }
         var rowFormatter = function( nRow, aData, iDisplayIndex) {
             var button = $("<span>Join</span>").button().click(function(){ return function() {
-                alert("now we'll join to quest id="+aData[1]);
+                joinQuest(aData['hash']);
             } }());
             $('td:eq(1)', nRow).html('').append(button);
             return nRow;
@@ -30,18 +48,19 @@
                     "bLengthChange" : false,
                     "aaData" : data.aaData,
                     "iDisplayLength": 7,
-                    "fnRowCallback": rowFormatter
+                    "fnRowCallback": rowFormatter,
+                    "aoColumns": [
+                        { "mDataProp": "name" },
+                        { "mDataProp": null }
+                    ]
                 });
             });
             questsRequest.error(function(err) {
-                $("#loading").hide();
-                $("#no_service").show();
+                error("Oops! Service have gone away... please try again in a moment!");
             });
 
             $("#createQuest").click(function() {
-                var bg = chrome.extension.getBackgroundPage();
                 bg.updateState(States.CREATING);
-                //alert("current="+window.location + " next:"+bg.getView());
                 window.location = bg.getView();
             })
             $("button").button();
@@ -57,8 +76,8 @@
             </table>
             <button id="createQuest">Create quest &rarr;</button>
         </div>
-        <div id="no_service" style="width:500px;color: red; display: none">
-            Oops! Service have gone away... please try again in a moment!
+        <div id="err" style="width:500px;color: red; display: none">
+
         </div>
     </body>
 </html>

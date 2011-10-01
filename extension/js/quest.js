@@ -1,40 +1,67 @@
-function Quest() {
-
+function Quest(tasks) {
+    this.tasks = tasks;
 }
 
-Quest.onStarted = function() {
+function getUrlByType(url,type) {
+    var r = url;
+    var parts = parseUri(url);
+    switch(type) {
+            case "domain": r = parts['host'];break;
+            case "nopar": r = parts['protocol']+"://"+parts['host']+parts['port']+parts['path'];
+    }
+    return r;
+}
+
+Quest.prototype.onStarted = function() {
+    var quest = this;
+
     this.urlTracker = function(tabId, changeInfo, tab) {
         //console.log(tab.url, tab.status, tasks);
-        if (tab.status != "complete" || tab.url == "chrome://newtab/" || !tasks) {
+        if (tab.status != "complete" || tab.url == "chrome://newtab/" || !quest.tasks) {
             return;
         }
-        var hash = hex_md5(tab.url);
+
+        var hash = {
+            "full": hex_md5(tab.url),
+            "domain": hex_md5(getUrlByType(tab.url,"domain")),
+            "nopar" : hex_md5(getUrlByType(tab.url,"nopar"))
+        }
         var match;
-        for (var i = 0; i < tasks.length; ++i) {
-            if (tasks[i].hash == hash) {
-                match = tasks[i];
+        for (var i = 0; i < quest.tasks.length; ++i) {
+            if (quest.tasks[i].hash == hash[quest.tasks[i].type]) {
+                match = quest.tasks[i];
                 break;
             }
         }
 
-        if (match) {
-            $.getJSON(service("player/test-url") + "?url=" + tab.url, function(data) {
+        if (match && match.taskStatus != "completed") {
+            $.getJSON(service("player/test-url"), {url: tab.url, hash: match.hash})
+            .done(function(data) {
                 if (data.ok) {
                     //alert("You've got it!");
+                    match.taskStatus = "completed";
+                    var total = quest.tasks.length;
+                    var done  = 0;
+                    quest.tasks.forEach(function(t) { if (t.taskStatus!="active") done++; });
+
                     var notification = webkitNotifications.createNotification(
                         'icons/checkmark.png', // icon url - can be relative
                         "You've got it!", // notification title
-                        "You've correctly guessted web site! Go on!"  // notification body text
+                        "You've correctly guessted task '"+match.descr+"'! Go on!" +
+                        "Only "+(total-done)+" tasks left!"
                     );
                     notification.show();
                 }
                 else alert("Don't even think about hacking me!");
+            })
+            .fail(function(err){
+                    alert(JSON.stringify(err));
             });
         }
     }
     chrome.tabs.onUpdated.addListener(this.urlTracker);
 }
-Quest.onStopped = function() {
+Quest.prototype.onStopped = function() {
     if (this.urlTracker) {
         chrome.tabs.onUpdated.removeListener(this.urlTracker);
     }

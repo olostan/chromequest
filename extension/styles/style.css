@@ -18,3 +18,14 @@ h1 {
 .datagrid tr:hover {
     background-color: #fece2f;
 }
+
+.ui-icon {
+    display: inline-block;
+}
+
+span.tactive {
+
+}
+span.tcompleted {
+    color: green;
+}

@@ -5,12 +5,18 @@ var config = {
 
 var States = {
     NONE : "NONE",
+    // Master
     CREATING: "CREATING",
     CREATED : "CREATED",
     OPENED : "OPENED",
     STARTED : "STARTED",
+
+    // player
     JOINED : "JOINED",
-    CLOSED: "CLOSED"
+    PLAYING : "PLAYING",
+    CLOSED: "CLOSED",
+
+    RESULT: "RESULT"
 };
 
 function saveConfig() {

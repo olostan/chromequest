@@ -23,6 +23,9 @@ app.get("/test.html", function(req,res) {
 });
 
 var port = 8080;
-console.log("Started server at "+port)
+console.log("Started server at "+port);
+
+require("./startup");
+
 app.listen(port);
 

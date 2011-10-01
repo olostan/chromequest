@@ -85,10 +85,12 @@ exports.addQuest = function(master,name, descr) {
 exports.getQuest = function(hash) {
     return quests[hash];
 };
-exports.getQuests = function() {
+exports.getQuests = function(callback) {
     var list = [];
     for(var h in quests) {
         list.push(quests[h]);
+        
+        if (callback) callback(quests[h]);
     }
     return list;
 }

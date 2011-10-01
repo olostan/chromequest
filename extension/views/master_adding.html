@@ -20,7 +20,8 @@ $(function() {
     $("#hash").html("h="+bg.masterQuest.hash);
 
     function error(msg) {
-        $("#msg").show().html(msg);
+        $("#msg_txt").html(msg);
+        $("#msg").show();
         $("#cont").hide();
     }
 
@@ -65,7 +66,7 @@ $(function() {
         "iDisplayLength": 5,
         "aoColumns": [
             { "mDataProp": "url" },
-            { "mDataProp": "type" },
+            { "mDataProp": "descr" },
             { "mDataProp": null }
         ],
         "fnRowCallback": rowFormatter
@@ -132,6 +133,11 @@ $(function() {
 
     $(document).uiforms();
     $("button").button();
+
+    $("#startover").click(function() {
+        bg.updateState(States.NONE);
+        window.location = bg.getView();
+    });
 });
 </script>
 </head>
@@ -143,7 +149,10 @@ $(function() {
     <h1>
            ChromeQuest: Add tasks
     </h1>
-    <div id="msg" >loading...</div>
+    <div id="msg" >
+        <div id="msg_txt">loading...</div>
+        <button id="startover">Start over</button>
+    </div>
     <div id="cont" style="display: none">
         Status: <span id="qstatus">?</span>
         <fieldset  style="text-align:right;">

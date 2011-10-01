@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <script language="JavaScript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+        <script src='../js/config.js'></script>
+        <script src='../lib/jquery-ui-1.8.16.custom.min.js'></script>
+        <script src='../lib/jquery-ui.uiforms.js'></script>
+        <script language="JavaScript" src="../lib/jquery.dataTables.min.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="../styles/sunny/jquery-ui-1.8.16.custom.css" />
+        <link rel="stylesheet" type="text/css" href="../styles/style.css" />
+        <title>ChromeQuest: Joining</title>
+<script language="JavaScript">
+$(function() {
+    loadConfig();
+    var playersTbl;
+    var bg = chrome.extension.getBackgroundPage();
+
+    function error(msg) {
+        $("#msg_txt").html(msg);
+        $("#msg").show();
+        $("#cont").hide();
+    }
+
+    function updatePlayers() {
+        $.get(service("player/quest-players"))
+        .success(function(data) {
+            if (!data.ok) return error(data.message);
+            playerTbl.fnClearTable();
+            playerTbl.fnAddData(data.players);
+            $("#msg").hide();
+            $("#cont").show();
+            playerTbl.fnAdjustColumnSizing();
+            $("#status").html(data.status);
+            if (data.status=="running") {
+                bg.updateState(States.PLAYING);
+                window.location = bg.getView();
+            }
+        })
+        .error(function(err) {
+            error("Error: "+JSON.stringify(err));
+        });
+    }
+
+    playerTbl = $('#players').dataTable({
+        "bProcessing": false,
+        "bJQueryUI" : true,
+        "bLengthChange" : false,
+        "iDisplayLength": 5,
+         "bAutoWidth": false,
+        "aoColumns": [
+            { "mDataProp": "nick",sWidth: '400px'}
+        ]
+    });
+    updatePlayers();
+    setInterval(updatePlayers,1000);
+
+    $("#cancelwaiting").click(function(){
+        $.get(service("player/quit-quest"))
+        .done(function(data) {
+          if (data.ok) {
+             bg.updateState(States.NONE);
+             window.location = bg.getView();
+          } else
+             error(data.message||"Some error happen");
+        }).fail(function(err) {
+          error(JSON.stringify(err));
+        });
+    });
+
+    $("#startover").click(function() {
+        bg.updateState(States.NONE);
+        window.location = bg.getView();
+    });
+
+
+    $("button").button();
+});
+</script>
+
+</head>
+<body style="width: 400px;">
+    <span style="float: left">
+        <button id= "cancelwaiting">&larr; Cancel</button>
+    </span>
+    <h1>
+           ChromeQuest: Waiting for start
+    </h1>
+    <div id="cont" style="display: none">
+    Players:
+    <table id="players">
+        <thead><tr><th width="100%">Player's nick</th></tr></thead>
+    </table>
+        <div id="status">?</div>
+    </div>
+    <div id="msg">
+        <div id="msg_txt">Loading...</div>
+        <button id="startover">Start over</button>
+    </div>
+</body>
+</html>

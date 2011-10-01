@@ -38,7 +38,7 @@ function add(req, res){
 
     var url  = req.param('url'),
         descr = req.param('descr'),
-        type = req.param('descr');
+        type = req.param('type');
 
 
     if(!url || !descr) return fail(res, "Url and Description should not be empty");
@@ -115,7 +115,7 @@ function deletequest(req, res){
     var quest = quests.getQuest(req.session.questHash);
     if (!quest) return fail(res, "No such quest found");
 
-    if (!quest.isFinished()) return fail(res, "Only a finished quest can be deleted.");
+    if (quest.isRunning()) return fail(res, "Please stop quest before deleting");
 
     if (quests.removeQuest(quest)) {
         req.session.destroy();
@@ -143,10 +143,13 @@ function status(req, res){
     if (!quest) return;
     
     var filteredTasks = [];
-    
     quest.tasks.forEach(function(task) { filteredTasks.push({url: task.url, descr: task.descr, type: task.type})} );
+    var players = [];
+    quest.players.forEach(function(player) {
+        players.push({nick: player.nick, completed: player.completed.length})
+    });
     
-    res.send({ok: true, quest: {status: quest.status, tasks:filteredTasks }});
+    res.send({ok: true, quest: {status: quest.status, tasks:filteredTasks, players:players }});
 }
 
 function getMasterQuest(req,res) {
