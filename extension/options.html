@@ -23,12 +23,15 @@
             $("#nick").val(config.nick);
             $("#service").val(config.serverUrl);
             $("#save").click(save);
+
+
             var title = chrome.i18n.getMessage("extName")+" : "+chrome.i18n.getMessage("optionsTitle");
-	    $("h1").html(title);
+	        $("h1").html(title);
             $(document).attr("title",title);
             $("#nick").parent().prev().html(chrome.i18n.getMessage("optionsNick"));
             $("#service").parent().prev().html(chrome.i18n.getMessage("optionsService"));
             $("#save").val(chrome.i18n.getMessage("optionsSave"));
+            $("legend").val(chrome.i18n.getMessage("configuration"));
 		
 	    $(document).uiforms();
 

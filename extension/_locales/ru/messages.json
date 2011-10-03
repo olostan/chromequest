@@ -62,6 +62,7 @@
     "error" : { "message" : "Ошибка:" },
 
     "optionsTitle" : { "message" : "Настройки" },
+    "configuration" : { "message" : "Параметры" },
     "optionsNick" : { "message": "Ник" },
     "optionsService" : { "message": "Адрес сервера" },
     "optionsSave" : { "message": "Сохранить" },

@@ -60,9 +60,9 @@
     "badError" : { "message" : "Something bad happen!" },
     "error" : { "message" : "Error:" },
 
-    
-
+        
     "optionsTitle" : { "message" : "Options" },
+    "configuration" : { "message" : "Configuration" },
     "optionsNick" : { "message": "Nick" },
     "optionsService" : { "message": "Service URL" },
     "optionsSave" : { "message": "Save" },
