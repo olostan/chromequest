@@ -55,6 +55,9 @@
     "waitingToStartTitle" : { "message" : "Ожидаем старта" },
     "playersText" : { "message" : "Игроки" },
 
+    "runningTitle" : { "message" : "Идет игра" },
+    "taskDescr" : { "message" : "Описание задания" },
+
     "badError" : { "message" : "Что-то страшное случилось!" },
     "error" : { "message" : "Ошибка:" },
 

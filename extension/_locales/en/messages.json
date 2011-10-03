@@ -54,6 +54,9 @@
     "waitingToStartTitle" : { "message" : "Waiting for start" },
     "playersText" : { "message" : "Players" },
 
+    "runningTitle" : { "message" : "Running" },
+    "taskDescr" : { "message" : "Task description" },
+
     "badError" : { "message" : "Something bad happen!" },
     "error" : { "message" : "Error:" },
 

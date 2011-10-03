@@ -18,6 +18,14 @@ $(function() {
 
     var msg = chrome.i18n.getMessage;
 
+    $("h1").html(msg("extName")+" : "+msg("runningTitle"));
+
+    $("#thTaskDescr").html(msg("taskDescr"));
+    $("msg_txt").html(msg("loading"));
+    $("#startover").html(msg("startover"));
+    $("#cancelwaiting").html("&larr; "+msg("cancelQuest"));
+
+
     function error(msg) {
         $("#msg_txt").html(msg);
         $("#msg").show();
@@ -62,13 +70,13 @@ $(function() {
         "aoColumnDefs" : [
             {
                 "fnRender": function(t) {
-
                     return "<span class='t"+t.aData.taskStatus+"'>" + t.aData.descr +"</span>";
                 },
                 "sWidth": "600px",
                 "aTargets": [0]
             }
-        ]
+        ],
+        "oLanguage": { "sUrl": bg.dataGridLocale() }
     });
     updateTasks();
 
@@ -92,7 +100,6 @@ $(function() {
         window.location = bg.getView();
     });
 
-
     $("button").button();
 });
 </script>
@@ -107,7 +114,7 @@ $(function() {
     </h1>
     <div id="cont" style="display: none">
     <table id="tasks" class="datagrid">
-        <thead><tr><th width="100%">Task description</th></tr></thead>
+        <thead><tr><th width="100%" id="thTaskDescr">Task description</th></tr></thead>
     </table>
     </div>
     <div id="msg">
