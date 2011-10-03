@@ -18,8 +18,6 @@ $(function() {
     var msg = chrome.i18n.getMessage;
 
     var bg = chrome.extension.getBackgroundPage();
-    
-//    $("#hash").html("h="+bg.masterQuest.hash);
 
     $("h1").html(msg("extName")+" : "+msg("addTasksTitle"));
     $("#cancelcreation").html("&larr; "+msg("cancelQuest"));
@@ -41,13 +39,14 @@ $(function() {
         $("#msg").show();
         $("#cont").hide();
     }
+    var msgDelete = msg("delete");
 
      var rowFormatter = function( nRow, aData, iDisplayIndex) {
-            var button = $("<span>&otimes; Delete</span>").button().click(function(){ return function() {
+            var button = $("<span>&otimes; "+msgDelete+"</span>").button().click(function(){ return function() {
                 $.get(service("master/del-task"), { url: aData['url']})
                 .success(function(data) {
                     if (data.ok) return updateStatus();
-                    alert(data.message||"Something bad happen");
+                    alert(data.message||msg("badError"));
                 }).error(function(err) {
                     alert(err);
                 });
@@ -115,11 +114,11 @@ $(function() {
        $.post(service("master/add-task"),
                { url: $("#turl").val(), descr: $("#tdescr").val(), type: $(":radio[name=ttype]").filter(":checked").val() }
        ).success(function(data) {
-            if (!data.ok) return $("#taddMsg").html(data.message||"Something bad happed");
-            $("#taddMsg").html("Page added");
+            if (!data.ok) return $("#taddMsg").html(data.message||msg("badError"));
+            $("#taddMsg").html(msg("taskAdded"));
             updateStatus();
         })
-       .fail(function(err) { $("#taddMsg").html("Error:"+err); });
+       .fail(function(err) { $("#taddMsg").html(msg("error")+JSON.stringify(err)); });
     });
 
     $("#next").click(function() {
@@ -129,9 +128,9 @@ $(function() {
             bg.updateState(States.OPENED);
             window.location = bg.getView();
          } else
-            alert(data.message||"Some error happen");
+            alert(data.message||msg("badError"));
        }).fail(function(err) {
-         alert(err);
+         alert(msg("error")+JSON.stringify(err));
        });
     });
 
@@ -142,9 +141,9 @@ $(function() {
              bg.updateState(States.NONE);
              window.location = bg.getView();
           } else
-             alert(data.message||"Some error happen");
+             alert(data.message||msg("badError"));
         }).fail(function(err) {
-          alert(err);
+          alert(msg("error")+JSON.stringify(err));
         });
     });
 
@@ -155,7 +154,7 @@ $(function() {
 
 
     $("#txtFull").html(msg("typeFull"));
-    $("#txtNoPar").html(msg("typeNoPar"));
+    $("#txtNopar").html(msg("typeNoPar"));
     $("#txtDomain").html(msg("typeDomain"));
 
     $(document).uiforms();
@@ -197,6 +196,5 @@ $(function() {
         </table>
         </fieldset>
     </div>
-<div id="hash">hash</div>
 </body>
 </html>

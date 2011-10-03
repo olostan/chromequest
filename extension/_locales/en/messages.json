@@ -34,6 +34,23 @@
     "typeNoPar" : { "message" : "No query parameters" },
     "typeFull" : { "message" : "Full Url" },
     "typeDomain" : { "message" : "Domain" },
+    "taskAdded" : { "message" : "Task added" },
+    "delete" : { "message" : "Delete" },
+
+
+
+    "invitePlayersTitle" : { "message" : "Invite players" },
+    "start" : { "message" : "Start" },
+    "finish" : { "message" : "Finish" },
+    "playersNick" : { "message" : "Player's nick" },
+    "totalTasks" : { "message" : "Total $total$ tasks", "placeholders":{"total":{"content":"$1"}} },
+    "kick" : { "message" : "Kick" },
+
+    "watchTitle" : { "message" : "Quest progress" },
+
+
+    "badError" : { "message" : "Something bad happen!" },
+    "error" : { "message" : "Error:" },
 
     
 

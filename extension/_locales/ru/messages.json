@@ -36,6 +36,24 @@
     "typeNoPar" : { "message" : "Без параметров запроса" },
     "typeFull" : { "message" : "Полный адрес" },
     "typeDomain" : { "message" : "Домен" },
+    "taskAdded" : { "message" : "Задание добавлено" },
+    "delete" : { "message" : "Удалить" },
+
+    "invitePlayersTitle" : { "message" : "Приглашение игроков" },
+    "start" : { "message" : "Начать" },
+    "finish" : { "message" : "Закончить" },
+    "playersNick" : { "message" : "Имя игрока" },
+    "totalTasks" : { "message" : "Всего заданий: $total$", "placeholders":{"total":{"content":"$1"}} },
+    "kick" : { "message" : "Выгнать" },
+
+    
+    "watchTitle" : { "message" : "Ход квеста" },
+
+
+
+
+    "badError" : { "message" : "Что-то страшное случилось!" },
+    "error" : { "message" : "Ошибка:" },
 
     "optionsTitle" : { "message" : "Настройки" },
     "optionsNick" : { "message": "Ник" },

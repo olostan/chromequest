@@ -33,6 +33,11 @@ function loadConfig() {
     }
     var serviceUrl = localStorage["service"];
     if (serviceUrl) config.serverUrl = serviceUrl;
+
+    $.ajaxPrefilter( function( options ) {
+            options.xhrFields = { withCredentials : true };
+            options.crossDomain = true;
+    });
 }
 
 function service(action) {

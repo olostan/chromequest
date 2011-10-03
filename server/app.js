@@ -10,6 +10,14 @@ app.use(express.bodyParser());
 app.use(express.cookieParser());
 app.use(express.session({ secret: "./wEr00l!#111" }));
 
+app.all('*', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "chrome-extension://mhfplhlodjoeccmebhmcdnpplbkchljd");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  res.header("Access-Control-Allow-Credentials", "true");
+  next();
+});
+
+
 master.register(app);
 player.register(app);
 public.register(app);

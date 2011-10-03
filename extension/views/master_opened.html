@@ -14,6 +14,21 @@ $(function() {
     loadConfig();
     var playersTbl;
     var bg = chrome.extension.getBackgroundPage();
+    var msg = chrome.i18n.getMessage;
+    function updateTitle() {
+        $("h1").html(msg("extName")+" : "+
+                (bg.state == States.STARTED?
+                msg("watchTitle"):
+                msg("invitePlayersTitle")));
+    }
+    updateTitle();
+
+    $("#cancelcreation").html("&larr; "+msg("cancelQuest"));
+    $("#start").html(msg("start")+" &rarr;");
+    $("#finish").html(msg("finish")+" !");
+    $("#thPlayer").html(msg("playersNick"));
+    $("#startover").html(msg("startover"));
+
 
     function error(msg) {
         $("#msg_txt").html(msg);
@@ -24,11 +39,11 @@ $(function() {
 
     var rowFormatter = function( nRow, aData, iDisplayIndex) {
             if (bg.state==States.OPENED) {
-            var button = $("<span>&otimes; Kick</span>").button().click(function(){ return function() {
+            var button = $("<span>&otimes; "+msg("kick")+"</span>").button().click(function(){ return function() {
                 $.get(service("master/kick-player"), { nick: aData['nick']})
                 .success(function(data) {
                     if (data.ok) return updatePlayers();
-                    error(data.message||"Something bad happen");
+                    error(data.message||msg("badError"));
                 }).error(function(err) {
                     error(err);
                 });
@@ -51,10 +66,11 @@ $(function() {
             playerTbl.fnAdjustColumnSizing();
             $("#msg").hide();
             $("#cont").show();
-            $("#qinfo").html("Total tasks:"+quest.tasks.length);
+            console.log("msg="+msg("totalTasks",[quest.tasks.length]));
+            $("#qinfo").html(msg("totalTasks",[quest.tasks.length]));
         })
         .error(function(err) {
-            error("error: "+JSON.stringify(err));
+            error(msg("error")+JSON.stringify(err));
         });
     }
     updatePlayers();
@@ -80,7 +96,7 @@ $(function() {
              bg.updateState(States.NONE);
              window.location = bg.getView();
           } else
-             alert(data.message||"Some error happen");
+             alert(data.message||msg("badError"));
         }).fail(function(err) {
           alert(err);
         });
@@ -97,10 +113,11 @@ $(function() {
           if (data.ok) {
              bg.state = States.STARTED;
 //             window.location = bg.getView();
+             updateTitle();
              $("#start").hide();
              $("#finish").show();
           } else
-             alert(data.message||"Some error happen");
+             alert(data.message||msg("badError"));
         }).fail(function(err) {
           alert(err);
         });
@@ -114,9 +131,9 @@ $(function() {
              bg.updateState(States.RESULT);
              window.location = bg.getView();
           } else
-             alert(data.message||"Some error happen");
+             alert(data.message||msg("badError"));
         }).fail(function(err) {
-          alert(JSON.stringify(err));
+          alert(msg("error")+JSON.stringify(err));
         });
     });
 
@@ -124,6 +141,7 @@ $(function() {
         $("#start").hide();
         $("#finish").show();
     }
+
 
     $("button").button();
 });
@@ -139,11 +157,10 @@ $(function() {
            ChromeQuest: Invite players
     </h1>
     <div id="cont">
-    <!--<button id="refresh">Refresh</button>-->
     <table id="players" class="datagrid">
-        <thead><tr><th>Player's nick</th><th></th></tr></thead>
+        <thead><tr><th id="thPlayer">Player's nick</th><th></th></tr></thead>
     </table>
-        <div id="qinfo">xxx</div>
+        <div id="qinfo">...</div>
     </div>
     <div id="msg" style="display: none">
         <div id="msg_txt"></div>

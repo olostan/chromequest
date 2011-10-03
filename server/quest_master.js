@@ -25,10 +25,12 @@ function create(req, res){
     if (!name)return fail(res, "Please, specify name of the quest to start.");
 
     var quest = quests.addQuest(master,name);
-    
+
     req.session.questHash = quest.hash;
     req.session.master = true;
     res.send({ok: true, questhash:quest.hash});
+
+    console.dir(req.session);
 }
 
 function add(req, res){
@@ -139,6 +141,7 @@ function purge(req, res) {
 }
 
 function status(req, res){
+    console.dir(req.session);
     var quest = getMasterQuest(req,res);
     if (!quest) return;
     

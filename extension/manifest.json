@@ -1,7 +1,7 @@
 {
-  "name": "ChromeQuest",
-  "version": "1.0.1",
-  "description": "Chrome quest",
+  "name": "WebQuest",
+  "version": "1.0.2",
+  "description": "WebQuest Chrome Extension",
   "background_page": "background.html",
   "browser_action" :
   {
@@ -10,7 +10,8 @@
   },
   "permissions" : [
     "tabs",
-    "http://*/",
+    "http://localhost:8080/*",
+    "http://oni.dyndns.org:8080/*",
     "notifications"
   ],
   "options_page": "options.html",

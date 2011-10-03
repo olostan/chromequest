@@ -26,6 +26,7 @@ $(function() {
         event.preventDefault();
         $('#start').attr('disabled', 'disabled');
         $("#msg").html(msg("starting"));
+
         $.get(service("master/create-quest"),{ master:config.nick, name: $("#name").val(), descr: $("#descr").val() })
           .success(function(data) {
             if (data.ok) {
