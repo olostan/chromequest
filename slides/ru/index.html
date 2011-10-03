@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<head>
+	<title>ChromeQuest: Веб-Квест</title>
+	<script type="text/javascript" src="jacss.js"></script>
+	<link href="jacss.common.css" rel="stylesheet" type="text/css">
+	<link href="small.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript">
+		jacss.config = { frames : 19 };
+	</script>	
+</head>
+<body>
+<div id='buttons' style='opacity: 0.5'>
+<button onclick='jacss.previous();' >&larr;</button><button onclick='jacss.next();' >&rarr;</button><span id='current'>?</span><input id='range' type='range' min="0" max="200" />
+</div>
+<span width="200px" height="200px" id='cont'>
+	<span id='title'>Поиграй в Веб: <span style="color: yellow">Web</span><span style="color: blue">Quest</span></span>
+	<span id='tknow'>Ты знаешь всемирную паутину?</span>
+	<span id='tfriends'>У тебя есть друзья?</span>
+	<span id='tplay'>Хотите поиграть?</span>
+	<span id='tjoin'>Присоеденяйтесь<br/> к Квесту!</span>
+
+    <span id="tidea">Идея <span style="color: yellow">Web</span><span style="color: blue">Quest</span>:</span>
+    <span id="tmaster">Мастер<br />
+        <img src="techie_webmaster.svg" />
+    </span>
+    <span id="tcreatetasks" class="box mact">Придумывает несколько задач</span>
+    <span id="ttask">Задача - это или какая-то страничка, или целый домен в интернете</span>
+    <span id="thints" class="box mact">Дает некоторые подсказки для участников</span>
+    <span id="tstarts" class="box mact">Стартует квест и приглашает друзей</span>
+
+    <span id="tplayer">Игрок<br /><img src="expert_samurai.svg" /></span>
+    <span id="tjoins" class="box pact">Присоеденяется к квесту</span>
+    <span id="tseehints" class="box pact">Видет подсказки</span>
+    <span id="tsolve" class="box pact">Пытается разгадать все загадки</span>
+    <span id="twins">Выигрывает!</span>
+
+    <span id="ttech">Технические детали:</span>
+    <span id="tserv">Серверная часть</span>
+    <span id="tservs">Node.JS (powered by <span style="color:blue">Google V8</span>)</span>
+    <span id="tservd" class="box">
+        Хранит информацию о текущих квестах<br />
+        Отслеживает ход выполнения квеста
+    </span>
+    <span id="text">Google Chrome Расширение</span>
+    <span id="textd" class="box">
+        Позволяет как создавать квесты так и участвовать <br />
+        После начала квеста отслеживает посещения страниц <br />
+        В случае отгадки посылает серверу сообщение<br />
+    </span>
+    <span id="tprojdet" class="box">
+        Проект с открытым исходным кодом, и был придуман<br /> на Google Chrome Hackaton 2011</span>
+
+    <span id="tcontact" class="box">
+        <span id="contgr">
+        Буду рад услышать все предложения и замечания, <br />
+        </span>
+        <br />
+        <img src="http://olostan.name/olostan.jpg" style="float: left;" />
+        Шибанов Валентин.  <br />
+        <a href="http://olostan.name/">http://<span class="url">olostan.name</span>/</a> <br />
+        olostan@gmail.com <br />
+ <br />
+        Исходный код доступен на  <br />
+        <A href="https://github.com/olostan/chromequest">https://github.com/olostan/chromequest</A><br/>
+        Презентация сделанная с помощью <br />
+        <a href="https://github.com/olostan/jacss">https://github.com/olostan/jacss</a>
+    </span>
+</span>
+</body>
+</html>

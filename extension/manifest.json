@@ -1,6 +1,6 @@
 {
   "name": "ChromeQuest",
-  "version": "1.0",
+  "version": "1.0.1",
   "description": "Chrome quest",
   "background_page": "background.html",
   "browser_action" :

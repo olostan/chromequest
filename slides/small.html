@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<head>
+	<title>jacss example 1</title>
+	<script type="text/javascript" src="jacss.js"></script>
+	<link href="jacss.common.css" rel="stylesheet" type="text/css">
+	<link href="small.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript">
+		jacss.config = { frames : 10 };
+	</script>	
+</head>
+<body>
+<div id='buttons' style='opacity: 0.5'>
+<button onclick='jacss.previous();' >&larr;</button><button onclick='jacss.next();' >&rarr;</button><span id='current'>?</span><input id='range' type='range' min="0" max="200" />
+</div>
+<span width="200px" height="200px" id='cont'>
+	<span id='title'>Quest the Web: <span style="color: yellow">Chrome</span><span style="color: blue">Quest</span></span>
+	<span id='tknow'>Do you know the Web?</span>
+	<span id='tfriends'>Do you have firends?</span>
+	<span id='tplay'>What to Play?</span>
+	<span id='tjoin'>Join the Quest!</span>
+</span>
+</body>
+</html>
