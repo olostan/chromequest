@@ -10,3 +10,4 @@
 1. When player joins - record time
 2. When player wins - stop timer and on the result page show winning time
 
+- Show number of tasks as icon badge

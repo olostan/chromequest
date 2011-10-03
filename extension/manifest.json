@@ -15,5 +15,10 @@
     "notifications"
   ],
   "options_page": "options.html",
-  "default_locale": "en"
+  "default_locale": "en",
+  "icons": {
+      "16": "icons/web-quest-16.png",
+      "48": "icons/web-quest-48.png",
+      "128": "icons/web-quest-128.png"
+  }
 }

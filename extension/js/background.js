@@ -15,7 +15,17 @@ var viewMap = {
     RESULT: "views/quest_result.html"
 }
 var iconMap = {
-    NONE: "default.png"
+    NONE: "default.png",
+    CREATING:"created.png",
+    CREATED:"created.png",
+    OPENED:"opened.png",
+    STARTED:"started.png",
+
+    JOINED:"joined.png",
+    PLAYING:"started.png",
+
+    RESULT:"finished.png"
+
 }
 
 function updateState(newState) {
