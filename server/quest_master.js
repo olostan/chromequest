@@ -29,8 +29,6 @@ function create(req, res){
     req.session.questHash = quest.hash;
     req.session.master = true;
     res.send({ok: true, questhash:quest.hash});
-
-    console.dir(req.session);
 }
 
 function add(req, res){
@@ -141,7 +139,6 @@ function purge(req, res) {
 }
 
 function status(req, res){
-    console.dir(req.session);
     var quest = getMasterQuest(req,res);
     if (!quest) return;
     

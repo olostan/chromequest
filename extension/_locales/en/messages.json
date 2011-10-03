@@ -48,6 +48,11 @@
 
     "watchTitle" : { "message" : "Quest progress" },
 
+    "resultsTitle" : { "message" : "Results" },
+    "result" : { "message" : "Result" },
+
+    "waitingToStartTitle" : { "message" : "Waiting for start" },
+    "playersText" : { "message" : "Players" },
 
     "badError" : { "message" : "Something bad happen!" },
     "error" : { "message" : "Error:" },

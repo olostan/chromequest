@@ -17,6 +17,12 @@ $(function() {
     var bg = chrome.extension.getBackgroundPage();
     var msg = chrome.i18n.getMessage;
 
+    $("#pltxt").html(msg("playersText"));
+    $("#thPlayer").html(msg("playersNick"));
+    $("msg_txt").html(msg("loading"));
+    $("#startover").html(msg("startover"));
+    $("#cancelwaiting").html("&larr; "+msg("cancelQuest"));
+
     $("h1").html(msg("extName")+" : "+msg("waitingToStartTitle"));
 
     function error(msg) {
@@ -34,7 +40,6 @@ $(function() {
             $("#msg").hide();
             $("#cont").show();
             playerTbl.fnAdjustColumnSizing();
-            $("#status").html(data.status);
             if (data.status=="running") {
                 bg.updateState(States.PLAYING);
                 window.location = bg.getView();
@@ -53,7 +58,8 @@ $(function() {
          "bAutoWidth": false,
         "aoColumns": [
             { "mDataProp": "nick",sWidth: '400px'}
-        ]
+        ],
+         "oLanguage": { "sUrl": bg.dataGridLocale() }
     });
     updatePlayers();
     setInterval(updatePlayers,1000);
@@ -76,7 +82,6 @@ $(function() {
         window.location = bg.getView();
     });
 
-
     $("button").button();
 });
 </script>
@@ -90,11 +95,10 @@ $(function() {
            ChromeQuest: Waiting for start
     </h1>
     <div id="cont" style="display: none">
-    Players:
+    <span id="pltxt">Players:</span>
     <table id="players">
-        <thead><tr><th width="100%">Player's nick</th></tr></thead>
+        <thead><tr><th width="100%" id="thPlayer">Player's nick</th></tr></thead>
     </table>
-        <div id="status">?</div>
     </div>
     <div id="msg">
         <div id="msg_txt">Loading...</div>

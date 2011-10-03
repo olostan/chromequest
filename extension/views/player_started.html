@@ -16,6 +16,8 @@ $(function() {
     var playersTbl;
     var bg = chrome.extension.getBackgroundPage();
 
+    var msg = chrome.i18n.getMessage;
+
     function error(msg) {
         $("#msg_txt").html(msg);
         $("#msg").show();

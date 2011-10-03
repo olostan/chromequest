@@ -66,7 +66,6 @@ $(function() {
             playerTbl.fnAdjustColumnSizing();
             $("#msg").hide();
             $("#cont").show();
-            console.log("msg="+msg("totalTasks",[quest.tasks.length]));
             $("#qinfo").html(msg("totalTasks",[quest.tasks.length]));
         })
         .error(function(err) {

@@ -1,6 +1,6 @@
 {
     "extName": {
-        "message": "ХромоКвест",
+        "message": "ВебКвест",
         "description" : "Extensions name"
     },
 
@@ -49,8 +49,11 @@
     
     "watchTitle" : { "message" : "Ход квеста" },
 
+    "resultsTitle" : { "message" : "Результаты" },
+    "result" : { "message" : "Результат" },
 
-
+    "waitingToStartTitle" : { "message" : "Ожидаем старта" },
+    "playersText" : { "message" : "Игроки" },
 
     "badError" : { "message" : "Что-то страшное случилось!" },
     "error" : { "message" : "Ошибка:" },
