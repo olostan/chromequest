@@ -11,3 +11,5 @@
 2. When player wins - stop timer and on the result page show winning time
 
 - Show number of tasks as icon badge
+
+- Track when quest was added and autoremove old quests or quests without activity
