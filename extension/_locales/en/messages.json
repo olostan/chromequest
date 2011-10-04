@@ -60,6 +60,9 @@
     "badError" : { "message" : "Something bad happen!" },
     "error" : { "message" : "Error:" },
 
+
+    "gotit" : { "message" : "You've got it!" },
+    "gotitDescr" : { "message" : "You've correctly guessted task '$1'.! Go on! Only $2 tasks left!" },
         
     "optionsTitle" : { "message" : "Options" },
     "configuration" : { "message" : "Configuration" },

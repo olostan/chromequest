@@ -31,3 +31,7 @@ span.tcompleted {
     color: green;
     text-decoration: line-through;
 }
+
+label {
+    cursor: pointer;
+}

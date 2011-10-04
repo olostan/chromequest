@@ -27,7 +27,14 @@ $(function() {
         $('#start').attr('disabled', 'disabled');
         $("#msg").html(msg("starting"));
 
-        $.get(service("master/create-quest"),{ master:config.nick, name: $("#name").val(), descr: $("#descr").val() })
+        $.get(service("master/create-quest"),
+                {
+                    master:config.nick,
+                    name: $("#name").val(),
+                    descr: $("#descr").val(),
+                    isopen: $("#qopen").is(":checked"),
+                    autofinish: $("#qfinish").is(":checked")
+                })
           .success(function(data) {
             if (data.ok) {
                 bg.startMasterQuest(data.questhash);
@@ -71,7 +78,10 @@ $(function() {
                 <legend>Creating new quest</legend>
 
                 <span id="qn">Quest name</span> <input type="text" id="name" /><br />
-                <span id="qd">Description</span> <input type="text" id="descr" /><br />
+                <!--<span id="qd">Description</span> <input type="text" id="descr" /><br />-->
+                <input type="checkbox" id="qopen" checked /><label for="qopen" id="qopenTxt">Allow join after start</label> <br />
+                <input type="checkbox" id="qfinish" checked /><label for="qfinish" id="qfinishTxt">Automatically finish</label>
+                <br />
 
                 <span id="msg" style="display: none;">...</span><button id="start" >Start quest</button>
 

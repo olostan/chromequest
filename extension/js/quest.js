@@ -44,11 +44,12 @@ Quest.prototype.onStarted = function() {
                     var done  = 0;
                     quest.tasks.forEach(function(t) { if (t.taskStatus!="active") done++; });
 
+                    var msg = chrome.i18n.getMessage;
+
                     var notification = webkitNotifications.createNotification(
                         'icons/checkmark.png', // icon url - can be relative
-                        "You've got it!", // notification title
-                        "You've correctly guessted task '"+match.descr+"'! Go on!" +
-                        "Only "+(total-done)+" tasks left!"
+                        msg("gotit"), // notification title
+                        msg("gotItDescr",[match.descr,total-done])
                     );
                     notification.show();
                 }

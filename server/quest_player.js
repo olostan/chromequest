@@ -8,7 +8,14 @@ exports.register = function (app) {
         var qhash = req.query.q;
         var quest = quests.getQuest(qhash);
         if (!quest) return fail(res,"No quest", Codes.NoQuest);
-//        if (!quest.isOpen) return fail(res, "Quest not open yet.");
+
+        if (!quest.options.isopen) {
+            if (!quest.isOpen) return fail(res, "You can't join this quest");
+        } else {
+            console.log(quest.status);
+            if (!quest.isOpened() && !quest.isRunning())
+                return fail(res, "You can't join this quest");
+        }
 
         req.session.playerHash = quest.joinPlayer(nick);
         req.session.questHash = qhash;

@@ -61,6 +61,9 @@
     "badError" : { "message" : "Что-то страшное случилось!" },
     "error" : { "message" : "Ошибка:" },
 
+    "gotit" : { "message" : "Все верно!" },
+    "gotitDescr" : { "message" : "Вы верно отгадали задание '$1'! Продолжайте! Осталось заданий: $2" },
+
     "optionsTitle" : { "message" : "Настройки" },
     "configuration" : { "message" : "Параметры" },
     "optionsNick" : { "message": "Ник" },

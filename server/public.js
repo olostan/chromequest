@@ -5,7 +5,7 @@ exports.register = function(app) {
     app.get('/get-quests', function(req, res) {
         var list = [];
         quests.getQuests(function(q) {
-           if (q.status == 'opened')
+           if (q.status == 'opened' || (q.options.isopen && q.status=="running"))
             list.push({hash: q.hash, name: q.name, descr: q.descr});
         });
         var result = {
