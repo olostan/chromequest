@@ -10,7 +10,7 @@ exports.register = function (app) {
         if (!quest) return fail(res,"No quest", Codes.NoQuest);
 
         if (!quest.options.isopen) {
-            if (!quest.isOpen) return fail(res, "You can't join this quest");
+            if (!quest.isOpened()) return fail(res, "You can't join this quest");
         } else {
             console.log(quest.status);
             if (!quest.isOpened() && !quest.isRunning())

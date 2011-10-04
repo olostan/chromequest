@@ -25,11 +25,13 @@ function create(req, res){
     if (!name)return fail(res, "Please, specify name of the quest to start.");
 
     var options = {
-       "isopen" : req.param('isopen')==true,
-       "autofinish" : req.param('autofinish')==true
+       "isopen" : req.param('isopen')=='true',
+       "autofinish" : req.param('autofinish')=='true'
     };
 
-    var quest = quests.addQuest(master,name,options);
+    var quest = quests.addQuest(master,name,"",options);
+
+    console.dir(quest.options);
 
     req.session.questHash = quest.hash;
     req.session.master = true;
@@ -100,7 +102,7 @@ function start(req, res){
 
     if (!quest.isOpened()) return fail(res, "Quest should be opened before starting it.");
 
-    if (quest.players.length==0) return fail(res,"At least one player should be joined.");
+    if (!quest.options.isopen && quest.players.length==0) return fail(res,"At least one player should be joined.");
 
     quest.run();
 	ok(res);

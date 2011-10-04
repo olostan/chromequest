@@ -14,13 +14,13 @@ exports.generateHash = generateHash = function() {
 
 exports.generateHash = generateHash;
 
-exports.addQuest = function(master,name, descr,options) {
+exports.addQuest = function(master,name, descr, options) {
     var quest = {
         master: master,
         name: name,
         descr: descr,
         hash: generateHash(),
-        options: options,
+        options: options || {isopen: false, autofinish: true},
         status: "new",
         tasks: [],
     	players: [],
