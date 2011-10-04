@@ -31,8 +31,6 @@ function create(req, res){
 
     var quest = quests.addQuest(master,name,"",options);
 
-    console.dir(quest.options);
-
     req.session.questHash = quest.hash;
     req.session.master = true;
     res.send({ok: true, questhash:quest.hash});

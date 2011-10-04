@@ -12,7 +12,6 @@ exports.register = function (app) {
         if (!quest.options.isopen) {
             if (!quest.isOpened()) return fail(res, "You can't join this quest");
         } else {
-            console.log(quest.status);
             if (!quest.isOpened() && !quest.isRunning())
                 return fail(res, "You can't join this quest");
         }
@@ -72,7 +71,7 @@ exports.register = function (app) {
 
         if (!quest.isRunning() ) return fail(res,"Quest is not running");
 
-        console.log("trying "+url+" hash:"+hash);
+        //console.log("trying "+url+" hash:"+hash);
 
         var completed;
         for(var taskNo in quest.tasks) {
