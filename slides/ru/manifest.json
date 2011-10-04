@@ -1,0 +1,14 @@
+{
+  "name": "WebQuest - Презентация",
+  "description": "Презентация игры WebQuest",
+  "version": "1.0.0",
+  "app": {
+    "launch": {
+      "local_path": "index.html"
+    }
+  },
+  "icons": {
+    "16": "data/web-quest-16.png",
+    "128": "data/web-quest-128.png"
+  }
+}
